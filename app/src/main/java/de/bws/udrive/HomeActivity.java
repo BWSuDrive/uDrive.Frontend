@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,26 +27,20 @@ public class HomeActivity extends AppCompatActivity {
     private TextView userField;
     private String userName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.appBarHome.toolbar);
 
-        Intent Home = getIntent();
-        this.userName = Home.getStringExtra("username");
-        Log.d("uDrive.info", "onCreate: " + userName);
-        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        this.userName = getIntent().getStringExtra("username");
+
+        Log.d("uDrive.INFO", "onCreate: " + userName);
+
+        this.handleListeners();
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -57,8 +52,20 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
+    /**
+     * Setzt die Listener für einzelne Objekte
+     * */
+    private void handleListeners()
+    {
+        binding.appBarHome.fab.setOnClickListener(bindingListener);
+
+        getOnBackPressedDispatcher().addCallback(onBackPressed);
+    }
+
+    /* Seitenmenu, das per Klick auf den Hamburger geöffnet wird */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -74,4 +81,15 @@ public class HomeActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    /* Verhindert, dass der User mit dem Zurück-Knopf auf die MainActivity (den Login-Screen) kommt */
+    private OnBackPressedCallback onBackPressed = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            HomeActivity.this.moveTaskToBack(true);
+        }
+    };
+
+    private View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
+            .setAction("Action", null).show();
 }
