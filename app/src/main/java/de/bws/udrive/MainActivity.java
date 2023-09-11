@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Lokale Variabeln
     private EditText username;
 
     private EditText password;
@@ -23,14 +24,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Den Variabeln Werte aus den Eingabefeldern übergeben
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginbutton);
 
+        // Button Klick
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+                //Wenn Username und Passwort übereinstimmen mach ein Toast (unten kleiner Popup) der sagt was passiert ist
                 if(username.getText().toString().equals("admin") && password.getText().toString().equals("123")) {
                     Toast.makeText(MainActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                     //          Intent Home = new Intent(MainActivity.this, HomeActivity.class);
