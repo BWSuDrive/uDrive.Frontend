@@ -1,4 +1,4 @@
-package de.bws.udrive.ui.slideshow;
+package de.bws.udrive.ui.nachrichten;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.bws.udrive.databinding.FragmentSlideshowBinding;
+import de.bws.udrive.databinding.FragmentNachrichtenBinding;
 
-public class SlideshowFragment extends Fragment {
+public class NachrichtenFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentNachrichtenBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        NachrichtenViewModel nachrichtenViewModel =
+                new ViewModelProvider(this).get(NachrichtenViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentNachrichtenBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textNachrichten;
+        nachrichtenViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

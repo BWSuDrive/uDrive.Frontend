@@ -1,16 +1,16 @@
-package de.bws.udrive.ui.gallery;
+package de.bws.udrive.ui.stundenplan;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class StundenplanViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public StundenplanViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("Hier kommt ihr Stundenplan hin");
     }
 
     public LiveData<String> getText() {

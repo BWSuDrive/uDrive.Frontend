@@ -1,16 +1,16 @@
-package de.bws.udrive.ui.slideshow;
+package de.bws.udrive.ui.nachrichten;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class NachrichtenViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public NachrichtenViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("Hier kommen die Mitteilungen an");
     }
 
     public LiveData<String> getText() {
