@@ -11,10 +11,14 @@
         <item
             android:id="@+id/nav_nachrichten"
             android:icon="@drawable/nachrichten"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_nachrichten" />
         <item
             android:id="@+id/nav_stundenplan"
             android:icon="@drawable/stundenplan"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_stundenplan" />
+        <item
+            android:id="@+id/nav_route"
+            android:icon="@drawable/route"
+            android:title="@string/menu_route" />
     </group>
 </menu>

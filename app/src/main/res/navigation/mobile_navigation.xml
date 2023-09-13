@@ -14,12 +14,18 @@
     <fragment
         android:id="@+id/nav_nachrichten"
         android:name="de.bws.udrive.ui.nachrichten.NachrichtenFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_nachrichten"
         tools:layout="@layout/fragment_nachrichten" />
 
     <fragment
         android:id="@+id/nav_stundenplan"
         android:name="de.bws.udrive.ui.stundenplan.StundenplanFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_stundenplan"
         tools:layout="@layout/fragment_stundenplan" />
+
+    <fragment
+        android:id="@+id/nav_route"
+        android:name="de.bws.udrive.ui.route.RouteFragment"
+        android:label="@string/menu_route"
+        tools:layout="@layout/fragment_route" />
 </navigation>
