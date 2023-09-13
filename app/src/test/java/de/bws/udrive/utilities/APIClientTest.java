@@ -10,7 +10,7 @@ public class APIClientTest {
         if(rf == null)
         {
             rf = new Retrofit.Builder()
-                    .baseUrl("https://bwsudriverestapi.azurewebsites.net/")
+                    .baseUrl("https://bwsudriverestapi.azurewebsites.net")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

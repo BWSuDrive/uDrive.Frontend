@@ -18,9 +18,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import de.bws.udrive.databinding.ActivityHomeBinding;
+import de.bws.udrive.utilities.APIInterface;
+import de.bws.udrive.utilities.APIClient;
+import de.bws.udrive.utilities.Tag;
+import de.bws.udrive.utilities.model.uDriveLogin;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
     private TextView userField;
@@ -36,7 +43,9 @@ public class HomeActivity extends AppCompatActivity {
 
         this.userName = getIntent().getStringExtra("username");
 
-        Log.d("uDrive.INFO", "onCreate: " + userName);
+        Log.i(Tag.INFO, "Current User: " + userName);
+
+        testAPIConnection();
 
         this.handleListeners();
 
@@ -52,6 +61,33 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+    }
+
+    /*
+    Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
+    */
+    private void testAPIConnection()
+    {
+        APIInterface i = APIClient.getAPI().create(APIInterface.class);
+        uDriveLogin login = new uDriveLogin("someId", "someName",
+                "someDescription", 5,
+                "2023-09-13T16:20:00.000Z");
+        Call<ResponseBody> loginTest = i.testAPIEndpoint(login);
+
+        loginTest.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(Tag.SUCCESS, "Response-Code: " + response.code());
+                Log.d(Tag.SUCCESS, response.message());
+                Log.d(Tag.SUCCESS, "Successful: " + response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(Tag.FAILURE, "Message: " + t.getMessage());
+                Log.e(Tag.FAILURE, "Cause: " + t.getCause());
+            }
+        });
     }
 
     /**
@@ -89,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+    /* OnClickListener für Button in der HomeActivity */
     private View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
 }

@@ -1,15 +1,38 @@
 package de.bws.udrive.utilities.model;
 
+/* Model, um Anfrage an API abzubilden */
 public class uDriveLogin {
+    private String id;
+    private String name;
+    private String description;
+    private int number;
+    private String testDate;
 
-    private String loginName;
-    private String hashedPassword;
+    public uDriveLogin(String id, String name, String description, int number, String testDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.number = number;
+        this.testDate = testDate;
+    }
 
-    public uDriveLogin() {}
+    public String getId() {
+        return id;
+    }
 
-    public void setLoginName(String loginName) { this.loginName = loginName; }
-    public void setHashedPassword(String hashedPassword) { this.hashedPassword = hashedPassword; }
+    public String getName() {
+        return name;
+    }
 
-    public String getLoginName() { return this.loginName; }
-    public String getHashedPassword() { return this.hashedPassword; }
+    public String getDescription() {
+        return description;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getTestDate() {
+        return testDate;
+    }
 }

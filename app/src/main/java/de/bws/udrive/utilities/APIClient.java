@@ -3,13 +3,14 @@ package de.bws.udrive.utilities;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+/* Klasse, um API Calls zu machen */
+public class APIClient {
     private static Retrofit retrofit;
-    public static Retrofit getRetrofit() {
+    public static Retrofit getAPI() {
         if(retrofit == null)
         {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("baseUrl")
+                    .baseUrl("https://bwsudriverestapi.azurewebsites.net")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

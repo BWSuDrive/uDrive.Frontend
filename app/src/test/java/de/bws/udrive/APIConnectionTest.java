@@ -12,23 +12,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class APIConnectionTest {
 
     @Test
     public void connectToAPI()
     {
-        System.out.println("connectToAPI Test");
+
         APIInterfaceTest i = APIClientTest.getAPI().create(APIInterfaceTest.class);
         Call<String> testCall = i.testAPIConnection();
 
-        System.out.println("Calling API...");
         testCall.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                System.out.println(Tag.SUCCESS + " " + String.valueOf(response.code()));
+                System.out.println(Tag.SUCCESS + " " + response.code());
                 System.out.println(Tag.SUCCESS + " " + response.body().toString());
-                assert(response.isSuccessful());
-                assert(!response.body().toString().isEmpty());
+                assert(response.code() == 200);
+                assert(response.body().equalsIgnoreCase("Hello World"));
                 Log.d(Tag.SUCCESS, response.body().toString());
             }
 
