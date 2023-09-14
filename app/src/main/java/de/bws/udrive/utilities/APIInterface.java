@@ -17,6 +17,9 @@ public interface APIInterface {
     Call<uDriveLogin>
         sendLoginRequest(@Field("name") String name, @Field("password") String password);
 
+    @GET("/api/RESTTest")
+    Call<ResponseBody> testAPIEndpoint();
+
     /* Methode, um Verbindung mit der API zu testen */
     @POST("/api/RESTTest")
     Call<ResponseBody> testAPIEndpoint(@Body uDriveLogin login);

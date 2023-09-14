@@ -73,10 +73,28 @@ public class HomeActivity extends AppCompatActivity {
                 "someDescription", 5,
                 "2023-09-13T16:20:00.000Z");
         Call<ResponseBody> loginTest = i.testAPIEndpoint(login);
+        Call<ResponseBody> loginTestGET = i.testAPIEndpoint();
 
         loginTest.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(Tag.SUCCESS, "HTTP Method: " + call.request().method());
+                Log.d(Tag.SUCCESS, "Response-Code: " + response.code());
+                Log.d(Tag.SUCCESS, response.message());
+                Log.d(Tag.SUCCESS, "Successful: " + response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(Tag.FAILURE, "Message: " + t.getMessage());
+                Log.e(Tag.FAILURE, "Cause: " + t.getCause());
+            }
+        });
+
+        loginTestGET.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(Tag.SUCCESS, "HTTP Method: " + call.request().method());
                 Log.d(Tag.SUCCESS, "Response-Code: " + response.code());
                 Log.d(Tag.SUCCESS, response.message());
                 Log.d(Tag.SUCCESS, "Successful: " + response.isSuccessful());
