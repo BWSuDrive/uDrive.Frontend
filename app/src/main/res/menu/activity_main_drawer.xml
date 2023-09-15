@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_nachrichten"
+            android:icon="@drawable/nachrichten"
+            android:title="@string/menu_nachrichten" />
+        <item
+            android:id="@+id/nav_stundenplan"
+            android:icon="@drawable/stundenplan"
+            android:title="@string/menu_stundenplan" />
+        <item
+            android:id="@+id/nav_route"
+            android:icon="@drawable/route"
+            android:title="@string/menu_route" />
+    </group>
+</menu>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="de.bws.udrive.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_nachrichten"
+        android:name="de.bws.udrive.ui.nachrichten.NachrichtenFragment"
+        android:label="@string/menu_nachrichten"
+        tools:layout="@layout/fragment_nachrichten" />
+
+    <fragment
+        android:id="@+id/nav_stundenplan"
+        android:name="de.bws.udrive.ui.stundenplan.StundenplanFragment"
+        android:label="@string/menu_stundenplan"
+        tools:layout="@layout/fragment_stundenplan" />
+
+    <fragment
+        android:id="@+id/nav_route"
+        android:name="de.bws.udrive.ui.route.RouteFragment"
+        android:label="@string/menu_route"
+        tools:layout="@layout/fragment_route" />
+</navigation>
