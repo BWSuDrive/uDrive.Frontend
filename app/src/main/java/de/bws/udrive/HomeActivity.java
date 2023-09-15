@@ -21,7 +21,7 @@ import de.bws.udrive.databinding.ActivityHomeBinding;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.Tag;
-import de.bws.udrive.utilities.model.uDriveLogin;
+import de.bws.udrive.utilities.model.*;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     private void testAPIConnection()
     {
         APIInterface i = APIClient.getAPI().create(APIInterface.class);
-        uDriveLogin login = new uDriveLogin("someId", "someName",
+        uDrive.Login login = new uDrive.Login("someId", "someName",
                 "someDescription", 5,
                 "2023-09-13T16:20:00.000Z");
         Call<ResponseBody> loginTest = i.testAPIEndpoint(login);
