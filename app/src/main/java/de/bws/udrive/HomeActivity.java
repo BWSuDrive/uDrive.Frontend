@@ -17,6 +17,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import de.bws.udrive.databinding.ActivityHomeBinding;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.APIClient;
@@ -27,6 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Home-Activity (Hauptbildschirm)
+ * Wird bei erfolgreichem Login von {@link MainActivity} geöffnet
+ */
 public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
@@ -41,11 +47,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarHome.toolbar);
 
-        this.userName = getIntent().getStringExtra("username");
+        this.userName = getIntent().getStringExtra("signedInUser");
 
         Log.i(Tag.INFO, "Current User: " + userName);
 
-        testAPIConnection();
+        weekdayExample();
+
+        //testAPIConnection();
 
         this.handleListeners();
 
@@ -62,6 +70,29 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
     }
+    
+    private void weekdayExample()
+    {
+        Call<List<String>> weekday = APIClient.getAPI().create(APIInterface.class).sendWeekdayRequest("Bearer " + uDrive.Generic.getToken());
+        
+        weekday.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                Log.d("uDrive.WEEKDAY", String.valueOf(response.code()));
+                Log.d("uDrive.WEEKDAY", response.getClass().getName());
+
+                List<String> answer = response.body();
+                Log.d("uDrive.WEEKDAY", "ResponseListSize: " + answer.size());
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.wtf("uDrive.WEEKDAY", "FAILRUE");
+
+                t.printStackTrace();
+            }
+        });
+    }
 
     /*
     Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
@@ -69,9 +100,7 @@ public class HomeActivity extends AppCompatActivity {
     private void testAPIConnection()
     {
         APIInterface i = APIClient.getAPI().create(APIInterface.class);
-        uDrive.Login login = new uDrive.Login("someId", "someName",
-                "someDescription", 5,
-                "2023-09-13T16:20:00.000Z");
+        uDrive.Login login = new uDrive.Login("", "", "");
         Call<ResponseBody> loginTest = i.testAPIEndpoint(login);
         Call<ResponseBody> loginTestGET = i.testAPIEndpoint();
 

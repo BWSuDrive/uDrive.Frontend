@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.service.autofill.OnClickAction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,14 @@ import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.Tag;
 import de.bws.udrive.utilities.model.uDrive;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Login-Activity (App wird hier gestartet)
+ * Öffnet bei Erfolgreichem Login {@link HomeActivity}
+ */
 public class MainActivity extends AppCompatActivity {
 
     /* Lokale Variabeln */
@@ -117,27 +119,47 @@ public class MainActivity extends AppCompatActivity {
         Entwickelt von: Fabian, Lucas
     */
     private View.OnClickListener loginButtonListener = new View.OnClickListener() {
+        private StringBuffer errorTextBuffer;
         @Override
         public void onClick(View view) {
+            errorTextBuffer = new StringBuffer();
+
             /* User-Input in Variablen speichern */
             String inputUsername = MainActivity.this.username.getText().toString();
             String inputPassword = MainActivity.this.password.getText().toString();
 
             /* Login-Objekt erstellen --> Für API Call */
-            uDrive.Login login = new uDrive.Login(null, null, null, 0, null);
+            uDrive.Login loginObject = new uDrive.Login(inputUsername, "SecretarySTrongPassword!2345", "Secretary@udrive.de");
 
             /* API Call vorbereiten und Login-Objekt übergeben */
-            Call<ResponseBody> loginRequest = APIClient.getAPI().create(APIInterface.class).sendLoginRequest(login);
+            Call<uDrive.LoginResponse> loginRequest = APIClient.getAPI().create(APIInterface.class).sendLoginRequest(loginObject);
 
             /* Überprüfung, ob Name & Password Felder eine bestimmte Länge haben */
             boolean inputValid = (inputUsername.length() > 3 && inputPassword.length() > 5);
 
-            boolean loginSuccesful = false;
+            if(inputValid)
+            {
+                Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
+                loginRequest.enqueue(MainActivity.this.loginResponse);
+            }
+            else
+            {
+                errorTextBuffer.append("Die Eingaben sind ungültig.").append("\n");
+                errorTextBuffer.append("Der Name muss mindestens 3, das Passwort mindestens 5 Zeichen lang sein!").append("\n");
+            }
 
-            loginRequest.enqueue(MainActivity.this.loginResponse);
-
-            if(loginSuccesful)
+            if(uDrive.Generic.isLoginSuccessful())
+            {
+                Log.i("uDrive.MainActivity.loginButtonListener", "Login successful. Opening MainActivity..");
                 MainActivity.this.openHomeActivity();
+            }
+            else
+            {
+                errorTextBuffer.append("Der Login war nicht erfolgreich!").append("\n");
+            }
+
+            if(errorTextBuffer.toString().length() > 0)
+                MainActivity.this.showErrorDialog(errorTextBuffer.toString());
         }
     };
 
@@ -149,33 +171,58 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private Callback<ResponseBody> loginResponse = new Callback<ResponseBody>() {
-        private String errorText = null;
+    /**
+     * Wird ausgeführt, sobald
+     */
+    private Callback<uDrive.LoginResponse> loginResponse = new Callback<uDrive.LoginResponse>() {
+        private StringBuffer errorTextBuffer;
         @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        public void onResponse(Call<uDrive.LoginResponse> call, Response<uDrive.LoginResponse> response) {
+            errorTextBuffer = new StringBuffer();
             /* Antwort OK von API */
             if(response.code() == 200)
             {
-                MainActivity.this.openHomeActivity();
+                if(response.body() != null)
+                {
+                    String bearerToken = response.body().getData().get("token");
+
+                    if(bearerToken != null)
+                        uDrive.Generic.setToken(bearerToken);
+
+                    Log.d("uDrive.MainActivity.loginResponse.onResponse", "Token is: " + uDrive.Generic.getToken());
+                    Log.d("uDrive.MainActivity.loginResponse.onResponse", "Login was successful. Setting generic value");
+
+                    uDrive.Generic.setLoginSuccessful(true);
+
+                }
+                else /* Body null */
+                {
+                    errorTextBuffer.append("Responsebody was null.").append("\n");
+                    errorTextBuffer.append("Unknown error occured!").append("\n");
+                    errorTextBuffer.append(response.errorBody().toString()).append("\n");
+
+                    showErrorDialog(errorTextBuffer.toString());
+                }
             }
             else /* Antwort nicht OK */
             {
-                errorText = "Der Login war nicht möglich!\n";
-                errorText += "Fehler-Code: " + response.code() + "\n";
-                errorText += "Fehler: " + response.message();
-                errorText += response.headers().toString();
+                errorTextBuffer.append("Der Login war nicht möglich!").append("\n");
+                errorTextBuffer.append("Fehler-Code: " + response.code()).append("\n");
+                errorTextBuffer.append("Fehler: " + response.message()).append("\n");
 
-                showErrorDialog(errorText);
+                showErrorDialog(errorTextBuffer.toString());
             }
         }
 
         @Override
-        public void onFailure(Call<ResponseBody> call, Throwable t) {
-            String errorText = "Die Kommunikation mit der API war nicht möglich!\n";
-            errorText += t.getMessage();
-            Log.wtf(Tag.FAILURE, errorText);
+        public void onFailure(Call<uDrive.LoginResponse> call, Throwable t) {
+            errorTextBuffer = new StringBuffer();
 
-            showErrorDialog(errorText);
+            errorTextBuffer.append("Die Kommunikation mit der API war nicht möglich!").append("\n");
+            errorTextBuffer.append(t.getMessage()).append("\n");
+            Log.wtf(Tag.FAILURE, errorTextBuffer.toString());
+
+            showErrorDialog(errorTextBuffer.toString());
         }
     };
 
