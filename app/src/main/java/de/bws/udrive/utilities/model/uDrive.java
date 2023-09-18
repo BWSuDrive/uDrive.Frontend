@@ -1,135 +1,57 @@
 package de.bws.udrive.utilities.model;
 
-import android.util.Log;
-
-import androidx.lifecycle.MutableLiveData;
-
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LinkedTreeMap;
 
-import org.json.JSONObject;
-
 import de.bws.udrive.utilities.APIClient;
-import de.bws.udrive.utilities.APIInterface;
-import de.bws.udrive.utilities.Tag;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-/* Model, um Anfrage an API abzubilden */
+/**
+ Model, um Anfrage an API abzubilden <br>
+ Instanzen von Klassen werden durch {@link retrofit2.converter.gson.GsonConverterFactory} in {@link APIClient#getAPI()}
+ zu einem JSON-String geparsed <br>
+
+ @author Lucas
+ */
 public class uDrive {
 
     /**
-     * Klasse, die generische Sachen speichert, die an verschiedenen Orten benötigt werden <br>
-     *
+     * Klasse, die generelle Sachen speichert, die an verschiedenen Orten im Code benötigt werden <br>
+     * Speichert u.A. den Bearer-Token (für die Kommunikation mit der API), sowie den Usernamen und die E-Mail <br>
+     * @author Lucas
      */
-    public static class Generic
+    public static class General
     {
-        /** Speichert den Bearer Token, der von der API beim Login zurück kommt */
         private static String bearerToken = "N/A";
-        /** Speichert, ob der Login erfolgreich war */
-        private static boolean loginSuccessful = false;
+        private static String userName = "N/A";
+        private static String userMail = "N/A";
 
-        public static void setToken(String newToken) {
-            if(Generic.bearerToken.equalsIgnoreCase("N/A"))
-                Generic.bearerToken = newToken;
-        }
-        public static String getToken() { return Generic.bearerToken; }
-
-        public static boolean isLoginSuccessful() {
-            return loginSuccessful;
-        }
-
-        public static void setLoginSuccessful(boolean loginSuccessful) {
-            if(!Generic.loginSuccessful)
-                Generic.loginSuccessful = loginSuccessful;
-        }
-    }
-
-    public static class LoginHandler
-    {
-        private StringBuffer errorTextBuffer = new StringBuffer();
-
-        private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
-
-        private boolean loginSuccessful = false;
-
-        public LoginHandler() {}
-
-        public void handle(Login login)
+        public static void setToken(String newToken)
         {
-            Call<LoginResponse> loginRequest = APIClient.getAPI().create(APIInterface.class).sendLoginRequest(login);
-
-            loginRequest.enqueue(loginResponse);
-
-            Log.d("uDrive.LoginHandler", "Request finished");
+            if(General.bearerToken.equalsIgnoreCase("N/A"))
+                General.bearerToken = newToken;
         }
+        public static String getToken() { return General.bearerToken; }
 
-        private Callback<uDrive.LoginResponse> loginResponse = new Callback<uDrive.LoginResponse>()
+        public static void setUserName(String userName)
         {
-            @Override
-            public void onResponse(Call<uDrive.LoginResponse> call, Response<LoginResponse> response) {
-                Log.d("uDrive.LoginHandler", "API called... onResponse()");
-                /* Antwort OK von API */
-                if(response.code() == 200)
-                {
-                    if(response.body() != null)
-                    {
-                        String bearerToken = response.body().getData().get("token");
-
-                        if(bearerToken != null)
-                            uDrive.Generic.setToken(bearerToken);
-
-                        Log.d("uDrive.MainActivity.loginResponse.onResponse", "Token is: " + uDrive.Generic.getToken());
-                        Log.d("uDrive.MainActivity.loginResponse.onResponse", "Login was successful. Setting generic value");
-
-                        loginSuccessful = true;
-                    }
-                    else /* Body null */
-                    {
-                        errorTextBuffer.append("Responsebody was null.").append("\n");
-                        errorTextBuffer.append("Unknown error occured!").append("\n");
-                        errorTextBuffer.append(response.errorBody().toString()).append("\n");
-                    }
-                }
-                else /* Antwort nicht OK */
-                {
-                    errorTextBuffer.append("Der Login war nicht möglich!").append("\n");
-                    errorTextBuffer.append("Fehler-Code: " + response.code()).append("\n");
-                    errorTextBuffer.append("Fehler: " + response.message()).append("\n");
-                }
-
-                isFinished.setValue(Boolean.TRUE);
-            }
-
-            @Override
-            public void onFailure(Call<uDrive.LoginResponse> call, Throwable t)
-            {
-                errorTextBuffer.append("Die Kommunikation mit der API war nicht möglich!").append("\n");
-                errorTextBuffer.append(t.getMessage()).append("\n");
-                Log.wtf(Tag.FAILURE, errorTextBuffer.toString());
-
-                isFinished.setValue(Boolean.TRUE);
-            }
-        };
-
-        public MutableLiveData<Boolean> getIsFinished() {
-            return isFinished;
+            if(General.userName.equalsIgnoreCase("N/A"))
+                General.userName = userName;
         }
 
-        public String getError() { return this.errorTextBuffer.toString(); }
+        public static String getUserName() { return userName; }
 
-        public boolean isLoginSuccessful() {
-            return loginSuccessful;
+        public static void setUserMail(String userMail)
+        {
+            if(General.userMail.equalsIgnoreCase("N/A"))
+                General.userMail = userMail;
         }
+
+        public static String getUserMail() { return userMail; }
     }
 
     /**
      * Klasse, die für den Login benutzt wird <br>
-     * Besitzt folgende Parameter: <br>
-     * -> userName: String <br>
-     * -> password: String <br>
-     * -> email: String
+     * Besitzt die Eigenschaften {@link Login#userName}, {@link Login#password} & {@link Login#email} <br>
+     * @author Lucas
      * */
     public static class Login {
         private String userName;
@@ -145,7 +67,9 @@ public class uDrive {
     }
 
     /**
-     * Klasse, die für die Login-Antwort benutzt wird
+     * Klasse, die für die Login-Antwort benutzt wird <br>
+     * Speichert die zurückgegeben Werte der API Antwort ab <br>
+     * @author Lucas
      * */
     public static class LoginResponse
     {
