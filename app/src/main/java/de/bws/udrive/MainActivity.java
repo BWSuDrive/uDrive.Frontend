@@ -3,6 +3,7 @@ package de.bws.udrive;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private Button loginButton;
+    private uDrive.LoginHandler loginHandler;
 
     /* AlertDialog für falschen Login */
     private AlertDialog alertDialog;
@@ -108,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.alertDialog.show();
 
+        /* text == null ? nothing : show */
+
         if(errorText != null)
             ((TextView) view.findViewById(R.id.errorDesc)).setText(errorText);
     }
@@ -136,30 +140,20 @@ public class MainActivity extends AppCompatActivity {
 
             /* Überprüfung, ob Name & Password Felder eine bestimmte Länge haben */
             boolean inputValid = (inputUsername.length() > 3 && inputPassword.length() > 5);
+            MainActivity.this.loginHandler = new uDrive.LoginHandler();
 
+            /* API Call */
             if(inputValid)
             {
                 Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
-                loginRequest.enqueue(MainActivity.this.loginResponse);
+                loginHandler.handle(loginObject);
+                loginHandler.getIsFinished().observe(MainActivity.this, MainActivity.this.observeStateChange);
             }
             else
             {
                 errorTextBuffer.append("Die Eingaben sind ungültig.").append("\n");
                 errorTextBuffer.append("Der Name muss mindestens 3, das Passwort mindestens 5 Zeichen lang sein!").append("\n");
             }
-
-            if(uDrive.Generic.isLoginSuccessful())
-            {
-                Log.i("uDrive.MainActivity.loginButtonListener", "Login successful. Opening MainActivity..");
-                MainActivity.this.openHomeActivity();
-            }
-            else
-            {
-                errorTextBuffer.append("Der Login war nicht erfolgreich!").append("\n");
-            }
-
-            if(errorTextBuffer.toString().length() > 0)
-                MainActivity.this.showErrorDialog(errorTextBuffer.toString());
         }
     };
 
@@ -171,58 +165,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    /**
-     * Wird ausgeführt, sobald
-     */
-    private Callback<uDrive.LoginResponse> loginResponse = new Callback<uDrive.LoginResponse>() {
-        private StringBuffer errorTextBuffer;
-        @Override
-        public void onResponse(Call<uDrive.LoginResponse> call, Response<uDrive.LoginResponse> response) {
-            errorTextBuffer = new StringBuffer();
-            /* Antwort OK von API */
-            if(response.code() == 200)
-            {
-                if(response.body() != null)
-                {
-                    String bearerToken = response.body().getData().get("token");
+    private Observer<Boolean> observeStateChange = isFinished -> {
+        boolean loginSuccessful = loginHandler.isLoginSuccessful();
 
-                    if(bearerToken != null)
-                        uDrive.Generic.setToken(bearerToken);
-
-                    Log.d("uDrive.MainActivity.loginResponse.onResponse", "Token is: " + uDrive.Generic.getToken());
-                    Log.d("uDrive.MainActivity.loginResponse.onResponse", "Login was successful. Setting generic value");
-
-                    uDrive.Generic.setLoginSuccessful(true);
-
-                }
-                else /* Body null */
-                {
-                    errorTextBuffer.append("Responsebody was null.").append("\n");
-                    errorTextBuffer.append("Unknown error occured!").append("\n");
-                    errorTextBuffer.append(response.errorBody().toString()).append("\n");
-
-                    showErrorDialog(errorTextBuffer.toString());
-                }
-            }
-            else /* Antwort nicht OK */
-            {
-                errorTextBuffer.append("Der Login war nicht möglich!").append("\n");
-                errorTextBuffer.append("Fehler-Code: " + response.code()).append("\n");
-                errorTextBuffer.append("Fehler: " + response.message()).append("\n");
-
-                showErrorDialog(errorTextBuffer.toString());
-            }
+        if(loginSuccessful && isFinished.booleanValue())
+        {
+            openHomeActivity();
         }
-
-        @Override
-        public void onFailure(Call<uDrive.LoginResponse> call, Throwable t) {
-            errorTextBuffer = new StringBuffer();
-
-            errorTextBuffer.append("Die Kommunikation mit der API war nicht möglich!").append("\n");
-            errorTextBuffer.append(t.getMessage()).append("\n");
-            Log.wtf(Tag.FAILURE, errorTextBuffer.toString());
-
-            showErrorDialog(errorTextBuffer.toString());
+        else
+        {
+            showErrorDialog(loginHandler.getError());
         }
     };
 
