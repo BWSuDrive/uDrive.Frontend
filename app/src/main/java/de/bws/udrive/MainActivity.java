@@ -16,25 +16,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.bws.udrive.utilities.APIClient;
-import de.bws.udrive.utilities.APIInterface;
-import de.bws.udrive.utilities.Tag;
 import de.bws.udrive.utilities.model.uDrive;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import de.bws.udrive.utilities.model.uDriveHandler;
 
 /**
  * Login-Activity (App wird hier gestartet)
- * Öffnet bei Erfolgreichem Login {@link HomeActivity}
+ * Öffnet bei erfolgreichem Login die {@link HomeActivity}
  */
 public class MainActivity extends AppCompatActivity {
 
-    /* Lokale Variabeln */
+    /* UI Elemente */
     private EditText username;
     private EditText password;
     private Button loginButton;
-    private uDrive.LoginHandler loginHandler;
+
+    /* Klassenobjekte */
+    private uDriveHandler.LoginHandler loginHandler;
 
     /* AlertDialog für falschen Login */
     private AlertDialog alertDialog;
@@ -46,16 +43,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Die Elemente per ID initialisieren
         this.initElements();
-
-        // Button Klicks registrieren
         this.handleListeners();
     }
 
-    /*
-        Initialisiert die Elemente auf der UI per ID
-        Entwickelt von: Fabian & Lucas
+    /* =================================================================================== */
+
+    /**
+        Initialisiert die Elemente auf der UI per ID <br>
+        @author Fabian, Lucas
      */
     private void initElements()
     {
@@ -64,112 +60,96 @@ public class MainActivity extends AppCompatActivity {
         this.loginButton = findViewById(R.id.loginbutton);
     }
 
-    /*
-        Setzt die Listener für einzelne Objekte
-        Entwickelt von: Fabian & Lucas
+    /**
+        Setzt die Listener für einzelne Objekte (bspw. Buttons) <br>
+        @author Fabian, Lucas
      */
-    private void handleListeners()
-    {
-        loginButton.setOnClickListener(loginButtonListener);
-    }
+    private void handleListeners() { loginButton.setOnClickListener(loginButtonListener); }
 
-    /* =================================================================================== */
-
-
-    /*
-        Methode um die HomeActivity zu öffnen
-        Entwickelt von: Fabian, Lucas
-        Angepasst durch: Lucas
+    /**
+     Methode, um die HomeActivity zu öffnen <br>
+     Wird nur bei erfolgreichem Login aufgerufen <br>
+     @author Fabian, Lucas
     */
-    private void openHomeActivity()
-    {
-        Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-        homeIntent.putExtra("signedInUser", username.getText().toString());
-        MainActivity.this.startActivity(homeIntent);
-    }
+    private void openHomeActivity() { MainActivity.this.startActivity(new Intent(MainActivity.this, HomeActivity.class)); }
 
-    /*
-        Error-Dialog Box die bei ungültigem Login angezeigt wird
-        Entwickelt von: Fabian
-        Angepasst durch: Lucas
+    /**
+     Error-Box die angezeigt wird <br>
+     Wird nur ausgeführt, wenn Parameter gültig (nicht null und length > 0) ist <br>
+     @param errorText Fehlertext, der angezeigt wird <br>
+     @author Fabian, Lucas
     */
     private void showErrorDialog(String errorText) {
-        ConstraintLayout errorLayout = findViewById(R.id.errorConstraintLayout);
-        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.error_dialog, errorLayout);
-        Button errorClose = view.findViewById(R.id.errorClose);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setView(view);
-        this.alertDialog = builder.create();
-
-        errorClose.setOnClickListener(errorDialogListener);
-        if (this.alertDialog.getWindow() != null)
+        if(errorText != null && errorText.length() > 0)
         {
-            this.alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-        }
+            ConstraintLayout errorLayout = findViewById(R.id.errorConstraintLayout);
+            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.error_dialog, errorLayout);
+            Button errorClose = view.findViewById(R.id.errorClose);
 
-        this.alertDialog.show();
+            this.alertDialog = new AlertDialog.Builder(MainActivity.this).setView(view).create();
 
-        /* text == null ? nothing : show */
+            errorClose.setOnClickListener(clickedView -> MainActivity.this.alertDialog.dismiss());
 
-        if(errorText != null)
+            if (this.alertDialog.getWindow() != null)
+                this.alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+            this.alertDialog.show();
+
             ((TextView) view.findViewById(R.id.errorDesc)).setText(errorText);
+        }
     }
 
     /* =================================================================================== */
+    /*                          Listener & Observer für Objekte                            */
+    /* =================================================================================== */
 
-    /*
-        OnClickListener für "Login"-Button
-        Entwickelt von: Fabian, Lucas
+    /**
+     OnClickListener für "Login"-Button <br>
+     Wird ausgeführt, sobald auf Login-Button geklickt wird <br>
+     Wird in {@link #handleListeners()} gesetzt
+     @author Fabian, Lucas
     */
-    private View.OnClickListener loginButtonListener = new View.OnClickListener() {
-        private StringBuffer errorTextBuffer;
-        @Override
-        public void onClick(View view) {
-            errorTextBuffer = new StringBuffer();
+    private View.OnClickListener loginButtonListener = view -> {
 
-            /* User-Input in Variablen speichern */
-            String inputUsername = MainActivity.this.username.getText().toString();
-            String inputPassword = MainActivity.this.password.getText().toString();
+        /* Werte aus UI auslesen */
+        String user = this.username.getText().toString();
+        String password = this.password.getText().toString();
 
-            /* Login-Objekt erstellen --> Für API Call */
-            uDrive.Login loginObject = new uDrive.Login(inputUsername, "SecretarySTrongPassword!2345", "Secretary@udrive.de");
+        /* Login-Objekt erstellen, welches für API Call benötigt wird */
+        uDrive.Login loginObject = new uDrive.Login(user, "SecretarySTrongPassword!2345", "Secretary@udrive.de");
 
-            /* API Call vorbereiten und Login-Objekt übergeben */
-            Call<uDrive.LoginResponse> loginRequest = APIClient.getAPI().create(APIInterface.class).sendLoginRequest(loginObject);
+        /* Überprüfung, ob Name & Passwort Felder eine bestimmte Länge haben */
+        boolean inputValid = (user.length() > 3 && password.length() > 5);
 
-            /* Überprüfung, ob Name & Password Felder eine bestimmte Länge haben */
-            boolean inputValid = (inputUsername.length() > 3 && inputPassword.length() > 5);
-            MainActivity.this.loginHandler = new uDrive.LoginHandler();
-
-            /* API Call */
-            if(inputValid)
-            {
-                Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
-                loginHandler.handle(loginObject);
-                loginHandler.getIsFinished().observe(MainActivity.this, MainActivity.this.observeStateChange);
-            }
-            else
-            {
-                errorTextBuffer.append("Die Eingaben sind ungültig.").append("\n");
-                errorTextBuffer.append("Der Name muss mindestens 3, das Passwort mindestens 5 Zeichen lang sein!").append("\n");
-            }
-        }
-    };
-
-    private View.OnClickListener errorDialogListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            MainActivity.this.alertDialog.dismiss();
-            Toast.makeText(MainActivity.this, "Close", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private Observer<Boolean> observeStateChange = isFinished -> {
-        boolean loginSuccessful = loginHandler.isLoginSuccessful();
-
-        if(loginSuccessful && isFinished.booleanValue())
+        /* API Call */
+        if(inputValid)
         {
+            loginHandler = new uDriveHandler.LoginHandler();
+            Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
+            loginHandler.handle(loginObject);
+            Log.d("uDrive.MainActivity", "Setting an observer for loginHandler");
+            loginHandler.getFinishedState().observe(MainActivity.this, this.observeStateChange);
+
+            Toast.makeText(MainActivity.this, "Login wird verarbeitet...", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            String invalidInput = "Ungültige Eingaben.\n";
+            invalidInput += "Benutzername und/oder Passwort zu kurz!\n";
+            showErrorDialog(invalidInput);
+        }
+    };
+
+    /**
+     Observer für API Login Call <br>
+     Wird ausgeführt, sobald sich der Zustand von {@link de.bws.udrive.utilities.model.uDriveHandler.LoginHandler#isFinished} ändert
+     @author Lucas
+     */
+    private final Observer<Boolean> observeStateChange = isFinished -> {
+        if(loginHandler.isLoginSuccessful())
+        {
+            Log.d("uDrive.MainActivity.observeStateChange", "Login was successful!");
+            Log.d("uDrive.MainActivity.observeStateChange", "Value of isFinished is: " + isFinished);
             openHomeActivity();
         }
         else
