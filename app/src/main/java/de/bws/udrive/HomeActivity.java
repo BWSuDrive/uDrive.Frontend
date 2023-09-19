@@ -36,8 +36,6 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
-    private TextView userField;
-    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarHome.toolbar);
 
-        this.userName = getIntent().getStringExtra("signedInUser");
-
-        Log.i(Tag.INFO, "Current User: " + userName);
-
         weekdayExample();
-
-        //testAPIConnection();
 
         this.handleListeners();
 
@@ -70,19 +62,25 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
     }
-    
+
+    /**
+     Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
+     To be deleted...
+     */
     private void weekdayExample()
     {
-        Call<List<String>> weekday = APIClient.getAPI().create(APIInterface.class).sendWeekdayRequest("Bearer " + uDrive.Generic.getToken());
+        Call<List<String>> weekday = APIClient.getAPI().create(APIInterface.class).sendWeekdayRequest("Bearer " + uDrive.General.getToken());
         
         weekday.enqueue(new Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 Log.d("uDrive.WEEKDAY", String.valueOf(response.code()));
+                Log.d("uDrive.WEEKDAY", response.message());
                 Log.d("uDrive.WEEKDAY", response.getClass().getName());
 
                 List<String> answer = response.body();
-                Log.d("uDrive.WEEKDAY", "ResponseListSize: " + answer.size());
+                if(answer != null)
+                    Log.d("uDrive.WEEKDAY", "ResponseListSize: " + answer.size());
             }
 
             @Override
@@ -94,8 +92,9 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
+    /**
+     Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
+     To be deleted...
     */
     private void testAPIConnection()
     {
@@ -138,8 +137,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Setzt die Listener für einzelne Objekte
-     * */
+     Setzt die Listener für einzelne Objekte
+     @author Fabian
+     */
     private void handleListeners()
     {
         binding.appBarHome.fab.setOnClickListener(bindingListener);
@@ -147,16 +147,25 @@ public class HomeActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(onBackPressed);
     }
 
-    /* Seitenmenu, das per Klick auf den Hamburger geöffnet wird */
+    /**
+     Seitenmenu, das per Klick auf den Hamburger geöffnet wird
+     @author Fabian
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        userField = findViewById(R.id.userField);
-        userField.setText(this.userName);
+
+        ((TextView) findViewById(R.id.userField)).setText(uDrive.General.getUserName());
+        ((TextView) findViewById(R.id.mailField)).setText(uDrive.General.getUserMail());
+
         return true;
     }
 
+    /**
+     tbd
+     @author Fabian
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
@@ -164,7 +173,10 @@ public class HomeActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    /* Verhindert, dass der User mit dem Zurück-Knopf auf die MainActivity (den Login-Screen) kommt */
+    /**
+     Verhindert, dass der User mit dem Zurück-Knopf auf die MainActivity (den Login-Screen) kommt
+     @author Lucas
+     */
     private OnBackPressedCallback onBackPressed = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
@@ -172,7 +184,10 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
-    /* OnClickListener für Button in der HomeActivity */
+    /**
+     OnClickListener für Button in der HomeActivity
+     @author Fabian, Lucas
+     */
     private View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
 }

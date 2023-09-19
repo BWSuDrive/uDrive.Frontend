@@ -1,46 +1,57 @@
 package de.bws.udrive.utilities.model;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.internal.LinkedTreeMap;
 
-import org.json.JSONObject;
+import de.bws.udrive.utilities.APIClient;
 
-/* Model, um Anfrage an API abzubilden */
+/**
+ Model, um Anfrage an API abzubilden <br>
+ Instanzen von Klassen werden durch {@link retrofit2.converter.gson.GsonConverterFactory} in {@link APIClient#getAPI()}
+ zu einem JSON-String geparsed <br>
+
+ @author Lucas
+ */
 public class uDrive {
 
     /**
-     * Klasse, die generische Sachen speichert, die an verschiedenen Orten benötigt werden <br>
-     *
+     * Klasse, die generelle Sachen speichert, die an verschiedenen Orten im Code benötigt werden <br>
+     * Speichert u.A. den Bearer-Token (für die Kommunikation mit der API), sowie den Usernamen und die E-Mail <br>
+     * @author Lucas
      */
-    public static class Generic
+    public static class General
     {
-        /** Speichert den Bearer Token, der von der API beim Login zurück kommt */
         private static String bearerToken = "N/A";
-        /** Speichert, ob der Login erfolgreich war */
-        private static boolean loginSuccessful = false;
+        private static String userName = "N/A";
+        private static String userMail = "N/A";
 
-        public static void setToken(String newToken) {
-            if(Generic.bearerToken.equalsIgnoreCase("N/A"))
-                Generic.bearerToken = newToken;
+        public static void setToken(String newToken)
+        {
+            if(General.bearerToken.equalsIgnoreCase("N/A"))
+                General.bearerToken = newToken;
         }
-        public static String getToken() { return Generic.bearerToken; }
+        public static String getToken() { return General.bearerToken; }
 
-        public static boolean isLoginSuccessful() {
-            return loginSuccessful;
+        public static void setUserName(String userName)
+        {
+            if(General.userName.equalsIgnoreCase("N/A"))
+                General.userName = userName;
         }
 
-        public static void setLoginSuccessful(boolean loginSuccessful) {
-            if(!Generic.loginSuccessful)
-                Generic.loginSuccessful = loginSuccessful;
+        public static String getUserName() { return userName; }
+
+        public static void setUserMail(String userMail)
+        {
+            if(General.userMail.equalsIgnoreCase("N/A"))
+                General.userMail = userMail;
         }
+
+        public static String getUserMail() { return userMail; }
     }
 
     /**
      * Klasse, die für den Login benutzt wird <br>
-     * Besitzt folgende Parameter: <br>
-     * -> userName: String <br>
-     * -> password: String <br>
-     * -> email: String
+     * Besitzt die Eigenschaften {@link Login#userName}, {@link Login#password} & {@link Login#email} <br>
+     * @author Lucas
      * */
     public static class Login {
         private String userName;
@@ -56,7 +67,9 @@ public class uDrive {
     }
 
     /**
-     * Klasse, die für die Login-Antwort benutzt wird
+     * Klasse, die für die Login-Antwort benutzt wird <br>
+     * Speichert die zurückgegeben Werte der API Antwort ab <br>
+     * @author Lucas
      * */
     public static class LoginResponse
     {

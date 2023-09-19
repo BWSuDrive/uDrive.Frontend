@@ -23,8 +23,6 @@ import retrofit2.http.POST;
  */
 public interface APIInterface {
 
-    /* Test User - Admin123 */
-
     /**
      * Methode, um Login-Anfrage an API zu senden
      * @param login Objekt das User-Input enthält

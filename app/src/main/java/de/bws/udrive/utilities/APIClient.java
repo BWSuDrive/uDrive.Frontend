@@ -3,7 +3,10 @@ package de.bws.udrive.utilities;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/* Klasse, um API Calls zu machen */
+/**
+ * Klasse, die benötigt wird, um API Calls vorzunehmen
+ *
+ * */
 public class APIClient {
     private static Retrofit retrofit;
     public static Retrofit getAPI() {
