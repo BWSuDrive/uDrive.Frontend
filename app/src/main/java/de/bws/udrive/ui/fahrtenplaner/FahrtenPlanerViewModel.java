@@ -1,16 +1,16 @@
-package de.bws.udrive.ui.home;
+package de.bws.udrive.ui.fahrtenplaner;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class FahrtenPlanerViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public FahrtenPlanerViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Hier kommen die Knöpfe hin");
+        mText.setValue("Hier werden die Fahrten geplant");
     }
 
     public LiveData<String> getText() {

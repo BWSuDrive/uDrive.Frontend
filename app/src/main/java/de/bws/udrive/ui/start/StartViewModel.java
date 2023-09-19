@@ -1,16 +1,16 @@
-package de.bws.udrive.ui.stundenplan;
+package de.bws.udrive.ui.start;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class StundenplanViewModel extends ViewModel {
+public class StartViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public StundenplanViewModel() {
+    public StartViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Hier kommt ihr Stundenplan hin");
+        mText.setValue("Hier kann man das Mitfahren auswählen");
     }
 
     public LiveData<String> getText() {

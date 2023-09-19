@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.stundenplan.StundenplanFragment">
+    tools:context=".ui.fahrtenplaner.FahrtenPlanerFragment">
 
     <TextView
-        android:id="@+id/text_stundenplan"
+        android:id="@+id/text_FahrtenPlaner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

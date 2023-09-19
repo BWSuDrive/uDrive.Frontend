@@ -1,4 +1,4 @@
-package de.bws.udrive.ui.stundenplan;
+package de.bws.udrive.ui.meineFahrt;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.bws.udrive.databinding.FragmentStundenplanBinding;
+import de.bws.udrive.databinding.FragmentMeinefahrtBinding;
 
-public class StundenplanFragment extends Fragment {
+public class MeineFahrtFragment extends Fragment {
 
-    private FragmentStundenplanBinding binding;
+    private FragmentMeinefahrtBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        StundenplanViewModel stundenplanViewModel =
-                new ViewModelProvider(this).get(StundenplanViewModel.class);
+        MeineFahrtViewModel meineFahrtViewModel =
+                new ViewModelProvider(this).get(MeineFahrtViewModel.class);
 
-        binding = FragmentStundenplanBinding.inflate(inflater, container, false);
+        binding = FragmentMeinefahrtBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textStundenplan;
-        stundenplanViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textMeineFahrt;
+        meineFahrtViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

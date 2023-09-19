@@ -1,4 +1,4 @@
-package de.bws.udrive.ui.route;
+package de.bws.udrive.ui.fahrtenplaner;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.bws.udrive.databinding.FragmentNachrichtenBinding;
+import de.bws.udrive.databinding.FragmentFahrtenplanerBinding;
 
-import de.bws.udrive.databinding.FragmentRouteBinding;
+public class FahrtenPlanerFragment extends Fragment {
 
-public class RouteFragment extends Fragment {
-
-    private FragmentRouteBinding binding;
+    private FragmentFahrtenplanerBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RouteViewModel routeViewModel = new ViewModelProvider(this).get(RouteViewModel.class);
+        FahrtenPlanerViewModel fahrtenPlanerViewModel = new ViewModelProvider(this).get(FahrtenPlanerViewModel.class);
 
-        binding = FragmentRouteBinding.inflate(inflater, container, false);
+        binding = FragmentFahrtenplanerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textRoute;
-        routeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textFahrtenPlaner;
+        fahrtenPlanerViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

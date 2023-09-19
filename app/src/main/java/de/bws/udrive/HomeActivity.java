@@ -47,14 +47,14 @@ public class HomeActivity extends AppCompatActivity {
 
         weekdayExample();
 
-        this.handleListeners();
+
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_nachrichten, R.id.nav_stundenplan)
+                R.id.nav_start, R.id.nav_nachrichten, R.id.nav_meinefahrt)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
@@ -140,12 +140,7 @@ public class HomeActivity extends AppCompatActivity {
      Setzt die Listener für einzelne Objekte
      @author Fabian
      */
-    private void handleListeners()
-    {
-        binding.appBarHome.fab.setOnClickListener(bindingListener);
 
-        getOnBackPressedDispatcher().addCallback(onBackPressed);
-    }
 
     /**
      Seitenmenu, das per Klick auf den Hamburger geöffnet wird
