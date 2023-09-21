@@ -6,10 +6,10 @@
         android:color="@color/white"/>
 
     <corners
-        android:radius="20dp"/>
+        android:radius="60dp"/>
 
     <stroke
         android:color="@color/purple"
-        android:width="2dp"/>
+        android:width="3dp"/>
 
 </shape>

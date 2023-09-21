@@ -16,12 +16,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".90"
+        app:layout_constraintHeight_percent="0.9"
         app:layout_constraintVertical_bias="1">
 
         <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="750dp"
             android:id="@+id/view_pager"
             app:layout_constraintVertical_bias="0"
             android:background="@drawable/viewpager_bkg"
@@ -32,6 +32,9 @@
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
             android:layout_height="60dp"
             android:id="@+id/tab_layout"
             app:layout_constraintVertical_bias="0"
