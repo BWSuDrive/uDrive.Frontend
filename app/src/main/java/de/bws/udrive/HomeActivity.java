@@ -61,6 +61,8 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        getOnBackPressedDispatcher().addCallback(onBackPressed);
+
     }
 
     /**
