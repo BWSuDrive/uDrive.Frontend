@@ -45,9 +45,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarHome.toolbar);
 
-        weekdayExample();
-
-
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -64,85 +61,6 @@ public class HomeActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(onBackPressed);
 
     }
-
-    /**
-     Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
-     To be deleted...
-     */
-    private void weekdayExample()
-    {
-        Call<List<String>> weekday = APIClient.getAPI().create(APIInterface.class).sendWeekdayRequest("Bearer " + uDrive.General.getToken());
-        
-        weekday.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                Log.d("uDrive.WEEKDAY", String.valueOf(response.code()));
-                Log.d("uDrive.WEEKDAY", response.message());
-                Log.d("uDrive.WEEKDAY", response.getClass().getName());
-
-                List<String> answer = response.body();
-                if(answer != null)
-                    Log.d("uDrive.WEEKDAY", "ResponseListSize: " + answer.size());
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-                Log.wtf("uDrive.WEEKDAY", "FAILRUE");
-
-                t.printStackTrace();
-            }
-        });
-    }
-
-    /**
-     Test-Methode um Verbindung mit API zu testen, wird bei Bedarf entfernt
-     To be deleted...
-    */
-    private void testAPIConnection()
-    {
-        APIInterface i = APIClient.getAPI().create(APIInterface.class);
-        uDrive.Login login = new uDrive.Login("", "", "");
-        Call<ResponseBody> loginTest = i.testAPIEndpoint(login);
-        Call<ResponseBody> loginTestGET = i.testAPIEndpoint();
-
-        loginTest.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(Tag.SUCCESS, "HTTP Method: " + call.request().method());
-                Log.d(Tag.SUCCESS, "Response-Code: " + response.code());
-                Log.d(Tag.SUCCESS, response.message());
-                Log.d(Tag.SUCCESS, "Successful: " + response.isSuccessful());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(Tag.FAILURE, "Message: " + t.getMessage());
-                Log.e(Tag.FAILURE, "Cause: " + t.getCause());
-            }
-        });
-
-        loginTestGET.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d(Tag.SUCCESS, "HTTP Method: " + call.request().method());
-                Log.d(Tag.SUCCESS, "Response-Code: " + response.code());
-                Log.d(Tag.SUCCESS, response.message());
-                Log.d(Tag.SUCCESS, "Successful: " + response.isSuccessful());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(Tag.FAILURE, "Message: " + t.getMessage());
-                Log.e(Tag.FAILURE, "Cause: " + t.getCause());
-            }
-        });
-    }
-
-    /**
-     Setzt die Listener für einzelne Objekte
-     @author Fabian
-     */
-
 
     /**
      Seitenmenu, das per Klick auf den Hamburger geöffnet wird
