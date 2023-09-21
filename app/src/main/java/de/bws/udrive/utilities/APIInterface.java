@@ -28,22 +28,12 @@ public interface APIInterface {
      * @param login Objekt das User-Input enthält
      * @return Ein Objekt LoginResponse, enthält u.a. einen Bearer Token
      */
-    @POST("/api/RESTLogin")
+    @POST("/Login")
     Call<uDrive.LoginResponse> sendLoginRequest(@Body uDrive.Login login);
 
     /**
-     * Methode, um Kommunikation nach dem Login zu testen
-     * @param token Bearer Token, der für die Kommunikation benötigt wird <br>
-     *              String muss so aussehen --> "Bearer {token}"
-     * @return Eine leere Liste
+     *
      */
-    @GET("/api/Weekdays")
-    Call<List<String>> sendWeekdayRequest(@Header("Authorization") String token);
-
-    @GET("/api/RESTTest")
-    Call<ResponseBody> testAPIEndpoint();
-
-    /* Methode, um Verbindung mit der API zu testen */
-    @POST("/api/RESTTest")
-    Call<ResponseBody> testAPIEndpoint(@Body uDrive.Login login);
+    @POST("/TBD")
+    Call<uDrive.SignUpResponse> sendSignUpRequest(@Body uDrive.SignUp signUp);
 }

@@ -37,8 +37,6 @@ public class uDriveHandler {
 
             /* Asynchroner Aufruf an API */
             loginRequest.enqueue(this.loginCallback);
-
-            Log.d("uDrive.uDriveHandler.LoginHandler", "handle() method finished!");
         }
 
         /**
@@ -52,8 +50,8 @@ public class uDriveHandler {
         private Callback<uDrive.LoginResponse> loginCallback = new Callback<uDrive.LoginResponse>()
         {
             @Override
-            public void onResponse(Call<uDrive.LoginResponse> call, Response<uDrive.LoginResponse> response) {
-                Log.d("uDrive.uDriveHandler.LoginHandler", "API called... onResponse()");
+            public void onResponse(Call<uDrive.LoginResponse> call, Response<uDrive.LoginResponse> response)
+            {
                 /* Antwort OK von API */
                 if(response.code() == 200)
                 {
@@ -109,5 +107,56 @@ public class uDriveHandler {
         public String getError() { return this.errorText; }
 
         public boolean isLoginSuccessful() { return loginSuccessful; }
+    }
+
+    /**
+     * SignUpHandler ist eine Klasse, die sich um den SignUp API Call kümmert <br>
+     * @author Lucas
+     */
+    public static class SignUpHandler
+    {
+        private boolean signUpSuccessful = false;
+        private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
+
+        public SignUpHandler() {}
+
+        public void handle(uDrive.SignUp signUp)
+        {
+            /* API Call vorbereiten */
+            Call<uDrive.SignUpResponse> signUpRequest =
+                    APIClient.getAPI().create(APIInterface.class).sendSignUpRequest(signUp);
+
+            /* Asynchroner Aufruf */
+            signUpRequest.enqueue(signUpCallback);
+        }
+
+        private Callback<uDrive.SignUpResponse> signUpCallback = new Callback<uDrive.SignUpResponse>() {
+            @Override
+            public void onResponse(Call<uDrive.SignUpResponse> call, Response<uDrive.SignUpResponse> response)
+            {
+                /* Antwort von API OK */
+                if(response.code() == 200)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<uDrive.SignUpResponse> call, Throwable t)
+            {
+
+            }
+        };
+
+        public MutableLiveData<Boolean> getFinishedState() { return this.isFinished; }
+
+        public boolean isSignUpSuccessful()
+        {
+            return this.signUpSuccessful;
+        }
     }
 }

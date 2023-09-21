@@ -2,6 +2,8 @@ package de.bws.udrive.utilities.model;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.bws.udrive.utilities.APIClient;
 
 /**
@@ -20,9 +22,21 @@ public class uDrive {
      */
     public static class General
     {
+        private static SignedInUser signedInUser = null;
         private static String bearerToken = "N/A";
         private static String userName = "N/A";
         private static String userMail = "N/A";
+
+        public static void setSignedInUser(SignedInUser signedInUser)
+        {
+            if(General.signedInUser == null)
+                General.signedInUser = signedInUser;
+        }
+
+        public static SignedInUser getSignedInUser()
+        {
+            return General.signedInUser;
+        }
 
         public static void setToken(String newToken)
         {
@@ -46,6 +60,50 @@ public class uDrive {
         }
 
         public static String getUserMail() { return userMail; }
+    }
+
+    public static class SignedInUser
+    {
+        private String bearerToken = "N/A";
+        private String vorname = "N/A";
+        private String nachname = "N/A";
+        private String mail = "N/A";
+        private String rolle = "N/A";
+
+        public SignedInUser()
+        {
+
+        }
+
+        public void setBearerToken(String token)
+        {
+            if(this.bearerToken.equalsIgnoreCase("N/A"))
+                this.bearerToken = token;
+        }
+
+        public void setVorname(String vorname)
+        {
+            if(this.vorname.equalsIgnoreCase("N/A"))
+                this.vorname = vorname;
+        }
+
+        public void setNachname(String nachname)
+        {
+            if(this.nachname.equalsIgnoreCase("N/A"))
+                this.nachname = nachname;
+        }
+
+        public void setMail(String mail)
+        {
+            if(this.mail.equalsIgnoreCase("N/A"))
+                this.mail = mail;
+        }
+
+        public void setRolle(String rolle)
+        {
+            if(this.rolle.equalsIgnoreCase("N/A"))
+                this.rolle = rolle;
+        }
     }
 
     /**
@@ -125,4 +183,9 @@ public class uDrive {
             return this.password.equals(this.confirmPassword);
         }
     }
+
+    /**
+     * Klasse, die für die Registrierungs-Antwort benutzt wird <br>
+     */
+    public static class SignUpResponse {}
 }
