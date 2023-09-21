@@ -82,14 +82,14 @@ public class LoginTabFragment extends Fragment {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.error_dialog, errorLayout);
             Button errorClose = view.findViewById(R.id.errorClose);
 
-            this.alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
 
-            errorClose.setOnClickListener(clickedView -> LoginTabFragment.this.alertDialog.dismiss());
+            errorClose.setOnClickListener(clickedView -> alertDialog.dismiss());
 
-            if (this.alertDialog.getWindow() != null)
-                this.alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            if (alertDialog.getWindow() != null)
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-            this.alertDialog.show();
+            alertDialog.show();
 
             ((TextView) view.findViewById(R.id.errorDesc)).setText(errorText);
         }
@@ -112,7 +112,7 @@ public class LoginTabFragment extends Fragment {
         String password = this.password.getText().toString();
 
         /* Login-Objekt erstellen, welches für API Call benötigt wird */
-        uDrive.Login loginObject = new uDrive.Login(user, "SecretarySTrongPassword!2345", "Secretary@udrive.de");
+        uDrive.Login loginObject = new uDrive.Login("Secretary@udrive.de", "SecretarySTrongPassword!2345", "Secretary@udrive.de");
 
         /* Überprüfung, ob Name & Passwort Felder eine bestimmte Länge haben */
         boolean inputValid = (user.length() > 3 && password.length() > 5);

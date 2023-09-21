@@ -4,10 +4,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,6 @@ public class SignupTabFragment extends Fragment {
     private EditText edtPasswort;
     private EditText edtPasswortConfirm;
     private Button btnSignUp;
-
-    private AlertDialog alertDialog;
 
     private uDriveHandler.SignUpHandler signUpHandler;
 
@@ -102,14 +102,14 @@ public class SignupTabFragment extends Fragment {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.error_dialog, errorLayout);
             Button errorClose = view.findViewById(R.id.errorClose);
 
-            this.alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext()).setView(view).create();
 
-            errorClose.setOnClickListener(clickedView -> SignupTabFragment.this.alertDialog.dismiss());
+            errorClose.setOnClickListener(clickedView -> alertDialog.dismiss());
 
-            if (this.alertDialog.getWindow() != null)
-                this.alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            if (alertDialog.getWindow() != null)
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
-            this.alertDialog.show();
+            alertDialog.show();
 
             ((TextView) view.findViewById(R.id.errorDesc)).setText(errorText);
         }
@@ -124,11 +124,11 @@ public class SignupTabFragment extends Fragment {
     {
         if(signUpHandler.isSignUpSuccessful())
         {
-
+            Log.i("uDrive.SignUpFragment", "SignUp successful!");
         }
         else
         {
-
+            showErrorDialog(signUpHandler.getError());
         }
     };
 }

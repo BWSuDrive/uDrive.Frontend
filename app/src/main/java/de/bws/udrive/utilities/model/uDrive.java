@@ -2,7 +2,7 @@ package de.bws.udrive.utilities.model;
 
 import com.google.gson.internal.LinkedTreeMap;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
 
 import de.bws.udrive.utilities.APIClient;
 
@@ -23,9 +23,6 @@ public class uDrive {
     public static class General
     {
         private static SignedInUser signedInUser = null;
-        private static String bearerToken = "N/A";
-        private static String userName = "N/A";
-        private static String userMail = "N/A";
 
         public static void setSignedInUser(SignedInUser signedInUser)
         {
@@ -38,44 +35,33 @@ public class uDrive {
             return General.signedInUser;
         }
 
-        public static void setToken(String newToken)
-        {
-            if(General.bearerToken.equalsIgnoreCase("N/A"))
-                General.bearerToken = newToken;
-        }
-        public static String getToken() { return General.bearerToken; }
-
-        public static void setUserName(String userName)
-        {
-            if(General.userName.equalsIgnoreCase("N/A"))
-                General.userName = userName;
-        }
-
-        public static String getUserName() { return userName; }
-
-        public static void setUserMail(String userMail)
-        {
-            if(General.userMail.equalsIgnoreCase("N/A"))
-                General.userMail = userMail;
-        }
-
-        public static String getUserMail() { return userMail; }
     }
 
     public static class SignedInUser
     {
+        /* JSON Object */
+        /*
+        {
+            "Email": null,
+            "Lastname": null,
+            "Password": null,
+            "UserName": null,
+            "Firstname": null
+        }
+         */
+
         private String bearerToken = "N/A";
         private String vorname = "N/A";
         private String nachname = "N/A";
         private String mail = "N/A";
-        private String rolle = "N/A";
+        private ArrayList<String> rollen = new ArrayList<>();
 
         public SignedInUser()
         {
 
         }
 
-        public void setBearerToken(String token)
+        public void setToken(String token)
         {
             if(this.bearerToken.equalsIgnoreCase("N/A"))
                 this.bearerToken = token;
@@ -99,11 +85,21 @@ public class uDrive {
                 this.mail = mail;
         }
 
-        public void setRolle(String rolle)
+        public void addRole(String rolle)
         {
-            if(this.rolle.equalsIgnoreCase("N/A"))
-                this.rolle = rolle;
+            if(!this.rollen.contains(rolle))
+                this.rollen.add(rolle);
         }
+
+        public String getToken() { return bearerToken; }
+
+        public String getVorname() { return vorname; }
+
+        public String getNachname() { return nachname; }
+
+        public String getMail() { return mail; }
+
+        public ArrayList<String> getRollen() { return rollen; }
     }
 
     /**
@@ -133,11 +129,11 @@ public class uDrive {
     {
         private boolean success;
 
-        private LinkedTreeMap<String, String> data;
+        private LinkedTreeMap<Object, Object> data;
 
         private String message;
 
-        public LoginResponse(boolean success, LinkedTreeMap<String, String> data, String message)
+        public LoginResponse(boolean success, LinkedTreeMap<Object, Object> data, String message)
         {
             this.success = success;
             this.data = data;
@@ -148,9 +144,7 @@ public class uDrive {
             return success;
         }
 
-        public LinkedTreeMap<String, String> getData() {
-            return data;
-        }
+        public LinkedTreeMap<Object, Object> getData() { return data; }
 
         public String getMessage() {
             return message;

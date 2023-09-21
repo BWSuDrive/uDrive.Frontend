@@ -4,6 +4,11 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
 import retrofit2.Call;
@@ -59,20 +64,34 @@ public class uDriveHandler {
                     {
                         uDrive.LoginResponse responseObj = response.body();
 
-                        String bearerToken = responseObj.getData().get("token");
-                        String signedInUserName = responseObj.getData().get("firstname");
-                        String signedInUserMail = responseObj.getData().get("email");
+                        String bearerToken = responseObj.getData().get("token").toString();
+                        String signedInUserVorname = responseObj.getData().get("firstname").toString();
+                        String signedInUserNachname = responseObj.getData().get("lastname").toString();
+                        String signedInUserMail = responseObj.getData().get("email").toString();
+                        ArrayList<String> rollen = (ArrayList<String>) responseObj.getData().get("roles");
+
+                        uDrive.SignedInUser signedInUser = new uDrive.SignedInUser();
 
                         if(bearerToken != null)
-                            uDrive.General.setToken(bearerToken);
+                            signedInUser.setToken(bearerToken);
 
-                        if(signedInUserName != null)
-                            uDrive.General.setUserName(signedInUserName);
+                        if(signedInUserVorname != null)
+                            signedInUser.setVorname(signedInUserVorname);
+
+                        if(signedInUserNachname != null)
+                            signedInUser.setNachname(signedInUserNachname);
 
                         if(signedInUserMail != null)
-                            uDrive.General.setUserMail(signedInUserMail);
+                            signedInUser.setMail(signedInUserMail);
 
-                        Log.i("uDrive.uDriveHandler.loginResponse.onResponse", "Token is: " + uDrive.General.getToken());
+                        rollen.forEach(rolle -> {
+                           if(rolle != null)
+                               signedInUser.addRole(rolle);
+                        });
+
+                        uDrive.General.setSignedInUser(signedInUser);
+
+                        Log.i("uDrive.uDriveHandler.loginResponse.onResponse", "Token is: " + signedInUser.getToken());
 
                         loginSuccessful = true;
                     }
@@ -84,9 +103,23 @@ public class uDriveHandler {
                 }
                 else /* ResponseCode 200 */
                 {
-                    errorText += "Der Login war nicht möglich!\n";
+                    errorText += "Beim Login ist ein Fehler aufgetreten!\n";
                     errorText += "Fehler-Code: " + response.code() + "\n";
-                    errorText += "Fehler: " + response.message() + "\n";
+
+                    try
+                    {
+                        String errorBodyStr = response.errorBody().string();
+
+                        errorText += (errorBodyStr != null) ?
+                                new Gson().fromJson(errorBodyStr, uDrive.LoginResponse.class).getMessage() :
+                                "Unbekannter Fehler\n";
+
+                    } catch (IOException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
+
+
                 }
 
                 isFinished.setValue(Boolean.TRUE);
@@ -96,7 +129,8 @@ public class uDriveHandler {
             public void onFailure(Call<uDrive.LoginResponse> call, Throwable t)
             {
                 errorText += "Die Kommunikation mit der API war nicht möglich!\n";
-                Log.wtf("uDrive.uDriveHandler.loginResponse.onFailure", t.getMessage());
+                errorText += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
+                Log.wtf("uDrive.Login.Failure", t.getMessage());
 
                 isFinished.setValue(Boolean.TRUE);
             }
@@ -115,6 +149,7 @@ public class uDriveHandler {
      */
     public static class SignUpHandler
     {
+        private String errorText = "";
         private boolean signUpSuccessful = false;
         private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
 
@@ -137,12 +172,32 @@ public class uDriveHandler {
                 /* Antwort von API OK */
                 if(response.code() == 200)
                 {
+                    if(response.body() != null)
+                    {
+                        uDrive.SignUpResponse signUpResponse = response.body();
 
+                    }
                 }
                 else
                 {
+                    errorText += "Bei der Registrierung ist ein Fehler aufgetreten!\n";
+                    errorText += "Fehler-Code: " + response.code() + "\n";
 
+                    try
+                    {
+                        String errorBodyStr = response.errorBody().string();
+
+                        errorText += (errorBodyStr != null) ?
+                                new Gson().fromJson(errorBodyStr, uDrive.LoginResponse.class).getMessage() :
+                                "Unbekannter Fehler\n";
+
+                    } catch (IOException e)
+                    {
+                        throw new RuntimeException(e);
+                    }
                 }
+
+                isFinished.setValue(Boolean.TRUE);
             }
 
             @Override
@@ -158,5 +213,7 @@ public class uDriveHandler {
         {
             return this.signUpSuccessful;
         }
+
+        public String getError() { return this.errorText; }
     }
 }

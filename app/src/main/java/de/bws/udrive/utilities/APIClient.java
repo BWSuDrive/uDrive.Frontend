@@ -13,7 +13,7 @@ public class APIClient {
         if(retrofit == null)
         {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://bws-udriveapi.azurewebsites.net/")
+                    .baseUrl("https://bws-udriveapi.azurewebsites.net")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

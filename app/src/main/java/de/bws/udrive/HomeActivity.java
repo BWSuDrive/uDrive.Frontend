@@ -68,11 +68,10 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
-        ((TextView) findViewById(R.id.userField)).setText(uDrive.General.getUserName());
-        ((TextView) findViewById(R.id.mailField)).setText(uDrive.General.getUserMail());
+        ((TextView) findViewById(R.id.userField)).setText(uDrive.General.getSignedInUser().getVorname() + " " + uDrive.General.getSignedInUser().getNachname());
+        ((TextView) findViewById(R.id.mailField)).setText(uDrive.General.getSignedInUser().getMail());
 
         return true;
     }
