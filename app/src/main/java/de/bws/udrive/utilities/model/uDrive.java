@@ -98,4 +98,31 @@ public class uDrive {
             return message;
         }
     }
+
+    /**
+     * Klasse, die für die Registrierung benutzt wird <br>
+     * Besitzt alle Eigenschaften, die für die Registrierung benötigt werden <br>
+     * @author Lucas
+     */
+    public static class SignUp {
+
+        private String vorname;
+        private String nachname;
+        private String email;
+        private String password;
+        private String confirmPassword;
+
+        public SignUp(String vorname, String nachname, String email, String password, String confirmPassword) {
+            this.vorname = vorname;
+            this.nachname = nachname;
+            this.email = email;
+            this.password = password;
+            this.confirmPassword = confirmPassword;
+        }
+
+        public boolean equalPasswords()
+        {
+            return this.password.equals(this.confirmPassword);
+        }
+    }
 }
