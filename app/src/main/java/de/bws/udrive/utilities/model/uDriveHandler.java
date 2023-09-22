@@ -57,20 +57,24 @@ public class uDriveHandler {
             @Override
             public void onResponse(Call<uDrive.LoginResponse> call, Response<uDrive.LoginResponse> response)
             {
-                /* Antwort OK von API */
+                /* Antwort von API OK */
                 if(response.code() == 200)
                 {
                     if(response.body() != null)
                     {
-                        uDrive.LoginResponse responseObj = response.body();
+                        uDrive.LoginResponse loginResponse = response.body();
 
-                        String bearerToken = responseObj.getData().get("token").toString();
-                        String signedInUserVorname = responseObj.getData().get("firstname").toString();
-                        String signedInUserNachname = responseObj.getData().get("lastname").toString();
-                        String signedInUserMail = responseObj.getData().get("email").toString();
-                        ArrayList<String> rollen = (ArrayList<String>) responseObj.getData().get("roles");
+                        String id = loginResponse.getData().get("id").toString();
+                        String bearerToken = loginResponse.getData().get("token").toString();
+                        String signedInUserVorname = loginResponse.getData().get("firstname").toString();
+                        String signedInUserNachname = loginResponse.getData().get("lastname").toString();
+                        String signedInUserMail = loginResponse.getData().get("email").toString();
+                        ArrayList<String> rollen = (ArrayList<String>) loginResponse.getData().get("roles");
 
                         uDrive.SignedInUser signedInUser = new uDrive.SignedInUser();
+
+                        if(id != null)
+                            signedInUser.setID(id);
 
                         if(bearerToken != null)
                             signedInUser.setToken(bearerToken);
@@ -95,33 +99,30 @@ public class uDriveHandler {
 
                         loginSuccessful = true;
                     }
-                    else /* Body null */
+                    else /* Body is null */
                     {
                         errorText += "Responsebody was null.\n";
                         errorText += response.errorBody().toString() + "\n";
                     }
                 }
-                else /* ResponseCode 200 */
+                else /* Responsecode != 200 */
                 {
                     errorText += "Beim Login ist ein Fehler aufgetreten!\n";
                     errorText += "Fehler-Code: " + response.code() + "\n";
 
                     try
                     {
-                        String errorBodyStr = response.errorBody().string();
+                        String errorBodyStr = (response.errorBody() == null) ? null : response.errorBody().string();
 
-                        errorText += (errorBodyStr != null) ?
-                                new Gson().fromJson(errorBodyStr, uDrive.LoginResponse.class).getMessage() :
-                                "Unbekannter Fehler\n";
-
-                    } catch (IOException e)
+                        errorText += (errorBodyStr == null) ?
+                                "Unbekannter Fehler\n" :
+                                new Gson().fromJson(errorBodyStr, uDrive.LoginResponse.class).getMessage();
+                    }
+                    catch (IOException e)
                     {
                         throw new RuntimeException(e);
                     }
-
-
                 }
-
                 isFinished.setValue(Boolean.TRUE);
             }
 
@@ -130,6 +131,7 @@ public class uDriveHandler {
             {
                 errorText += "Die Kommunikation mit der API war nicht möglich!\n";
                 errorText += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
+                errorText += t.getMessage();
                 Log.wtf("uDrive.Login.Failure", t.getMessage());
 
                 isFinished.setValue(Boolean.TRUE);
@@ -153,8 +155,10 @@ public class uDriveHandler {
         private boolean signUpSuccessful = false;
         private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
 
-        public SignUpHandler() {}
-
+        /**
+         * Methode, die für das versenden von Daten an die API verantwortlich ist <br>
+         * @param signUp Objekt, das SignUp-Informationen (User-Input aus {@link de.bws.udrive.MainActivity}) enthält
+         * */
         public void handle(uDrive.SignUp signUp)
         {
             /* API Call vorbereiten */
@@ -165,6 +169,14 @@ public class uDriveHandler {
             signUpRequest.enqueue(signUpCallback);
         }
 
+        /**
+         * Callback das durch {@link #handle(uDrive.SignUp)} benötigt wird <br>
+         * Wertet die Antwort der API aus <br>
+         * Überschreibt 2 Methoden aus dem Interface {@link Callback} <br>
+         * onResponse() -» API hat geantwortet <br>
+         * onFailure()  -» API hat nicht geantwortet <br>
+         * @author Lucas
+         */
         private Callback<uDrive.SignUpResponse> signUpCallback = new Callback<uDrive.SignUpResponse>() {
             @Override
             public void onResponse(Call<uDrive.SignUpResponse> call, Response<uDrive.SignUpResponse> response)
@@ -176,22 +188,66 @@ public class uDriveHandler {
                     {
                         uDrive.SignUpResponse signUpResponse = response.body();
 
+                        String id = signUpResponse.getData().get("id").toString();
+                        String bearerToken = signUpResponse.getData().get("token").toString();
+                        String signedInUserVorname = signUpResponse.getData().get("firstname").toString();
+                        String signedInUserNachname = signUpResponse.getData().get("lastname").toString();
+                        String signedInUserMail = signUpResponse.getData().get("email").toString();
+                        ArrayList<String> rollen = (ArrayList<String>) signUpResponse.getData().get("roles");
+
+                        uDrive.SignedInUser signedInUser = new uDrive.SignedInUser();
+
+                        if(id != null)
+                            signedInUser.setID(id);
+
+                        if(bearerToken != null)
+                            signedInUser.setToken(bearerToken);
+
+                        if(signedInUserVorname != null)
+                            signedInUser.setVorname(signedInUserVorname);
+
+                        if(signedInUserNachname != null)
+                            signedInUser.setNachname(signedInUserNachname);
+
+                        if(signedInUserMail != null)
+                            signedInUser.setMail(signedInUserMail);
+
+                        rollen.forEach(rolle -> {
+                            if(rolle != null)
+                                signedInUser.addRole(rolle);
+                        });
+
+                        uDrive.General.setSignedInUser(signedInUser);
+
+                        signUpSuccessful = true;
+                    }
+                    else /* Body is null */
+                    {
+                        errorText += "Der ResponseBody ist null!\n";
+                        try
+                        {
+                            errorText += (response.errorBody() == null) ? "Der ErrorBody ist null!\n" : new Gson().fromJson(response.errorBody().string(), uDrive.SignUpResponse.class).getMessage();
+                        }
+                        catch (IOException e)
+                        {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
-                else
+                else /* Responsecode != 200 */
                 {
                     errorText += "Bei der Registrierung ist ein Fehler aufgetreten!\n";
                     errorText += "Fehler-Code: " + response.code() + "\n";
 
                     try
                     {
-                        String errorBodyStr = response.errorBody().string();
+                        String errorBodyStr = (response.errorBody() == null) ? null : response.errorBody().string();
 
-                        errorText += (errorBodyStr != null) ?
-                                new Gson().fromJson(errorBodyStr, uDrive.LoginResponse.class).getMessage() :
-                                "Unbekannter Fehler\n";
-
-                    } catch (IOException e)
+                        errorText += (errorBodyStr == null) ?
+                                "Unbekannter Fehler\n" :
+                                new Gson().fromJson(errorBodyStr, uDrive.SignUpResponse.class).getMessage();
+                    }
+                    catch (IOException e)
                     {
                         throw new RuntimeException(e);
                     }
@@ -203,7 +259,12 @@ public class uDriveHandler {
             @Override
             public void onFailure(Call<uDrive.SignUpResponse> call, Throwable t)
             {
+                errorText += "Die Kommunikation mit der API war nicht möglich!\n";
+                errorText += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
+                errorText += t.getMessage();
+                Log.wtf("uDrive.Login.Failure", t.getMessage());
 
+                isFinished.setValue(Boolean.TRUE);
             }
         };
 
