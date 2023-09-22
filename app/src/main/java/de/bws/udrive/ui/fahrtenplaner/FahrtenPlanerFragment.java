@@ -30,8 +30,6 @@ public class FahrtenPlanerFragment extends Fragment {
         binding = FragmentFahrtenplanerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //tvDatum = binding.tvDatum;
-        //tvDatum.setOnClickListener(clickedOnDate);
 
         return root;
     }
