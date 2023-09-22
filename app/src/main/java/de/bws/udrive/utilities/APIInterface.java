@@ -26,14 +26,22 @@ public interface APIInterface {
     /**
      * Methode, um Login-Anfrage an API zu senden
      * @param login Objekt das User-Input enthält
-     * @return Ein Objekt LoginResponse, enthält u.a. einen Bearer Token
+     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.LoginResponse} <br>
+     *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
+     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     * @author Lucas
      */
     @POST("/Login")
     Call<uDrive.LoginResponse> sendLoginRequest(@Body uDrive.Login login);
 
     /**
-     *
+     * Methode, um Registrierungs-Anfrage an API zu senden
+     * @param signUp Objekt das User-Input enthält
+     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.SignUpResponse} <br>
+     *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
+     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     * @author Lucas
      */
-    @POST("/TBD")
+    @POST("/Register")
     Call<uDrive.SignUpResponse> sendSignUpRequest(@Body uDrive.SignUp signUp);
 }
