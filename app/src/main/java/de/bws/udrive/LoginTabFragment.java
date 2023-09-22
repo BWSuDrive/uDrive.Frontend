@@ -108,14 +108,14 @@ public class LoginTabFragment extends Fragment {
     private View.OnClickListener loginButtonListener = view -> {
 
         /* Werte aus UI auslesen */
-        String user = this.username.getText().toString();
+        String username = this.username.getText().toString();
         String password = this.password.getText().toString();
 
         /* Login-Objekt erstellen, welches für API Call benötigt wird */
-        uDrive.Login loginObject = new uDrive.Login("Secretary@udrive.de", "SecretarySTrongPassword!2345", "Secretary@udrive.de");
+        uDrive.Login loginObject = new uDrive.Login(username, password, username);
 
         /* Überprüfung, ob Name & Passwort Felder eine bestimmte Länge haben */
-        boolean inputValid = (user.length() > 3 && password.length() > 5);
+        boolean inputValid = (username.length() > 3 && password.length() > 5);
 
         /* API Call */
         if(inputValid)
