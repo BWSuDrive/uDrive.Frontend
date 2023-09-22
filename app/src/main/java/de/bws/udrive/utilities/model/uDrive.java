@@ -2,6 +2,8 @@ package de.bws.udrive.utilities.model;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.util.ArrayList;
+
 import de.bws.udrive.utilities.APIClient;
 
 /**
@@ -20,32 +22,79 @@ public class uDrive {
      */
     public static class General
     {
-        private static String bearerToken = "N/A";
-        private static String userName = "N/A";
-        private static String userMail = "N/A";
+        private static SignedInUser signedInUser = null;
 
-        public static void setToken(String newToken)
+        public static void setSignedInUser(SignedInUser signedInUser)
         {
-            if(General.bearerToken.equalsIgnoreCase("N/A"))
-                General.bearerToken = newToken;
-        }
-        public static String getToken() { return General.bearerToken; }
-
-        public static void setUserName(String userName)
-        {
-            if(General.userName.equalsIgnoreCase("N/A"))
-                General.userName = userName;
+            if(General.signedInUser == null)
+                General.signedInUser = signedInUser;
         }
 
-        public static String getUserName() { return userName; }
-
-        public static void setUserMail(String userMail)
+        public static SignedInUser getSignedInUser()
         {
-            if(General.userMail.equalsIgnoreCase("N/A"))
-                General.userMail = userMail;
+            return General.signedInUser;
         }
 
-        public static String getUserMail() { return userMail; }
+    }
+
+    public static class SignedInUser
+    {
+        private String id = "N/A";
+        private String bearerToken = "N/A";
+        private String vorname = "N/A";
+        private String nachname = "N/A";
+        private String mail = "N/A";
+        private ArrayList<String> rollen = new ArrayList<>();
+
+        public void setID(String id)
+        {
+            if(this.id.equalsIgnoreCase("N/A"))
+                this.id = id;
+        }
+
+        public void setToken(String token)
+        {
+            if(this.bearerToken.equalsIgnoreCase("N/A"))
+                this.bearerToken = token;
+        }
+
+        public void setVorname(String vorname)
+        {
+            if(this.vorname.equalsIgnoreCase("N/A"))
+                this.vorname = vorname;
+        }
+
+        public void setNachname(String nachname)
+        {
+            if(this.nachname.equalsIgnoreCase("N/A"))
+                this.nachname = nachname;
+        }
+
+        public void setMail(String mail)
+        {
+            if(this.mail.equalsIgnoreCase("N/A"))
+                this.mail = mail;
+        }
+
+        public void addRole(String rolle)
+        {
+            if(!this.rollen.contains(rolle))
+                this.rollen.add(rolle);
+        }
+
+        public String getID() { return id; }
+
+        public String getToken() { return bearerToken; }
+
+        public String getVorname() { return vorname; }
+
+        public String getNachname() { return nachname; }
+
+        public String getMail() { return mail; }
+
+        public ArrayList<String> getRoles() { return rollen; }
+
+        public boolean hasRole(String rolle) { return this.rollen.contains(rolle); }
     }
 
     /**
@@ -75,11 +124,11 @@ public class uDrive {
     {
         private boolean success;
 
-        private LinkedTreeMap<String, String> data;
+        private LinkedTreeMap<Object, Object> data;
 
         private String message;
 
-        public LoginResponse(boolean success, LinkedTreeMap<String, String> data, String message)
+        public LoginResponse(boolean success, LinkedTreeMap<Object, Object> data, String message)
         {
             this.success = success;
             this.data = data;
@@ -90,9 +139,7 @@ public class uDrive {
             return success;
         }
 
-        public LinkedTreeMap<String, String> getData() {
-            return data;
-        }
+        public LinkedTreeMap<Object, Object> getData() { return data; }
 
         public String getMessage() {
             return message;
@@ -104,25 +151,50 @@ public class uDrive {
      * Besitzt alle Eigenschaften, die für die Registrierung benötigt werden <br>
      * @author Lucas
      */
-    public static class SignUp {
+    public static class SignUp
+    {
+        private String Firstname;
+        private String Lastname;
+        private String Email;
+        private String Password;
+        private String UserName;
 
-        private String vorname;
-        private String nachname;
-        private String email;
-        private String password;
-        private String confirmPassword;
-
-        public SignUp(String vorname, String nachname, String email, String password, String confirmPassword) {
-            this.vorname = vorname;
-            this.nachname = nachname;
-            this.email = email;
-            this.password = password;
-            this.confirmPassword = confirmPassword;
+        public SignUp(String vorname, String nachname, String email, String password) {
+            this.Firstname = vorname;
+            this.Lastname = nachname;
+            this.Email = email;
+            this.UserName = email;
+            this.Password = password;
         }
 
-        public boolean equalPasswords()
-        {
-            return this.password.equals(this.confirmPassword);
+        public boolean equalPasswords(String confirmPassword) { return this.Password.contentEquals(confirmPassword); }
+    }
+
+    /**
+     * Klasse, die für die Registrierungs-Antwort benutzt wird <br>
+     */
+    public static class SignUpResponse
+    {
+        private boolean success;
+        private LinkedTreeMap<Object, Object> data;
+        private String message;
+
+        public SignUpResponse(boolean success, LinkedTreeMap<Object, Object> data, String message) {
+            this.success = success;
+            this.data = data;
+            this.message = message;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public LinkedTreeMap<Object, Object> getData() {
+            return data;
+        }
+
+        public String getMessage() {
+            return message;
         }
     }
 }

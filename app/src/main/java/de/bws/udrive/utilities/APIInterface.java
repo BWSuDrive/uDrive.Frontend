@@ -26,24 +26,22 @@ public interface APIInterface {
     /**
      * Methode, um Login-Anfrage an API zu senden
      * @param login Objekt das User-Input enthält
-     * @return Ein Objekt LoginResponse, enthält u.a. einen Bearer Token
+     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.LoginResponse} <br>
+     *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
+     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     * @author Lucas
      */
-    @POST("/api/RESTLogin")
+    @POST("/Login")
     Call<uDrive.LoginResponse> sendLoginRequest(@Body uDrive.Login login);
 
     /**
-     * Methode, um Kommunikation nach dem Login zu testen
-     * @param token Bearer Token, der für die Kommunikation benötigt wird <br>
-     *              String muss so aussehen --> "Bearer {token}"
-     * @return Eine leere Liste
+     * Methode, um Registrierungs-Anfrage an API zu senden
+     * @param signUp Objekt das User-Input enthält
+     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.SignUpResponse} <br>
+     *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
+     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     * @author Lucas
      */
-    @GET("/api/Weekdays")
-    Call<List<String>> sendWeekdayRequest(@Header("Authorization") String token);
-
-    @GET("/api/RESTTest")
-    Call<ResponseBody> testAPIEndpoint();
-
-    /* Methode, um Verbindung mit der API zu testen */
-    @POST("/api/RESTTest")
-    Call<ResponseBody> testAPIEndpoint(@Body uDrive.Login login);
+    @POST("/Register")
+    Call<uDrive.SignUpResponse> sendSignUpRequest(@Body uDrive.SignUp signUp);
 }
