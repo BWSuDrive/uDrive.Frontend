@@ -33,7 +33,7 @@
                 android:id="@+id/login_email"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Email"
+                android:hint="E-Mail"
                 android:drawableLeft="@drawable/email"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
@@ -45,7 +45,7 @@
                 android:id="@+id/login_password"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Password"
+                android:hint="Passwort"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/password"
                 android:drawablePadding="8dp"
@@ -56,9 +56,9 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-            android:id="@+id/login_button"
+                android:id="@+id/login_button"
                 android:textSize="18sp"
-                android:text="Login"
+                android:text="Einloggen"
                 app:cornerRadius = "30dp"/>
 
 
