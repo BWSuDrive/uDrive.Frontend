@@ -1,5 +1,6 @@
 package de.bws.udrive;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import de.bws.udrive.utilities.model.uDrive;
 import de.bws.udrive.utilities.model.uDriveHandler;
@@ -73,21 +75,47 @@ public class SignupTabFragment extends Fragment {
         String passwort = edtPasswort.getText().toString();
         String passwortConfirm = edtPasswortConfirm.getText().toString();
 
-        uDrive.SignUp signUp = new uDrive.SignUp(vorname, nachname, mail, passwort, passwortConfirm);
+        uDrive.SignUp signUpObject = new uDrive.SignUp(vorname, nachname, mail, passwort);
 
-        if(signUp.equalPasswords())
+        boolean inputValid = (
+                vorname.length() > 3 &&
+                nachname.length() > 3 &&
+                mail.length() > 6 &&
+                passwort.length() > 5 &&
+                passwortConfirm.length() > 5
+        );
+
+        if(inputValid)
         {
-            signUpHandler = new uDriveHandler.SignUpHandler();
+            if (signUpObject.equalPasswords(passwortConfirm))
+            {
+                signUpHandler = new uDriveHandler.SignUpHandler();
+                Log.i("uDrive.SignUpFragment", "API Call...");
+                signUpHandler.handle(signUpObject);
+                signUpHandler.getFinishedState().observe(this, this.observeStateChange);
 
-            signUpHandler.handle(signUp);
-
-            signUpHandler.getFinishedState().observe(this, this.observeStateChange);
+                Toast.makeText(getContext(), "Registrierung wird verarbeitet...", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                showErrorDialog("Die eingegebenen Passwörter stimmen nicht überein!");
+            }
         }
         else
         {
-            showErrorDialog("Die eingegebenen Passwörter stimmen nicht überein!");
+            String errorText = "Bitte überprüfe deine Eingaben!\n";
+            errorText += "Deine Eingaben sind zu kurz!";
+            showErrorDialog(errorText);
         }
     };
+
+    /**
+     Methode, um die HomeActivity zu öffnen <br>
+     Wird nur bei erfolgreichem Login aufgerufen <br>
+     @author Fabian, Lucas
+     */
+    private void openHomeActivity() { SignupTabFragment.this.startActivity(new Intent(getContext(), HomeActivity.class)); }
+
 
     /**
      Error-Box die angezeigt wird <br>
@@ -122,12 +150,16 @@ public class SignupTabFragment extends Fragment {
      */
     private final Observer<Boolean> observeStateChange = isFinished ->
     {
+        Log.i("uDrive.SignUpFragment", "Observer reacted!");
         if(signUpHandler.isSignUpSuccessful())
         {
             Log.i("uDrive.SignUpFragment", "SignUp successful!");
+            openHomeActivity();
         }
         else
         {
+            Log.i("uDrive.SignUpFragment", "Login failure");
+            Log.i("uDrive.SignUpFragment", signUpHandler.getError());
             showErrorDialog(signUpHandler.getError());
         }
     };
