@@ -39,26 +39,17 @@ public class uDrive {
 
     public static class SignedInUser
     {
-        /* JSON Object */
-        /*
-        {
-            "Email": null,
-            "Lastname": null,
-            "Password": null,
-            "UserName": null,
-            "Firstname": null
-        }
-         */
-
+        private String id = "N/A";
         private String bearerToken = "N/A";
         private String vorname = "N/A";
         private String nachname = "N/A";
         private String mail = "N/A";
         private ArrayList<String> rollen = new ArrayList<>();
 
-        public SignedInUser()
+        public void setID(String id)
         {
-
+            if(this.id.equalsIgnoreCase("N/A"))
+                this.id = id;
         }
 
         public void setToken(String token)
@@ -91,6 +82,8 @@ public class uDrive {
                 this.rollen.add(rolle);
         }
 
+        public String getID() { return id; }
+
         public String getToken() { return bearerToken; }
 
         public String getVorname() { return vorname; }
@@ -99,7 +92,9 @@ public class uDrive {
 
         public String getMail() { return mail; }
 
-        public ArrayList<String> getRollen() { return rollen; }
+        public ArrayList<String> getRoles() { return rollen; }
+
+        public boolean hasRole(String rolle) { return this.rollen.contains(rolle); }
     }
 
     /**
@@ -156,30 +151,50 @@ public class uDrive {
      * Besitzt alle Eigenschaften, die für die Registrierung benötigt werden <br>
      * @author Lucas
      */
-    public static class SignUp {
+    public static class SignUp
+    {
+        private String Firstname;
+        private String Lastname;
+        private String Email;
+        private String Password;
+        private String UserName;
 
-        private String vorname;
-        private String nachname;
-        private String email;
-        private String password;
-        private String confirmPassword;
-
-        public SignUp(String vorname, String nachname, String email, String password, String confirmPassword) {
-            this.vorname = vorname;
-            this.nachname = nachname;
-            this.email = email;
-            this.password = password;
-            this.confirmPassword = confirmPassword;
+        public SignUp(String vorname, String nachname, String email, String password) {
+            this.Firstname = vorname;
+            this.Lastname = nachname;
+            this.Email = email;
+            this.UserName = email;
+            this.Password = password;
         }
 
-        public boolean equalPasswords()
-        {
-            return this.password.equals(this.confirmPassword);
-        }
+        public boolean equalPasswords(String confirmPassword) { return this.Password.contentEquals(confirmPassword); }
     }
 
     /**
      * Klasse, die für die Registrierungs-Antwort benutzt wird <br>
      */
-    public static class SignUpResponse {}
+    public static class SignUpResponse
+    {
+        private boolean success;
+        private LinkedTreeMap<Object, Object> data;
+        private String message;
+
+        public SignUpResponse(boolean success, LinkedTreeMap<Object, Object> data, String message) {
+            this.success = success;
+            this.data = data;
+            this.message = message;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public LinkedTreeMap<Object, Object> getData() {
+            return data;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 }
