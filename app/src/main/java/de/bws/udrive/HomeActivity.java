@@ -1,7 +1,6 @@
 package de.bws.udrive;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -17,17 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
 import de.bws.udrive.databinding.ActivityHomeBinding;
-import de.bws.udrive.utilities.APIInterface;
-import de.bws.udrive.utilities.APIClient;
-import de.bws.udrive.utilities.Tag;
 import de.bws.udrive.utilities.model.*;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Home-Activity (Hauptbildschirm)
@@ -68,10 +58,15 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if(!uDrive.General.getSignedInUser().hasRole("Driver"))
+            findViewById(R.id.nav_fahrtenplaner).setVisibility(View.GONE);
+
         getMenuInflater().inflate(R.menu.home, menu);
 
         ((TextView) findViewById(R.id.userField)).setText(uDrive.General.getSignedInUser().getVorname() + " " + uDrive.General.getSignedInUser().getNachname());
         ((TextView) findViewById(R.id.mailField)).setText(uDrive.General.getSignedInUser().getMail());
+
+        this.invalidateOptionsMenu();
 
         return true;
     }
