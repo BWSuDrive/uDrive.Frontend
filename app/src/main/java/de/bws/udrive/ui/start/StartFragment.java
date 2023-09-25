@@ -1,45 +1,74 @@
 package de.bws.udrive.ui.start;
 
+import android.content.Context;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 
-import de.bws.udrive.R;
 import de.bws.udrive.databinding.FragmentStartBinding;
+import de.bws.udrive.utilities.handler.DriveRequestsHandler;
+import de.bws.udrive.utilities.model.DriveRequest;
+import de.bws.udrive.utilities.model.General;
 
 public class StartFragment extends Fragment {
 
     private FragmentStartBinding binding;
+    private MaterialButton refreshFahrer;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    private DriveRequestsHandler driveRequestsHandler;
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        StartViewModel startViewModel =
+                new ViewModelProvider(this).get(StartViewModel.class);
 
-        View view = inflater.inflate(R.layout.fragment_start, container, false);
+        binding = FragmentStartBinding.inflate(inflater, container, false);
 
-        //MaterialButton refreshFahrer = getView().findViewById(R.id.refresh_fahrer);
+        refreshFahrer = binding.refreshFahrer;
+        refreshFahrer.setOnClickListener(refreshListener);
 
-        //refreshFahrer.setOnClickListener(refreshListener);
 
-        return view;
+
+        return binding.getRoot();
     }
 
-
-    private View.OnClickListener refreshListener =  new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // Hier kommt dein Part Lucas ;)
-        }
+    private View.OnClickListener refreshListener = view -> {
+        Toast.makeText(getContext(), "To be implemented...", Toast.LENGTH_LONG).show();
+        // Hier kommt dein Part Lucas ;)
+        sendAPIRequest();
     };
 
+    private void sendAPIRequest()
+    {
+        Log.i("uDrive.StartFragment", "Sending API Request");
+        double currentLatitude = General.getSignedInUser().getLatitude();
+        double currentLongitude = General.getSignedInUser().getLatitude();
+
+        DriveRequest driveRequest = new DriveRequest(currentLatitude, currentLongitude);
+        this.driveRequestsHandler = new DriveRequestsHandler();
+
+        driveRequestsHandler.handle(driveRequest);
+        driveRequestsHandler.getFinishedState().observe(this, observeStatChange);
+    }
+
+    private Observer<Boolean> observeStatChange = isFinished -> {
+        if(isFinished)
+        {
+            Log.i("uDrive.StartFragment", "API Call finished! :)");
+        }
+    };
 
 }
 
