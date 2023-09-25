@@ -20,11 +20,11 @@
             android:padding="20dp">
 
 
-            <ImageView
+            <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:layout_marginTop="25dp"
-                android:src="@drawable/logocolor"/>
+                android:src="@drawable/logocolor"/>-->
 
             <EditText
                 android:layout_width="300dp"
@@ -33,7 +33,7 @@
                 android:id="@+id/signup_vorname"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Vorname"
+                android:hint="Vorname*"
                 android:drawableLeft="@drawable/person_purple"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
@@ -45,7 +45,7 @@
                 android:id="@+id/signup_nachname"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Nachname"
+                android:hint="Nachname*"
                 android:drawableLeft="@drawable/person_purple"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
@@ -57,8 +57,20 @@
                 android:id="@+id/signup_email"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="E-Mail"
+                android:hint="E-Mail*"
                 android:drawableLeft="@drawable/email"
+                android:drawablePadding="8dp"
+                android:background="@drawable/edittext_bkg"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:id="@+id/signup_phone"
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:hint="Telefon*"
+                android:drawableLeft="@drawable/phone"
                 android:drawablePadding="8dp"
                 android:background="@drawable/edittext_bkg"/>
 

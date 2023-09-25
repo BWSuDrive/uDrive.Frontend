@@ -28,6 +28,7 @@ public class SignupTabFragment extends Fragment {
     private EditText edtVorname;
     private EditText edtNachname;
     private EditText edtMail;
+    private EditText edtPhone;
     private EditText edtPasswort;
     private EditText edtPasswortConfirm;
     private Button btnSignUp;
@@ -51,6 +52,7 @@ public class SignupTabFragment extends Fragment {
         this.edtVorname = view.findViewById(R.id.signup_vorname);
         this.edtNachname = view.findViewById(R.id.signup_nachname);
         this.edtMail = view.findViewById(R.id.signup_email);
+        this.edtPhone = view.findViewById(R.id.signup_phone);
         this.edtPasswort = view.findViewById(R.id.signup_password);
         this.edtPasswortConfirm = view.findViewById(R.id.signup_confirm);
 
@@ -72,6 +74,7 @@ public class SignupTabFragment extends Fragment {
         String vorname = edtVorname.getText().toString();
         String nachname = edtNachname.getText().toString();
         String mail = edtMail.getText().toString();
+        String phone = edtPhone.getText().toString();
         String passwort = edtPasswort.getText().toString();
         String passwortConfirm = edtPasswortConfirm.getText().toString();
 
