@@ -1,10 +1,15 @@
 package de.bws.udrive;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private ViewPagerAdapter adapter;
+
+    private final int REQUEST_CODE = 1;
 
 
     /**
@@ -48,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         /* Listener & Callbacks setzen */
         tabLayout.addOnTabSelectedListener(tabSelectedListener);
         viewPager2.registerOnPageChangeCallback(onPageChange);
+
+        /* Nach Standort-Berechtigung fragen */
+        askLocationPermissions();
     }
 
     /* =================================================================================== */
@@ -77,4 +87,33 @@ public class MainActivity extends AppCompatActivity {
         public void onPageSelected(int position) { tabLayout.selectTab(tabLayout.getTabAt(position)); }
     };
 
+    private void askLocationPermissions()
+    {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if(requestCode == REQUEST_CODE)
+        {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Log.i("uDrive.MainActivity", "Berechtigungen für Standort genehmigt!");
+            }
+            else
+            {
+                Toast.makeText(this, "Bitte aktiviere die Standort-Berechtigung!", Toast.LENGTH_LONG).show();
+                this.finishAffinity();
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
