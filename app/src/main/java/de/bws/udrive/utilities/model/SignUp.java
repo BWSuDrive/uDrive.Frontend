@@ -12,15 +12,15 @@ public class SignUp {
     private String Email;
     private String Password;
     private String UserName;
-    private String telephone;
+    private String phonenumber;
 
-    public SignUp(String vorname, String nachname, String email, String password, String telephone) {
+    public SignUp(String vorname, String nachname, String email, String password, String phonenumber) {
         this.Firstname = vorname;
         this.Lastname = nachname;
         this.Email = email;
         this.UserName = email;
         this.Password = password;
-        this.telephone = telephone;
+        this.phonenumber = phonenumber;
     }
 
     public boolean equalPasswords(String confirmPassword) {
