@@ -17,7 +17,7 @@ public class uDrive {
 
     /**
      * Klasse, die generelle Sachen speichert, die an verschiedenen Orten im Code benötigt werden <br>
-     * Speichert u.A. den Bearer-Token (für die Kommunikation mit der API), sowie den Usernamen und die E-Mail <br>
+     * Speichert bspw. den aktuell angemeldeten Benutzer <br>
      * @author Lucas
      */
     public static class General
@@ -37,6 +37,11 @@ public class uDrive {
 
     }
 
+    /**
+     * Speichert Informationen über den aktuell angemeldeten Benutzer
+     *
+     * @author Lucas
+     */
     public static class SignedInUser
     {
         private String id = "N/A";
@@ -85,6 +90,8 @@ public class uDrive {
         public String getID() { return id; }
 
         public String getToken() { return bearerToken; }
+
+        public String getHTTPAuthHeader() { return "Bearer " + this.bearerToken; }
 
         public String getVorname() { return vorname; }
 
@@ -158,13 +165,15 @@ public class uDrive {
         private String Email;
         private String Password;
         private String UserName;
+        private String telephone;
 
-        public SignUp(String vorname, String nachname, String email, String password) {
+        public SignUp(String vorname, String nachname, String email, String password, String telephone) {
             this.Firstname = vorname;
             this.Lastname = nachname;
             this.Email = email;
             this.UserName = email;
             this.Password = password;
+            this.telephone = telephone;
         }
 
         public boolean equalPasswords(String confirmPassword) { return this.Password.contentEquals(confirmPassword); }
@@ -196,5 +205,87 @@ public class uDrive {
         public String getMessage() {
             return message;
         }
+    }
+
+    /**
+     * Klasse, die für das senden von Fahrten benutzt wird <br>
+     *
+     * @author Lucas
+     */
+    public static class TourPlan
+    {
+        private String idDriver;
+        private String departure;
+        private int stopRequests;
+        private String eta;
+        private String start;
+        private String destination;
+
+        public TourPlan(String idDriver, String departure, int stopRequests, String eta, String start, String destination)
+        {
+            this.idDriver = idDriver;
+            this.departure = departure;
+            this.stopRequests = stopRequests;
+            this.eta = eta;
+            this.start = start;
+            this.destination = destination;
+        }
+
+        public String getIdDriver() { return idDriver; }
+
+        public String getDeparture() { return departure; }
+
+        public int getStopRequests() { return stopRequests; }
+
+        public String getEta() { return eta; }
+
+        public String getStart() { return start; }
+
+        public String getDestination() { return destination; }
+    }
+
+    /**
+     * Klasse, die für die Antwort von Fahrten benutzt wird <br>
+     *
+     * @author Lucas
+     */
+    public static class TourPlanResponse
+    {
+        private String id;
+        private String idDriver;
+        private String depature;
+        private int stopRequests;
+        private String eta;
+        private String start;
+        private String destination;
+        private Object driver;
+
+        public TourPlanResponse(String id, String idDriver, String depature, int stopRequests, String eta, String start, String destination, Object driver)
+        {
+            this.id = id;
+            this.idDriver = idDriver;
+            this.depature = depature;
+            this.stopRequests = stopRequests;
+            this.eta = eta;
+            this.start = start;
+            this.destination = destination;
+            this.driver = driver;
+        }
+
+        public String getId() { return id; }
+
+        public String getIdDriver() { return idDriver; }
+
+        public String getDepature() { return depature; }
+
+        public int getStopRequests() { return stopRequests; }
+
+        public String getEta() { return eta; }
+
+        public String getStart() { return start; }
+
+        public String getDestination() { return destination; }
+
+        public Object getDriver() { return driver; }
     }
 }

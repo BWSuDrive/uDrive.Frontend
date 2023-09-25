@@ -44,4 +44,15 @@ public interface APIInterface {
      */
     @POST("/Register")
     Call<uDrive.SignUpResponse> sendSignUpRequest(@Body uDrive.SignUp signUp);
+
+    /**
+     * Methode, um Fahrtenplaner-Anfragen an API zu senden
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link uDrive.SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @param tourPlan Objekt, das User-Input enthält
+     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.TourPlanResponse} <br>
+     *         das Informationen enthält
+     * @author Lucas
+     */
+    @POST("/Drivers/TourPlans")
+    Call<uDrive.TourPlanResponse> postTourData(@Header("Authorization") String authHeader, @Body uDrive.TourPlan tourPlan);
 }
