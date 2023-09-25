@@ -55,6 +55,6 @@ public interface APIInterface {
      * @author Lucas, Niko
      */
 
-    @POST("/ScheduleTours/FilterDriversBy5kmRadius")
+    @POST("/ScheduleTour/FilterDriversBy5kmRadius")
     Call<DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 }
