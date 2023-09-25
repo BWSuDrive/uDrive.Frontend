@@ -1,14 +1,26 @@
 package de.bws.udrive;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
 
+    private FusedLocationProviderClient locationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +49,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarHome.toolbar);
 
+        /* Position noch nicht gesetzt */
+        if (General.getSignedInUser().getLatitude() == 0.0 && General.getSignedInUser().getLongitude() == 0.0)
+            getUserLocation();
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -58,13 +75,10 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(!General.getSignedInUser().hasRole("Driver")){
+        if (!General.getSignedInUser().hasRole("Driver")) {
             findViewById(R.id.nav_fahrtenplaner).setVisibility(View.GONE);
             findViewById(R.id.nav_meinefahrt).setVisibility(View.GONE);
         }
-
-
-
 
         getMenuInflater().inflate(R.menu.home, menu);
 
@@ -104,4 +118,21 @@ public class HomeActivity extends AppCompatActivity {
      */
     private View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
+
+    /* Nach Berechtigung wird in MainActivity gefragt */
+    @SuppressLint("MissingPermission")
+    private void getUserLocation() {
+        this.locationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        this.locationClient.getLastLocation().addOnSuccessListener(successListener);
+    }
+
+    private final OnSuccessListener<Location> successListener = location ->
+    {
+        Log.i("uDrive.HomeActivity", "Latitude: " + location.getLatitude());
+        Log.i("uDrive.HomeActivity", "Longitude: " + location.getLongitude());
+
+        General.getSignedInUser().setCoordinates(location.getLatitude(), location.getLongitude());
+    };
+
 }
