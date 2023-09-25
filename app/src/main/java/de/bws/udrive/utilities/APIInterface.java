@@ -1,21 +1,13 @@
 package de.bws.udrive.utilities;
 
-import org.json.JSONObject;
-
-import java.util.List;
-import java.util.Map;
-
 import de.bws.udrive.utilities.model.*;
-import okhttp3.ResponseBody;
+import de.bws.udrive.utilities.response.DriveRequestResponse;
+import de.bws.udrive.utilities.response.LoginResponse;
+import de.bws.udrive.utilities.response.SignUpResponse;
+import de.bws.udrive.utilities.response.TourPlanResponse;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -26,43 +18,43 @@ public interface APIInterface {
     /**
      * Methode, um Login-Anfrage an API zu senden
      * @param login Objekt das User-Input enthält
-     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.LoginResponse} <br>
+     * @return Ein Objekt der Klasse {@link LoginResponse} <br>
      *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
-     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     *         Wird benutzt um einen {@link SignedInUser} zu erstellen
      * @author Lucas
      */
     @POST("/Login")
-    Call<uDrive.LoginResponse> sendLoginRequest(@Body uDrive.Login login);
+    Call<LoginResponse> sendLoginRequest(@Body Login login);
 
     /**
      * Methode, um Registrierungs-Anfrage an API zu senden
      * @param signUp Objekt das User-Input enthält
-     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.SignUpResponse} <br>
+     * @return Ein Objekt der Klasse {@link SignUpResponse} <br>
      *         das Informationen über den Benutzer (Name, Mail, ...) enthält. <br>
-     *         Wird benutzt um einen {@link uDrive.SignedInUser} zu erstellen
+     *         Wird benutzt um einen {@link SignedInUser} zu erstellen
      * @author Lucas
      */
     @POST("/Register")
-    Call<uDrive.SignUpResponse> sendSignUpRequest(@Body uDrive.SignUp signUp);
+    Call<SignUpResponse> sendSignUpRequest(@Body SignUp signUp);
 
     /**
      * Methode, um Fahrtenplaner-Anfragen an API zu senden
-     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link uDrive.SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @param tourPlan Objekt, das User-Input enthält
-     * @return Ein Objekt der Klasse {@link de.bws.udrive.utilities.model.uDrive.TourPlanResponse} <br>
+     * @return Ein Objekt der Klasse {@link TourPlanResponse} <br>
      *         das Informationen enthält
      * @author Lucas
      */
     @POST("/Drivers/TourPlans")
-    Call<uDrive.TourPlanResponse> postTourData(@Header("Authorization") String authHeader, @Body uDrive.TourPlan tourPlan);
+    Call<TourPlanResponse> postTourData(@Header("Authorization") String authHeader, @Body TourPlan tourPlan);
 
 
     /**
      * Methode, um verfügbare Fahrten von API zu bekommen
-     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link uDrive.SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @author Lucas, Niko
      */
 
     @POST("/ScheduleTours/FilterDriversBy5kmRadius")
-    Call<uDrive.DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body uDrive.DriveRequest driveRequest);
+    Call<DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 }
