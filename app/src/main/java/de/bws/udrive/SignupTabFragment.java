@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -19,8 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.bws.udrive.utilities.model.uDrive;
-import de.bws.udrive.utilities.model.uDriveHandler;
+import de.bws.udrive.utilities.handler.SignUpHandler;
+import de.bws.udrive.utilities.model.SignUp;
 
 
 public class SignupTabFragment extends Fragment {
@@ -33,7 +32,7 @@ public class SignupTabFragment extends Fragment {
     private EditText edtPasswortConfirm;
     private Button btnSignUp;
 
-    private uDriveHandler.SignUpHandler signUpHandler;
+    private SignUpHandler signUpHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,7 +77,7 @@ public class SignupTabFragment extends Fragment {
         String passwort = edtPasswort.getText().toString();
         String passwortConfirm = edtPasswortConfirm.getText().toString();
 
-        uDrive.SignUp signUpObject = new uDrive.SignUp(vorname, nachname, mail, passwort, phone);
+        SignUp signUpObject = new SignUp(vorname, nachname, mail, passwort, phone);
 
         boolean inputValid = (
                 vorname.length() > 3 &&
@@ -93,7 +92,7 @@ public class SignupTabFragment extends Fragment {
         {
             if (signUpObject.equalPasswords(passwortConfirm))
             {
-                signUpHandler = new uDriveHandler.SignUpHandler();
+                signUpHandler = new SignUpHandler();
                 Log.i("uDrive.SignUpFragment", "API Call...");
                 signUpHandler.handle(signUpObject);
                 signUpHandler.getFinishedState().observe(this, this.observeStateChange);
@@ -149,7 +148,7 @@ public class SignupTabFragment extends Fragment {
 
     /**
      * Observer, der ausgeführt wird, sobald sich Variable in <br>
-     * {@link de.bws.udrive.utilities.model.uDriveHandler.SignUpHandler} verändert <br>
+     * {@link SignUpHandler} verändert <br>
      * @author Lucas
      */
     private final Observer<Boolean> observeStateChange = isFinished ->

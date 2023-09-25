@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(!uDrive.General.getSignedInUser().hasRole("Driver")){
+        if(!General.getSignedInUser().hasRole("Driver")){
             findViewById(R.id.nav_fahrtenplaner).setVisibility(View.GONE);
             findViewById(R.id.nav_meinefahrt).setVisibility(View.GONE);
         }
@@ -68,8 +68,8 @@ public class HomeActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.home, menu);
 
-        ((TextView) findViewById(R.id.userField)).setText(uDrive.General.getSignedInUser().getVorname() + " " + uDrive.General.getSignedInUser().getNachname());
-        ((TextView) findViewById(R.id.mailField)).setText(uDrive.General.getSignedInUser().getMail());
+        ((TextView) findViewById(R.id.userField)).setText(General.getSignedInUser().getVorname() + " " + General.getSignedInUser().getNachname());
+        ((TextView) findViewById(R.id.mailField)).setText(General.getSignedInUser().getMail());
 
         this.invalidateOptionsMenu();
 

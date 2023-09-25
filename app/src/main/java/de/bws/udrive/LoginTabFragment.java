@@ -18,8 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.bws.udrive.utilities.model.uDrive;
-import de.bws.udrive.utilities.model.uDriveHandler;
+import de.bws.udrive.utilities.handler.LoginHandler;
+import de.bws.udrive.utilities.model.Login;
 
 public class LoginTabFragment extends Fragment {
 
@@ -28,7 +28,7 @@ public class LoginTabFragment extends Fragment {
     private Button loginButton;
 
     /* Klassenobjekte */
-    private uDriveHandler.LoginHandler loginHandler;
+    private LoginHandler loginHandler;
 
     /* AlertDialog für falschen Login */
     private AlertDialog alertDialog;
@@ -112,7 +112,7 @@ public class LoginTabFragment extends Fragment {
         String password = this.password.getText().toString();
 
         /* Login-Objekt erstellen, welches für API Call benötigt wird */
-        uDrive.Login loginObject = new uDrive.Login(username, password, username);
+        Login loginObject = new Login(username, password, username);
 
         /* Überprüfung, ob Name & Passwort Felder eine bestimmte Länge haben */
         boolean inputValid = (username.length() > 3 && password.length() > 5);
@@ -120,7 +120,7 @@ public class LoginTabFragment extends Fragment {
         /* API Call */
         if(inputValid)
         {
-            loginHandler = new uDriveHandler.LoginHandler();
+            loginHandler = new LoginHandler();
             Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
             loginHandler.handle(loginObject);
             Log.d("uDrive.MainActivity", "Setting an observer for loginHandler");
@@ -138,7 +138,7 @@ public class LoginTabFragment extends Fragment {
 
     /**
      Observer für API Login Call <br>
-     Wird ausgeführt, sobald sich der Zustand von {@link de.bws.udrive.utilities.model.uDriveHandler.LoginHandler#isFinished} ändert
+     Wird ausgeführt, sobald sich der Zustand von {@link LoginHandler#isFinished} ändert
      @author Lucas
      */
     private final Observer<Boolean> observeStateChange = isFinished -> {
