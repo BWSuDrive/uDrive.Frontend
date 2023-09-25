@@ -38,6 +38,11 @@ public class DriveRequestsHandler {
                 Log.i("uDrive.DriveRequestsHandler", "Responsecode 200");
                 Log.i("uDrive.DriveRequestsHandler", response.toString());
             }
+            else if(response.code() == 204)
+            {
+                Log.i("uDrive.DriveRequestsHandler", "Responsecode 204");
+                Log.i("uDrive.DriveRequestsHandler", "Keine Fahrten verfügbar!");
+            }
             else
             {
                 Log.i("uDrive.DriveRequestsHandler", "Responsecode " + response.code());
