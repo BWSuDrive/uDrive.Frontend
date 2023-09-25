@@ -55,4 +55,14 @@ public interface APIInterface {
      */
     @POST("/Drivers/TourPlans")
     Call<uDrive.TourPlanResponse> postTourData(@Header("Authorization") String authHeader, @Body uDrive.TourPlan tourPlan);
+
+
+    /**
+     * Methode, um verfügbare Fahrten von API zu bekommen
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link uDrive.SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @author Lucas, Niko
+     */
+
+    @POST("/ScheduleTours/FilterDriversBy5kmRadius")
+    Call<uDrive.DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body uDrive.DriveRequest driveRequest);
 }

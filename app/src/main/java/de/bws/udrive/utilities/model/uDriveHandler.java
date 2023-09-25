@@ -372,4 +372,41 @@ public class uDriveHandler {
 
         public String getError() { return this.errorText; }
     }
+
+    /**
+     * DriveRequestsHandler ist eine Klasse, die sich um das holen von Fahrten kümmert <br>
+     *
+     * @author Lucas, Niko
+     */
+    public static class DriveRequestsHandler
+    {
+        private String errorText = "";
+        private boolean driveRequests = false;
+        private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
+
+        public void handle(uDrive.DriveRequest driveRequest)
+        {
+            Call<uDrive.DriveRequestResponse> driveRequestResponse =
+                    APIClient.getAPI().create(APIInterface.class).getAvailableDrivers(uDrive.General.getSignedInUser().getHTTPAuthHeader(), driveRequest);
+
+            driveRequestResponse.enqueue(driveRequestCallback);
+        }
+
+        private final Callback<uDrive.DriveRequestResponse> driveRequestCallback = new Callback<uDrive.DriveRequestResponse>() {
+            @Override
+            public void onResponse(Call<uDrive.DriveRequestResponse> call, Response<uDrive.DriveRequestResponse> response)
+            {
+                if(response.code() == 200)
+                {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<uDrive.DriveRequestResponse> call, Throwable t)
+            {
+
+            }
+        };
+    }
 }

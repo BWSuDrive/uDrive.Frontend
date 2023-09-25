@@ -84,8 +84,8 @@ public class SignupTabFragment extends Fragment {
                 vorname.length() > 3 &&
                 nachname.length() > 3 &&
                 mail.length() > 6 &&
-                passwort.length() > 5 &&
                 phone.length() > 6 &&
+                passwort.length() > 5 &&
                 passwortConfirm.length() > 5
         );
 
