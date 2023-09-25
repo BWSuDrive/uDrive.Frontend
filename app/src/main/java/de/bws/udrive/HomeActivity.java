@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
      OnClickListener für Button in der HomeActivity
      @author Fabian, Lucas
      */
-    private View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
+    private final View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
 
     /* Nach Berechtigung wird in MainActivity gefragt */

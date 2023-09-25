@@ -6,64 +6,111 @@
     android:layout_height="match_parent"
     tools:context=".ui.fahrtenplaner.FahrtenPlanerFragment">
 
-    <TextView
-        android:id="@+id/tvDatum"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnAbfahrt"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:hint="Wähle ein Datum aus"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:textSize="20dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="44dp"
+        android:text="Zeitpunkt"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <DatePicker
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/numberPicker"
+    <TextView
+        android:id="@+id/tvDateTime"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/edittext_bkg"
+        android:gravity="center"
+        android:text="DateTime"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".3" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAbfahrt" />
+
+    <EditText
+        android:id="@+id/btnTimeBeforeEnd"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_bkg"
+        android:drawableLeft="@drawable/timebefore"
+        android:drawablePadding="8dp"
+        android:hint="Anfragen Ende"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateTime"
+        tools:layout_editor_absoluteX="46dp" />
+
+
+    <TextView
+        android:id="@+id/tvETA"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edittext_bkg"
+        android:gravity="center"
+        android:text="Estimated Time of Arrival"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toTopOf="@+id/timePicker"
+        tools:layout_editor_absoluteX="46dp"
+        constrain/>
 
     <TimePicker
-        android:layout_width="250dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="176dp"
+        android:id="@+id/timePicker"
+        android:layout_width="300dp"
+        android:layout_height="124dp"
+        android:background="@drawable/edittext_bkg"
         android:timePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="374dp" />
 
-    <NumberPicker
-        android:id="@+id/numberPicker"
-        android:layout_width="50dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="292dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <EditText
+        android:id="@+id/etAbfahrt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_bkg"
+        android:drawableLeft="@drawable/car"
+        android:drawablePadding="8dp"
+        android:hint="Abfahrts Ort"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/timePicker"
+        tools:layout_editor_absoluteX="46dp" />
+
+
+    <EditText
+        android:id="@+id/etZiel"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_bkg"
+        android:drawableLeft="@drawable/car"
+        android:drawablePadding="8dp"
+        android:hint="Ziel Ort"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/etAbfahrt"
+        tools:layout_editor_absoluteX="46dp" />
 
     <Button
-        android:layout_width="280dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="652dp"
+        android:id="@+id/btnSaveTour"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="44dp"
+        android:gravity="center"
         android:text="Speichern"
-        android:textSize="18sp"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

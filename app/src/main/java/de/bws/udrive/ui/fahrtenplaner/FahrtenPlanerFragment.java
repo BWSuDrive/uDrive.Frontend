@@ -21,6 +21,11 @@ import de.bws.udrive.databinding.FragmentFahrtenplanerBinding;
 
 public class FahrtenPlanerFragment extends Fragment {
 
+    private int day = 0;
+    private int month = 0;
+    private int year = 0;
+    private int hour = 0;
+    private int minute = 0;
     private FragmentFahrtenplanerBinding binding;
     private TextView tvDatum;
 
@@ -33,6 +38,20 @@ public class FahrtenPlanerFragment extends Fragment {
 
         return root;
     }
+
+    private void getDateTimeCalendar() {
+        Calendar c = Calendar.getInstance();
+
+        day = c.get(Calendar.DAY_OF_MONTH);
+        month = c.get(Calendar.MONTH);
+        year = c.get(Calendar.YEAR);
+        hour = c.get(Calendar.HOUR);
+        minute = c.get(Calendar.MINUTE);
+    }
+    private final View.OnClickListener pickDate = view -> {
+
+    };
+
 
     @Override
     public void onDestroyView() {
