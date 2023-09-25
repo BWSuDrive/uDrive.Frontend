@@ -1,5 +1,7 @@
 package de.bws.udrive.utilities.handler;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import de.bws.udrive.utilities.APIClient;
@@ -31,14 +33,27 @@ public class DriveRequestsHandler {
     private final Callback<DriveRequestResponse> driveRequestCallback = new Callback<DriveRequestResponse>() {
         @Override
         public void onResponse(Call<DriveRequestResponse> call, Response<DriveRequestResponse> response) {
-            if (response.code() == 200) {
-
+            if (response.code() == 200)
+            {
+                Log.i("uDrive.DriveRequestsHandler", "Responsecode 200");
+                Log.i("uDrive.DriveRequestsHandler", response.toString());
+            }
+            else
+            {
+                Log.i("uDrive.DriveRequestsHandler", "Responsecode " + response.code());
+                Log.i("uDrive.DriveRequestsHandler", response.toString());
             }
         }
 
         @Override
-        public void onFailure(Call<DriveRequestResponse> call, Throwable t) {
-
+        public void onFailure(Call<DriveRequestResponse> call, Throwable t)
+        {
+            Log.i("uDrive.DriveRequestsHandler", "Failure");
+            Log.i("uDrive.DriveRequestsHandler", t.getMessage());
         }
     };
+
+    public MutableLiveData<Boolean> getFinishedState() { return isFinished; }
+
+    public String getError() { return this.errorText; }
 }
