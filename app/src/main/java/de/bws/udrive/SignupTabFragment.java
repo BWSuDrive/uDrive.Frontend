@@ -78,13 +78,14 @@ public class SignupTabFragment extends Fragment {
         String passwort = edtPasswort.getText().toString();
         String passwortConfirm = edtPasswortConfirm.getText().toString();
 
-        uDrive.SignUp signUpObject = new uDrive.SignUp(vorname, nachname, mail, passwort);
+        uDrive.SignUp signUpObject = new uDrive.SignUp(vorname, nachname, mail, passwort, phone);
 
         boolean inputValid = (
                 vorname.length() > 3 &&
                 nachname.length() > 3 &&
                 mail.length() > 6 &&
                 passwort.length() > 5 &&
+                phone.length() > 6 &&
                 passwortConfirm.length() > 5
         );
 
