@@ -54,7 +54,6 @@ public interface APIInterface {
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @author Lucas, Niko
      */
-
-    @POST("/ScheduleTour/FilterDriversBy5kmRadius")
+    @POST("/PassengerRequests/FilterDriversBy5kmRadius")
     Call<DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 }
