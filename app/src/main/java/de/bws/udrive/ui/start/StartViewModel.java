@@ -10,7 +10,7 @@ public class StartViewModel extends ViewModel {
 
     public StartViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Hier kann man das Mitfahren auswählen");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {

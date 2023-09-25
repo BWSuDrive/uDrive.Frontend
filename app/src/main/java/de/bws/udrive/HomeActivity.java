@@ -58,8 +58,13 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(!uDrive.General.getSignedInUser().hasRole("Driver"))
+        if(!uDrive.General.getSignedInUser().hasRole("Driver")){
             findViewById(R.id.nav_fahrtenplaner).setVisibility(View.GONE);
+            findViewById(R.id.nav_meinefahrt).setVisibility(View.GONE);
+        }
+
+
+
 
         getMenuInflater().inflate(R.menu.home, menu);
 
