@@ -14,6 +14,8 @@ public class SignedInUser {
     private String nachname = "N/A";
     private String mail = "N/A";
     private ArrayList<String> rollen = new ArrayList<>();
+    private double latitude = 0.0;
+    private double longitude = 0.0;
 
     public void setID(String id) {
         if (this.id.equalsIgnoreCase("N/A"))
@@ -43,6 +45,15 @@ public class SignedInUser {
     public void addRole(String rolle) {
         if (!this.rollen.contains(rolle))
             this.rollen.add(rolle);
+    }
+
+    public void setCoordinates(double latitude, double longitude)
+    {
+        if(this.latitude == 0.0 && this.longitude == 0.0)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
     }
 
     public String getID() {
@@ -76,4 +87,8 @@ public class SignedInUser {
     public boolean hasRole(String rolle) {
         return this.rollen.contains(rolle);
     }
+
+    public double getLatitude() { return this.latitude; }
+
+    public double getLongitude() { return this.longitude; }
 }
