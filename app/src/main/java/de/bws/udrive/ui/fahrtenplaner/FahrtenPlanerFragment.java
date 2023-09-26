@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import de.bws.udrive.R;
 import de.bws.udrive.databinding.FragmentFahrtenplanerBinding;
@@ -28,14 +30,15 @@ public class FahrtenPlanerFragment extends Fragment {
     private int minute = 0;
     private FragmentFahrtenplanerBinding binding;
     private TextView tvDatum;
+    Button btnAbfahrt;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FahrtenPlanerViewModel fahrtenPlanerViewModel = new ViewModelProvider(this).get(FahrtenPlanerViewModel.class);
 
         binding = FragmentFahrtenplanerBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
+        btnAbfahrt = binding.btnAbfahrt;
+        btnAbfahrt.setOnClickListener(pickDate);
         return root;
     }
 
@@ -49,7 +52,12 @@ public class FahrtenPlanerFragment extends Fragment {
         minute = c.get(Calendar.MINUTE);
     }
     private final View.OnClickListener pickDate = view -> {
-
+         getDateTimeCalendar();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                FahrtenPlanerFragment.this.dateSetListener,
+                year, month, day);
+        datePickerDialog.show();
     };
 
 

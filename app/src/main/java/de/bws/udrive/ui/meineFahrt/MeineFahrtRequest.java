@@ -6,6 +6,13 @@ public class MeineFahrtRequest {
     String phone;
     String freitext;
 
+    public MeineFahrtRequest(String vorname, String nachname, String phone, String freitext) {
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.phone = phone;
+        this.freitext = freitext;
+    }
+
     public String getVorname() {
         return vorname;
     }

@@ -11,11 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bws.udrive.R;
 import de.bws.udrive.databinding.FragmentMeinefahrtBinding;
 
 public class MeineFahrtFragment extends Fragment {
-
+    private List<MeineFahrtRequest> requestList = new ArrayList<MeineFahrtRequest>();
     private FragmentMeinefahrtBinding binding;
     private Button refreshButton;
 
@@ -32,6 +35,11 @@ public class MeineFahrtFragment extends Fragment {
 
         refreshButton = binding.btnDriverRefresh;
         refreshButton.setOnClickListener(driverRefreshListener);
+
+        requestList.add(new MeineFahrtRequest("Niko", "Löwen", "110", "Wiesbaden Hauptbahnhof"));
+        requestList.add(new MeineFahrtRequest("Fabian", "Haßa", "112", "Frankfurt Hauptbahnhof"));
+        requestList.add(new MeineFahrtRequest("Lucas", "Christian", "116117", "Nürnberg"));
+
         return root;
     }
     private final View.OnClickListener driverRefreshListener = view -> {
@@ -44,4 +52,5 @@ public class MeineFahrtFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }
