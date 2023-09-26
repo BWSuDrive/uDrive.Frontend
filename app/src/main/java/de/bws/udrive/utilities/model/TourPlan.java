@@ -6,6 +6,7 @@ package de.bws.udrive.utilities.model;
  * @author Lucas
  */
 public class TourPlan {
+
     private String idDriver;
     private String departure;
     private int stopRequests;
@@ -13,7 +14,8 @@ public class TourPlan {
     private String start;
     private String destination;
 
-    public TourPlan(String idDriver, String departure, int stopRequests, String eta, String start, String destination) {
+    public TourPlan(String idDriver, String departure, int stopRequests, String eta, String start, String destination)
+    {
         this.idDriver = idDriver;
         this.departure = departure;
         this.stopRequests = stopRequests;
