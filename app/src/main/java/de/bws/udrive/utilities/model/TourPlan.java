@@ -14,6 +14,8 @@ public class TourPlan {
     private String start;
     private String destination;
     private String message;
+    private double currentLatitude = 0.0;
+    private double currentLongitude = 0.0;
 
     public TourPlan(String departure, int stopRequests, String eta, String start, String destination, String message)
     {
@@ -24,6 +26,9 @@ public class TourPlan {
         this.start = start;
         this.destination = destination;
         this.message = message;
+
+        this.currentLatitude = General.getSignedInUser().getLatitude();
+        this.currentLongitude = General.getSignedInUser().getLongitude();
     }
 
     public String getIdDriver() {

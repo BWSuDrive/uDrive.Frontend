@@ -1,13 +1,10 @@
 package de.bws.udrive.ui.start;
 
-import android.content.Context;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +20,8 @@ import de.bws.udrive.utilities.model.DriveRequest;
 import de.bws.udrive.utilities.model.General;
 
 public class StartFragment extends Fragment {
+
+    private final String TAG = "uDrive." + getClass().getSimpleName();
 
     private FragmentStartBinding binding;
     private MaterialButton refreshFahrer;
@@ -48,7 +47,7 @@ public class StartFragment extends Fragment {
 
     private void sendAPIRequest()
     {
-        Log.i("uDrive.StartFragment", "Sending API Request");
+        Log.i(TAG, "Sending API Request");
         double currentLatitude = General.getSignedInUser().getLatitude();
         double currentLongitude = General.getSignedInUser().getLatitude();
 
@@ -62,14 +61,20 @@ public class StartFragment extends Fragment {
     private Observer<Boolean> observeStatChange = isFinished -> {
         if(!driveRequestsHandler.requestsAvailable())
         {
-            Toast.makeText(getContext(), driveRequestsHandler.getError(), Toast.LENGTH_LONG).show();
-            Log.i("uDrive.StartFragment", "Keine Fahrten verfügbar!");
+            Toast.makeText(getContext(), driveRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
+            Log.i(TAG, "Keine Fahrten verfügbar!");
         }
         else
         {
-            /* Items anzeigen... */
+            showAvailableDrivers();
         }
     };
+
+    private void showAvailableDrivers()
+    {
+        Log.i(TAG, "To be implemented...");
+        Toast.makeText(getContext(), "To be implemented", Toast.LENGTH_LONG).show();
+    }
 
 }
 

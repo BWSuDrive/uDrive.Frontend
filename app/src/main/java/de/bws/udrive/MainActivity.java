@@ -19,6 +19,8 @@ import com.google.android.material.tabs.TabLayout;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "uDrive." + getClass().getSimpleName();
+
     /* UI Elemente */
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                Log.i("uDrive.MainActivity", "Berechtigungen für Standort genehmigt!");
+                Log.i(TAG, "Berechtigungen für Standort genehmigt!");
             }
             else
             {

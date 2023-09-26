@@ -46,7 +46,7 @@ public interface APIInterface {
      *         das Informationen enthält
      * @author Lucas
      */
-    @POST("/Drivers/TourPlans")
+    @POST("/TourPlans")
     Call<ResponseBody> postTourData(@Header("Authorization") String authHeader, @Body TourPlan tourPlan);
 
 

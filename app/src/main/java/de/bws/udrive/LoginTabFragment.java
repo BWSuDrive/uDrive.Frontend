@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import de.bws.udrive.utilities.model.Login;
 
 public class LoginTabFragment extends Fragment {
 
+    private final String TAG = "uDrive." + getClass().getSimpleName();
     private EditText username;
     private EditText password;
     private Button loginButton;
@@ -121,9 +121,7 @@ public class LoginTabFragment extends Fragment {
         if(inputValid)
         {
             loginHandler = new LoginHandler();
-            Log.i("uDrive.MainActivity.loginButtonListener", "Valid input. Sending API request..");
             loginHandler.handle(loginObject);
-            Log.d("uDrive.MainActivity", "Setting an observer for loginHandler");
             loginHandler.getFinishedState().observe(this, this.observeStateChange);
 
             Toast.makeText(getContext(), "Login wird verarbeitet...", Toast.LENGTH_SHORT).show();
@@ -144,13 +142,11 @@ public class LoginTabFragment extends Fragment {
     private final Observer<Boolean> observeStateChange = isFinished -> {
         if(loginHandler.isLoginSuccessful())
         {
-            Log.d("uDrive.MainActivity.observeStateChange", "Login was successful!");
-            Log.d("uDrive.MainActivity.observeStateChange", "Value of isFinished is: " + isFinished);
             openHomeActivity();
         }
         else
         {
-            showErrorDialog(loginHandler.getError());
+            showErrorDialog(loginHandler.getInformationString());
         }
     };
 

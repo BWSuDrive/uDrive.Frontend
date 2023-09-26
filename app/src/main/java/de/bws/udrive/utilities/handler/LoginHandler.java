@@ -25,7 +25,10 @@ import retrofit2.Response;
  * @author Lucas
  */
 public class LoginHandler {
-    private String errorText = "";
+
+    private final String TAG = "uDrive." + getClass().getSimpleName();
+
+    private String informationString = "";
     private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
     private boolean loginSuccessful = false;
 
@@ -55,71 +58,89 @@ public class LoginHandler {
         @Override
         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
             /* Antwort von API OK */
-            if (response.code() == 200) {
-                if (response.body() != null) {
-                    LoginResponse loginResponse = response.body();
+            switch(response.code())
+            {
+                /* OK */
+                case 200:
+                    if (response.body() != null) {
+                        LoginResponse loginResponse = response.body();
 
-                    String id = loginResponse.getData().get("id").toString();
-                    String bearerToken = loginResponse.getData().get("token").toString();
-                    String signedInUserVorname = loginResponse.getData().get("firstname").toString();
-                    String signedInUserNachname = loginResponse.getData().get("lastname").toString();
-                    String signedInUserMail = loginResponse.getData().get("email").toString();
-                    ArrayList<String> rollen = (ArrayList<String>) loginResponse.getData().get("roles");
+                        String id = loginResponse.getData().get("id").toString();
+                        String bearerToken = loginResponse.getData().get("token").toString();
+                        String signedInUserVorname = loginResponse.getData().get("firstname").toString();
+                        String signedInUserNachname = loginResponse.getData().get("lastname").toString();
+                        String signedInUserMail = loginResponse.getData().get("email").toString();
+                        ArrayList<String> rollen = (ArrayList<String>) loginResponse.getData().get("roles");
 
-                    SignedInUser signedInUser = new SignedInUser();
+                        SignedInUser signedInUser = new SignedInUser();
 
-                    if (id != null)
-                        signedInUser.setID(id);
+                        if (id != null)
+                            signedInUser.setID(id);
 
-                    if (bearerToken != null)
-                        signedInUser.setToken(bearerToken);
+                        if (bearerToken != null)
+                            signedInUser.setToken(bearerToken);
 
-                    if (signedInUserVorname != null)
-                        signedInUser.setVorname(signedInUserVorname);
+                        if (signedInUserVorname != null)
+                            signedInUser.setVorname(signedInUserVorname);
 
-                    if (signedInUserNachname != null)
-                        signedInUser.setNachname(signedInUserNachname);
+                        if (signedInUserNachname != null)
+                            signedInUser.setNachname(signedInUserNachname);
 
-                    if (signedInUserMail != null)
-                        signedInUser.setMail(signedInUserMail);
+                        if (signedInUserMail != null)
+                            signedInUser.setMail(signedInUserMail);
 
-                    rollen.forEach(rolle -> {
-                        if (rolle != null)
-                            signedInUser.addRole(rolle);
-                    });
+                        rollen.forEach(rolle -> {
+                            if (rolle != null)
+                                signedInUser.addRole(rolle);
+                        });
 
-                    General.setSignedInUser(signedInUser);
+                        General.setSignedInUser(signedInUser);
 
-                    Log.i("uDrive.uDriveHandler.loginResponse.onResponse", "Token is: " + signedInUser.getToken());
+                        Log.i(TAG, "Token is: " + signedInUser.getToken());
 
-                    loginSuccessful = true;
-                } else /* Body is null */ {
-                    errorText += "Responsebody was null.\n";
-                    errorText += response.errorBody().toString() + "\n";
-                }
-            } else /* Responsecode != 200 */ {
-                errorText += "Beim Login ist ein Fehler aufgetreten!\n";
-                errorText += "Fehler-Code: " + response.code() + "\n";
+                        loginSuccessful = true;
 
-                try {
-                    String errorBodyStr = (response.errorBody() == null) ? null : response.errorBody().string();
+                        break;
+                    }
+                    else /* Body is null */
+                    {
+                        informationString += "Responsebody was null.\n";
+                        informationString += response.errorBody().toString() + "\n";
+                    }
 
-                    errorText += (errorBodyStr == null) ?
-                            "Unbekannter Fehler\n" :
-                            new Gson().fromJson(errorBodyStr, LoginResponse.class).getMessage();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+                /* FORBIDDEN */
+                case 403:
+                    Log.i(TAG, "User ist nicht autorisiert!");
+                    informationString = "Du bist nicht autorisiert!\n";
+                    informationString += "Bitte lasse dich freischalten!\n";
+                    break;
+
+                default:
+                    informationString += "Beim Login ist ein Fehler aufgetreten!\n";
+                    informationString += "Fehler-Code: " + response.code() + "\n";
+
+                    try {
+                        String errorBodyStr = (response.errorBody() == null) ? null : response.errorBody().string();
+
+                        informationString += (errorBodyStr == null) ?
+                                "Unbekannter Fehler\n" :
+                                new Gson().fromJson(errorBodyStr, LoginResponse.class).getMessage();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+
+            } /* switch-case */
+
             isFinished.setValue(Boolean.TRUE);
         }
 
         @Override
         public void onFailure(Call<LoginResponse> call, Throwable t) {
-            errorText += "Die Kommunikation mit der API war nicht möglich!\n";
-            errorText += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
-            errorText += t.getMessage();
-            Log.wtf("uDrive.Login.Failure", t.getMessage());
+            informationString += "Die Kommunikation mit der API war nicht möglich!\n";
+            informationString += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
+            informationString += t.getMessage();
+            Log.wtf(TAG, t.getMessage());
 
             isFinished.setValue(Boolean.TRUE);
         }
@@ -129,8 +150,8 @@ public class LoginHandler {
         return isFinished;
     }
 
-    public String getError() {
-        return this.errorText;
+    public String getInformationString() {
+        return this.informationString;
     }
 
     public boolean isLoginSuccessful() {

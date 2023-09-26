@@ -24,6 +24,8 @@ import de.bws.udrive.utilities.model.SignUp;
 
 public class SignupTabFragment extends Fragment {
 
+    private final String TAG = "uDrive." + getClass().getSimpleName();
+
     private EditText edtVorname;
     private EditText edtNachname;
     private EditText edtMail;
@@ -93,7 +95,7 @@ public class SignupTabFragment extends Fragment {
             if (signUpObject.equalPasswords(passwortConfirm))
             {
                 signUpHandler = new SignUpHandler();
-                Log.i("uDrive.SignUpFragment", "API Call...");
+                Log.i(TAG, "API Call...");
                 signUpHandler.handle(signUpObject);
                 signUpHandler.getFinishedState().observe(this, this.observeStateChange);
 
@@ -153,17 +155,29 @@ public class SignupTabFragment extends Fragment {
      */
     private final Observer<Boolean> observeStateChange = isFinished ->
     {
-        Log.i("uDrive.SignUpFragment", "Observer reacted!");
+        Log.i(TAG, "Observer reacted!");
         if(signUpHandler.isSignUpSuccessful())
         {
-            Log.i("uDrive.SignUpFragment", "SignUp successful!");
-            openHomeActivity();
+            Log.i(TAG, "Registrierung erfolgreich!");
+            Log.i(TAG, "User muss freigegeben werden!");
+            Toast.makeText(getContext(), "Registrierung erfolgreich.\nFreischaltung erforderlich!", Toast.LENGTH_LONG).show();
+            clearInputFields();
         }
         else
         {
-            Log.i("uDrive.SignUpFragment", "SignUp failure");
-            Log.i("uDrive.SignUpFragment", signUpHandler.getError());
-            showErrorDialog(signUpHandler.getError());
+            Log.i(TAG, "SignUp failure");
+            Log.i(TAG, signUpHandler.getInformationString());
+            showErrorDialog(signUpHandler.getInformationString());
         }
     };
+
+    private void clearInputFields()
+    {
+        this.edtVorname.getText().clear();
+        this.edtNachname.getText().clear();
+        this.edtMail.getText().clear();
+        this.edtPhone.getText().clear();
+        this.edtPasswort.getText().clear();
+        this.edtPasswortConfirm.getText().clear();
+    }
 }

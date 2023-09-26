@@ -4,30 +4,40 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import de.bws.udrive.R;
 import de.bws.udrive.databinding.FragmentFahrtenplanerBinding;
+import de.bws.udrive.utilities.handler.TourPlanHandler;
 import de.bws.udrive.utilities.model.TourPlan;
+import de.bws.udrive.utilities.uDriveUtilities;
 
 public class FahrtenPlanerFragment extends Fragment {
+
+    private final String TAG = "uDrive." + getClass().getSimpleName();
 
     private int day = 0;
     private int month = 0;
@@ -44,12 +54,8 @@ public class FahrtenPlanerFragment extends Fragment {
     private EditText etStart;
     private EditText etDestination;
     private EditText etComment;
-    private String DateTime;
-    private int timeBeforeEnd = 0;
-    private String eTA;
-    private String start;
-    private String destination;
-    private String comment;
+
+    private TourPlanHandler tourPlanHandler;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +112,6 @@ public class FahrtenPlanerFragment extends Fragment {
         this.year = year;
         this.month = month + 1;
         this.day = day;
-        Log.i("uDrive.Date", this.year + " " + this.month + " " + this.day);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 getContext(),
@@ -118,20 +123,56 @@ public class FahrtenPlanerFragment extends Fragment {
     {
         this.hour = hour;
         this.minute = minute;
-        Log.i("uDrive.Date", this.hour + " " + this.minute);
-        tvDateTime.setText(this.day + "-" + this.month + "-" + this.year + " " + this.hour + ":" + this.minute);
+
+        tvDateTime.setText(uDriveUtilities.convertToGermanDate(year, month, day, hour, minute));
 
     };
-    private final View.OnClickListener saveTourListener = view -> {
-        DateTime = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00Z";
-        if (!etTimeBeforeEnd.getText().toString().equals(""))
-            timeBeforeEnd = Integer.valueOf(etTimeBeforeEnd.getText().toString());
-        eTA = tpETA.getHour() + ":" + tpETA.getMinute()+":00";
-        start = etStart.getText().toString();
-        destination = etDestination.getText().toString();
-        comment = etComment.getText().toString();
+    private final View.OnClickListener saveTourListener = view ->
+    {
+        String convertedDate = uDriveUtilities.convertToISO8601Date(year, month, day, hour, minute);
 
-        TourPlan tourPlan = new TourPlan(DateTime,timeBeforeEnd,eTA,start,destination,comment);
-        
+        int timeBeforeEnd = (!etTimeBeforeEnd.getText().toString().equals("")) ?
+                Integer.valueOf(etTimeBeforeEnd.getText().toString()) :
+                0;
+
+        String estTimeArrival = uDriveUtilities.convertTimeToString(tpETA.getHour(), tpETA.getMinute());
+        String start = etStart.getText().toString();
+        String destination = etDestination.getText().toString();
+        String comment = etComment.getText().toString();
+
+        TourPlan tourPlan = new TourPlan(convertedDate, timeBeforeEnd, estTimeArrival, start, destination, comment);
+
+        /* Validierung der Eingaben */
+        if(true)
+        {
+            this.tourPlanHandler = new TourPlanHandler();
+
+            Log.i(TAG, "Started API Call...");
+            tourPlanHandler.handle(tourPlan);
+            tourPlanHandler.getFinishedState().observe(this, this.observeStateChange);
+        }
+        else
+        {
+            Toast.makeText(getContext(), "Bitte überprüfe deine Eingaben!", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    private final Observer<Boolean> observeStateChange = isFinished ->
+    {
+        if(isFinished)
+        {
+            Log.i(TAG, "isFinished: " + isFinished);
+            Log.i(TAG, "Infotext: " + tourPlanHandler.getInformationString());
+            if(tourPlanHandler.isTourPlanSuccessful())
+            {
+                Log.i(TAG, "Fahrt wurde erfolgreich registriert!");
+                Toast.makeText(getContext(), tourPlanHandler.getInformationString(), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Log.e(TAG, "Fahrt wurde nicht erfolgreich registriert!");
+                Toast.makeText(getContext(), tourPlanHandler.getInformationString(), Toast.LENGTH_LONG).show();
+            }
+        }
     };
 }

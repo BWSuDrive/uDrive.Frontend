@@ -19,7 +19,9 @@ import retrofit2.Response;
  * @author Lucas, Niko
  */
 public class DriveRequestsHandler {
-    private String errorText = "";
+
+    private final String TAG = "uDrive." + getClass().getSimpleName();
+    private String informationString = "";
     private boolean driveRequestsAvailable = true;
     private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
 
@@ -35,32 +37,33 @@ public class DriveRequestsHandler {
         @Override
         public void onResponse(Call<DriveRequestResponse> call, Response<DriveRequestResponse> response) {
 
+            Log.i(TAG, "Response-Code: " + response.code());
             switch(response.code())
             {
                 /* OK */
                 case 200:
-                    Log.i("uDrive.DriveRequestsHandler", "Responsecode 200");
-                    Log.i("uDrive.DriveRequestsHandler", response.toString());
+                    Log.i(TAG, "Responsecode 200");
+                    Log.i(TAG, response.toString());
                     break;
 
                 /* NO CONTENT */
                 case 204:
-                    Log.i("uDrive.DriveRequestsHandler", "Keine Fahrten verfügbar!");
-                    errorText = "Es sind aktuell keine Fahrten verfügbar!";
+                    Log.i(TAG, "Keine Fahrten verfügbar!");
+                    informationString = "Es sind aktuell keine Fahrten verfügbar!";
                     driveRequestsAvailable = false;
                     break;
 
                 /* FORBIDDEN */
                 case 403:
-                    Log.e("uDrive.DriveRequestsHandler", "User nicht autorisiert!");
-                    errorText = "Du bist nicht authentifiziert!";
+                    Log.e(TAG, "User nicht autorisiert!");
+                    informationString = "Du bist nicht authentifiziert!";
                     driveRequestsAvailable = false;
                     break;
 
                 /* ANY */
                 default:
-                    Log.i("uDrive.DriveRequestsHandler", "Responsecode " + response.code());
-                    Log.i("uDrive.DriveRequestsHandler", response.toString());
+                    Log.i(TAG, "Responsecode " + response.code());
+                    Log.i(TAG, response.toString());
                     break;
             }
 
@@ -70,8 +73,8 @@ public class DriveRequestsHandler {
         @Override
         public void onFailure(Call<DriveRequestResponse> call, Throwable t)
         {
-            Log.i("uDrive.DriveRequestsHandler", "Failure");
-            Log.i("uDrive.DriveRequestsHandler", t.getMessage());
+            Log.i(TAG, "Failure");
+            Log.i(TAG, t.getMessage());
 
             isFinished.setValue(Boolean.TRUE);
         }
@@ -79,7 +82,7 @@ public class DriveRequestsHandler {
 
     public MutableLiveData<Boolean> getFinishedState() { return isFinished; }
 
-    public String getError() { return this.errorText; }
+    public String getInformationString() { return this.informationString; }
 
     public boolean requestsAvailable() { return this.driveRequestsAvailable; }
 }
