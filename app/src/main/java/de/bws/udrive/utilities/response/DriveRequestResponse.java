@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class DriveRequestResponse
 {
+    /* To be implemented... */
     private ArrayList<String> list;
 
 }
