@@ -161,7 +161,7 @@ public class SignupTabFragment extends Fragment {
         }
         else
         {
-            Log.i("uDrive.SignUpFragment", "Login failure");
+            Log.i("uDrive.SignUpFragment", "SignUp failure");
             Log.i("uDrive.SignUpFragment", signUpHandler.getError());
             showErrorDialog(signUpHandler.getError());
         }

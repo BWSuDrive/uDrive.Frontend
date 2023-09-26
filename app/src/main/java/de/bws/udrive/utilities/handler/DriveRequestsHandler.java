@@ -20,12 +20,13 @@ import retrofit2.Response;
  */
 public class DriveRequestsHandler {
     private String errorText = "";
-    private boolean driveRequests = false;
+    private boolean driveRequestsAvailable = true;
     private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
 
     public void handle(DriveRequest driveRequest) {
         Call<DriveRequestResponse> driveRequestResponse =
-                APIClient.getAPI().create(APIInterface.class).getAvailableDrivers(General.getSignedInUser().getHTTPAuthHeader(), driveRequest);
+                APIClient.getAPI().create(APIInterface.class)
+                        .getAvailableDrivers(General.getSignedInUser().getHTTPAuthHeader(), driveRequest);
 
         driveRequestResponse.enqueue(driveRequestCallback);
     }
@@ -33,21 +34,37 @@ public class DriveRequestsHandler {
     private final Callback<DriveRequestResponse> driveRequestCallback = new Callback<DriveRequestResponse>() {
         @Override
         public void onResponse(Call<DriveRequestResponse> call, Response<DriveRequestResponse> response) {
-            if (response.code() == 200)
+
+            switch(response.code())
             {
-                Log.i("uDrive.DriveRequestsHandler", "Responsecode 200");
-                Log.i("uDrive.DriveRequestsHandler", response.toString());
+                /* OK */
+                case 200:
+                    Log.i("uDrive.DriveRequestsHandler", "Responsecode 200");
+                    Log.i("uDrive.DriveRequestsHandler", response.toString());
+                    break;
+
+                /* NO CONTENT */
+                case 204:
+                    Log.i("uDrive.DriveRequestsHandler", "Keine Fahrten verfügbar!");
+                    errorText = "Es sind aktuell keine Fahrten verfügbar!";
+                    driveRequestsAvailable = false;
+                    break;
+
+                /* FORBIDDEN */
+                case 403:
+                    Log.e("uDrive.DriveRequestsHandler", "User nicht autorisiert!");
+                    errorText = "Du bist nicht authentifiziert!";
+                    driveRequestsAvailable = false;
+                    break;
+
+                /* ANY */
+                default:
+                    Log.i("uDrive.DriveRequestsHandler", "Responsecode " + response.code());
+                    Log.i("uDrive.DriveRequestsHandler", response.toString());
+                    break;
             }
-            else if(response.code() == 204)
-            {
-                Log.i("uDrive.DriveRequestsHandler", "Responsecode 204");
-                Log.i("uDrive.DriveRequestsHandler", "Keine Fahrten verfügbar!");
-            }
-            else
-            {
-                Log.i("uDrive.DriveRequestsHandler", "Responsecode " + response.code());
-                Log.i("uDrive.DriveRequestsHandler", response.toString());
-            }
+
+            isFinished.setValue(Boolean.TRUE);
         }
 
         @Override
@@ -55,10 +72,14 @@ public class DriveRequestsHandler {
         {
             Log.i("uDrive.DriveRequestsHandler", "Failure");
             Log.i("uDrive.DriveRequestsHandler", t.getMessage());
+
+            isFinished.setValue(Boolean.TRUE);
         }
     };
 
     public MutableLiveData<Boolean> getFinishedState() { return isFinished; }
 
     public String getError() { return this.errorText; }
+
+    public boolean requestsAvailable() { return this.driveRequestsAvailable; }
 }

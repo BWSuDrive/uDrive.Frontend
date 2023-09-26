@@ -5,6 +5,7 @@ import de.bws.udrive.utilities.response.DriveRequestResponse;
 import de.bws.udrive.utilities.response.LoginResponse;
 import de.bws.udrive.utilities.response.SignUpResponse;
 import de.bws.udrive.utilities.response.TourPlanResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -46,7 +47,7 @@ public interface APIInterface {
      * @author Lucas
      */
     @POST("/Drivers/TourPlans")
-    Call<TourPlanResponse> postTourData(@Header("Authorization") String authHeader, @Body TourPlan tourPlan);
+    Call<ResponseBody> postTourData(@Header("Authorization") String authHeader, @Body TourPlan tourPlan);
 
 
     /**

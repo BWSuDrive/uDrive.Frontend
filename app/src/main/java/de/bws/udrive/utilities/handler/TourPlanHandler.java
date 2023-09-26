@@ -13,6 +13,7 @@ import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.model.General;
 import de.bws.udrive.utilities.model.TourPlan;
 import de.bws.udrive.utilities.response.TourPlanResponse;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,22 +30,24 @@ public class TourPlanHandler {
 
     public void handle(TourPlan tourPlan) {
         /* API Call vorbereiten */
-        Call<TourPlanResponse> tourPlanRequest = APIClient.getAPI().create(APIInterface.class).
+        Call<ResponseBody> tourPlanRequest = APIClient.getAPI().create(APIInterface.class).
                 postTourData(General.getSignedInUser().getHTTPAuthHeader(), tourPlan);
 
         /* Asynchroner Aufruf */
         tourPlanRequest.enqueue(tourPlanCallback);
     }
 
-    private Callback<TourPlanResponse> tourPlanCallback = new Callback<TourPlanResponse>() {
+    private Callback<ResponseBody> tourPlanCallback = new Callback<ResponseBody>() {
         @Override
-        public void onResponse(Call<TourPlanResponse> call, Response<TourPlanResponse> response) {
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
             /* Antwort von API OK */
             if (response.code() == 200) {
                 if (response.body() != null) {
-                    TourPlanResponse tourPlanResponse = response.body();
+                    ResponseBody tourPlanResponse = response.body();
 
                     /* Do something... */
+
+                    Log.i("uDrive.TourPlan", response.body().toString());
 
 
                     tourPlanSuccessful = true;
@@ -75,7 +78,7 @@ public class TourPlanHandler {
         }
 
         @Override
-        public void onFailure(Call<TourPlanResponse> call, Throwable t) {
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
             errorText += "Die Kommunikation mit der API war nicht möglich!\n";
             errorText += "Bitte stelle sicher, das du eine aktive Internetverbindung hast!\n";
             errorText += t.getMessage();

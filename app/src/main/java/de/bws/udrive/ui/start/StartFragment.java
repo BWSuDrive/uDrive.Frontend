@@ -26,7 +26,6 @@ public class StartFragment extends Fragment {
 
     private FragmentStartBinding binding;
     private MaterialButton refreshFahrer;
-
     private DriveRequestsHandler driveRequestsHandler;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -39,14 +38,11 @@ public class StartFragment extends Fragment {
         refreshFahrer = binding.refreshFahrer;
         refreshFahrer.setOnClickListener(refreshListener);
 
-
-
         return binding.getRoot();
     }
 
-    private View.OnClickListener refreshListener = view -> {
-        Toast.makeText(getContext(), "To be implemented...", Toast.LENGTH_LONG).show();
-        // Hier kommt dein Part Lucas ;)
+    private View.OnClickListener refreshListener = view ->
+    {
         sendAPIRequest();
     };
 
@@ -64,9 +60,14 @@ public class StartFragment extends Fragment {
     }
 
     private Observer<Boolean> observeStatChange = isFinished -> {
-        if(isFinished)
+        if(!driveRequestsHandler.requestsAvailable())
         {
-            Log.i("uDrive.StartFragment", "API Call finished! :)");
+            Toast.makeText(getContext(), driveRequestsHandler.getError(), Toast.LENGTH_LONG).show();
+            Log.i("uDrive.StartFragment", "Keine Fahrten verfügbar!");
+        }
+        else
+        {
+            /* Items anzeigen... */
         }
     };
 

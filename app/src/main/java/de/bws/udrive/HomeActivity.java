@@ -38,7 +38,6 @@ import de.bws.udrive.utilities.model.*;
 public class HomeActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
-
     private FusedLocationProviderClient locationClient;
 
     @Override
@@ -111,13 +110,6 @@ public class HomeActivity extends AppCompatActivity {
             HomeActivity.this.moveTaskToBack(true);
         }
     };
-
-    /**
-     OnClickListener für Button in der HomeActivity
-     @author Fabian, Lucas
-     */
-    private final View.OnClickListener bindingListener = view -> Snackbar.make(view, "To be implemented...", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
 
     /* Nach Berechtigung wird in MainActivity gefragt */
     @SuppressLint("MissingPermission")
