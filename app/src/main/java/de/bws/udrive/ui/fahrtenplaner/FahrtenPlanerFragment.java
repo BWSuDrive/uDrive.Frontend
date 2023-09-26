@@ -94,6 +94,7 @@ public class FahrtenPlanerFragment extends Fragment {
                 requireContext(),
                 FahrtenPlanerFragment.this.dateSetListener,
                 year, month, day);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.getDatePicker().setBackground(new ColorDrawable(Color.TRANSPARENT));
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + (86400000 * 7));
         datePickerDialog.show();
@@ -123,12 +124,14 @@ public class FahrtenPlanerFragment extends Fragment {
     };
     private final View.OnClickListener saveTourListener = view -> {
         DateTime = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00Z";
-        timeBeforeEnd = Integer.valueOf(etTimeBeforeEnd.getText().toString());
+        if (!etTimeBeforeEnd.getText().toString().equals(""))
+            timeBeforeEnd = Integer.valueOf(etTimeBeforeEnd.getText().toString());
         eTA = tpETA.getHour() + ":" + tpETA.getMinute()+":00";
         start = etStart.getText().toString();
         destination = etDestination.getText().toString();
         comment = etComment.getText().toString();
 
         TourPlan tourPlan = new TourPlan(DateTime,timeBeforeEnd,eTA,start,destination,comment);
+        
     };
 }
