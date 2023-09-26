@@ -13,15 +13,17 @@ public class TourPlan {
     private String eta;
     private String start;
     private String destination;
+    private String message;
 
-    public TourPlan(String idDriver, String departure, int stopRequests, String eta, String start, String destination)
+    public TourPlan(String departure, int stopRequests, String eta, String start, String destination, String message)
     {
-        this.idDriver = idDriver;
+        this.idDriver = "";
         this.departure = departure;
         this.stopRequests = stopRequests;
         this.eta = eta;
         this.start = start;
         this.destination = destination;
+        this.message = message;
     }
 
     public String getIdDriver() {

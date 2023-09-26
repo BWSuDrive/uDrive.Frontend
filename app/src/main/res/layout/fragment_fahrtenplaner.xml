@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.fahrtenplaner.FahrtenPlanerFragment">
 
+    <EditText
+        android:id="@+id/etDestination"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_bkg"
+        android:drawableLeft="@drawable/car"
+        android:drawablePadding="8dp"
+        android:hint="Ziel Ort"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etStart" />
+
     <Button
         android:id="@+id/btnAbfahrt"
         android:layout_width="300dp"
@@ -31,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnAbfahrt" />
 
     <EditText
-        android:id="@+id/btnTimeBeforeEnd"
+        android:id="@+id/etTimeBeforeEnd"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,6 +57,7 @@
         android:drawablePadding="8dp"
         android:hint="Anfragen Ende"
         android:padding="8dp"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDateTime" />
 
@@ -51,18 +67,18 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/edittext_bkg"
         android:gravity="center"
         android:text="Estimated Time of Arrival"
         android:textSize="23sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTimeBeforeEnd" />
+        app:layout_constraintTop_toBottomOf="@+id/etTimeBeforeEnd" />
 
     <TimePicker
-        android:id="@+id/timePicker"
+        android:id="@+id/tpETA"
         android:layout_width="300dp"
-        android:layout_height="124dp"
+        android:layout_height="100dp"
         android:layout_marginStart="44dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/edittext_bkg"
@@ -71,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvETA" />
 
     <EditText
-        android:id="@+id/etAbfahrt"
+        android:id="@+id/etStart"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -83,23 +99,23 @@
         android:hint="Abfahrts Ort"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/tpETA" />
 
 
     <EditText
-        android:id="@+id/etZiel"
+        android:id="@+id/etComment"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_bkg"
-        android:drawableLeft="@drawable/car"
+        android:drawableLeft="@drawable/freitext"
         android:drawablePadding="8dp"
-        android:hint="Ziel Ort"
+        android:hint="Kommentar"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAbfahrt" />
+        app:layout_constraintTop_toBottomOf="@+id/etDestination" />
 
     <Button
         android:id="@+id/btnSaveTour"
@@ -112,6 +128,6 @@
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etZiel"
+        app:layout_constraintTop_toBottomOf="@+id/etComment"
         app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
