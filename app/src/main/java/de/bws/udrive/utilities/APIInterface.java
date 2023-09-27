@@ -10,8 +10,10 @@ import de.bws.udrive.utilities.response.TourPlanResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 /**
  * Interface, um mit der API (dem Backend) zu kommunizieren
@@ -61,4 +63,27 @@ public interface APIInterface {
     Call<List<DriveRequestResponse>> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 
 
+    /**
+     * Methode, um aktuelle Anfragen von API zu bekommen
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @return
+     */
+    @GET("/PassengerRequests/GetPassengerRequests")
+    Call<List<PassengerRequest>> getCurrentRequests(@Header("Authorization") String authHeader);
+
+    /**
+     * Akzeptiert eine Anfrage
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @return
+     */
+    @PUT("/AcceptRequest")
+    Call<PassengerRequest> acceptRequest(@Header("Authorization") String authHeader);
+
+    /**
+     * Lehnt eine Anfrage ab
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @return
+     */
+    @PUT("/DenyRequest")
+    Call<PassengerRequest> denyRequest(@Header("Authorization") String authHeader);
 }
