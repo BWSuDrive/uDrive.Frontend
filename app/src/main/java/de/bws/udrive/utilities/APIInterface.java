@@ -80,6 +80,13 @@ public interface APIInterface {
     Call<ResponseBody> sendPassengerRequest(@Header("Authorization") String authHeader, @Body RequestTakeAway takeAway);
 
     /**
+     * Methode, um Antworten auf Anfragen zu empfangen
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
+     */
+    @GET("/PassengerRequests")
+    Call<PassengerRequest> getPassengerRequest(@Header("Authorization") String authHeader);
+
+    /**
      * Akzeptiert eine Anfrage
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @return
