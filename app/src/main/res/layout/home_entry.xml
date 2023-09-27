@@ -58,5 +58,17 @@
         android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
+    <TextView
+        android:id="@+id/tvDriverComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/comment"
+        android:drawablePadding="5dp"
+        android:paddingLeft="5dp"
+        android:text="{Your Comment Goes Here}"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDriverETA" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
