@@ -23,6 +23,7 @@ public class PassengerRequest extends Person {
     private double currentLatitude;
     private double currentLongitude;
     private boolean isPending;
+    private
 
     public String getId() {
         return id;

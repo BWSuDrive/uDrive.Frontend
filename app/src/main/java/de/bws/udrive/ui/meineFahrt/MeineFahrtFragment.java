@@ -6,21 +6,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.bws.udrive.R;
 import de.bws.udrive.databinding.FragmentMeinefahrtBinding;
+import de.bws.udrive.ui.start.adapter.MeineFahrtAdapter;
+import de.bws.udrive.utilities.handler.PassengerRequestsHandler;
+import de.bws.udrive.utilities.model.PassengerRequest;
 
 public class MeineFahrtFragment extends Fragment {
-    private List<MeineFahrtRequest> requestList = new ArrayList<MeineFahrtRequest>();
     private FragmentMeinefahrtBinding binding;
     private Button refreshButton;
+    private RecyclerView rvPassengerList;
+    private MeineFahrtAdapter fahrtAdapter;
+    private PassengerRequestsHandler passengerRequestsHandler;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,17 +44,33 @@ public class MeineFahrtFragment extends Fragment {
 
         refreshButton = binding.btnDriverRefresh;
         refreshButton.setOnClickListener(driverRefreshListener);
-
-        requestList.add(new MeineFahrtRequest("Niko", "Löwen", "110", "Wiesbaden Hauptbahnhof"));
-        requestList.add(new MeineFahrtRequest("Fabian", "Haßa", "112", "Frankfurt Hauptbahnhof"));
-        requestList.add(new MeineFahrtRequest("Lucas", "Christian", "116117", "Nürnberg"));
+        rvPassengerList = binding.rvPassengerList;
+        this.rvPassengerList.setAdapter(this.fahrtAdapter);
 
         return root;
     }
-    private final View.OnClickListener driverRefreshListener = view -> {
 
+    private final View.OnClickListener driverRefreshListener = view -> {
+        sendAPIRequest();
     };
 
+    private void sendAPIRequest() {
+        this.passengerRequestsHandler = new PassengerRequestsHandler();
+        passengerRequestsHandler.handle();
+        passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
+    }
+
+    Observer<Boolean> observeStateChange = isFinished -> {
+        if (!passengerRequestsHandler.requestsAvailable()) {
+            Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
+        } else
+            showAvailablePassengers();
+    };
+
+    private void showAvailablePassengers() {
+        this.fahrtAdapter = new MeineFahrtAdapter(passengerRequestsHandler.getAvailablePassengers());
+        this.rvPassengerList.setAdapter(this.fahrtAdapter);
+    }
 
     @Override
     public void onDestroyView() {

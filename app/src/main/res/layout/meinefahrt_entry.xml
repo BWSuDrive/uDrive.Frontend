@@ -8,7 +8,7 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tvPassengerName"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
@@ -20,19 +20,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvDistance"
+        android:id="@+id/tvPassengerDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
         android:drawableLeft="@drawable/car"
         android:drawablePadding="5dp"
-        android:text="35km"
+        android:text="2.6km"
         android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPassengerName" />
 
     <TextView
-        android:id="@+id/tvPhone"
+        android:id="@+id/tvPassengerPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
@@ -41,10 +41,10 @@
         android:text="+24 567 5421562"
         android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFreitext" />
+        app:layout_constraintTop_toBottomOf="@id/tvPassengerFreitext" />
 
     <TextView
-        android:id="@+id/tvFreitext"
+        android:id="@+id/tvPassengerFreitext"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
@@ -53,7 +53,7 @@
         android:text="Lake Testfield, 123132 Probeweg 34"
         android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDistance" />
+        app:layout_constraintTop_toBottomOf="@id/tvPassengerDistance" />
 
     <ImageButton
         android:id="@+id/btnAccept"

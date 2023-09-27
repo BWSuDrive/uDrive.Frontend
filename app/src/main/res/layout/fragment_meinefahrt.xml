@@ -22,8 +22,12 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPassengerList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingBottom="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <Button
         android:layout_width="match_parent"
