@@ -88,5 +88,4 @@ public class MeineFahrtFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }

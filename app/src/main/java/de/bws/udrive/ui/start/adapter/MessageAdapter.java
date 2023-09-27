@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import de.bws.udrive.R;
-import de.bws.udrive.utilities.model.MessageRequest;
+import de.bws.udrive.utilities.model.PassengerRequest;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
-    List<MessageRequest> items;
+    List<PassengerRequest> items;
 
-    public MessageAdapter(List<MessageRequest> items) {
+    public MessageAdapter(List<PassengerRequest> items) {
         this.items = items;
     }
 
@@ -30,11 +30,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        holder.getTvMessageName().setText(items.get(position).getTvMessageName());
+        holder.getTvMessageName().setText(items.get(position).getFirstname() +" " + items.get(position).getLastname());
         holder.getTvMessageComment().setText("holt dich ab");
-        holder.getTvMessageDestination().setText(items.get(position).getTvMessageDestination());
-        holder.getTvMessageStartTime().setText(items.get(position).getTvMessageStartTime());
-        holder.getTvMessageETA().setText("ETA " + items.get(position).getTvMessageETA());
+        //holder.getTvMessageDestination().setText(items.get(position).get());
+        //holder.getTvMessageStartTime().setText(items.get(position).get());
+        //holder.getTvMessageETA().setText("ETA " + items.get(position).getTvMessageETA());
     }
 
     @Override
