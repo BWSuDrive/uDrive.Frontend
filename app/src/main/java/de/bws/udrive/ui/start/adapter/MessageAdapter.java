@@ -30,7 +30,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        holder.getTvMessageName().setText(items.get(position).getFirstname() +" " + items.get(position).getLastname());
+        //holder.getTvMessageName().setText(items.get(position).getFirstname() +" " + items.get(position).getLastname());
         holder.getTvMessageComment().setText("holt dich ab");
         //holder.getTvMessageDestination().setText(items.get(position).get());
         //holder.getTvMessageStartTime().setText(items.get(position).get());

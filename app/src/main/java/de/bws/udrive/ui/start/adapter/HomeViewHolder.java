@@ -69,6 +69,7 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
         this.freeText = new EditText(this.context);
         freeText.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setTitle("Kommentar hinzufügen...");
+        this.freeText.setHint("Adresse eingeben...");
         builder.setView(freeText);
         builder.setPositiveButton("Anfrage senden", this.okClicked);
         builder.setNegativeButton("Abbrechen", this.cancelClicked);

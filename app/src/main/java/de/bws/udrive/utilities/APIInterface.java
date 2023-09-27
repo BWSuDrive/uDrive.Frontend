@@ -82,14 +82,14 @@ public interface APIInterface {
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @return
      */
-    @PUT("/AcceptRequest")
-    Call<PassengerRequest> acceptRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
+    @PUT("/PassengerRequests/AcceptRequest")
+    Call<ResponseBody> acceptRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
 
     /**
      * Lehnt eine Anfrage ab
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
      * @return
      */
-    @PUT("/DenyRequest")
-    Call<PassengerRequest> denyRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
+    @PUT("/PassengerRequests/DenyRequest")
+    Call<ResponseBody> denyRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
 }

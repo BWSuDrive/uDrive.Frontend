@@ -1,21 +1,9 @@
 package de.bws.udrive.utilities.model;
 
-import de.bws.udrive.ui.start.model.Person;
+import com.google.gson.internal.LinkedTreeMap;
 
-public class PassengerRequest extends Person {
-    public PassengerRequest(String firstname, String lastname, String email, String phoneNumber, String id,
-                            String idPerson, String idTourPlan, String message,
-                            double currentLatitude, double currentLongitude, boolean isPending) {
-        super(firstname, lastname, email, phoneNumber);
-        this.id = id;
-        this.idPerson = idPerson;
-        this.idTourPlan = idTourPlan;
-        this.message = message;
-        this.currentLatitude = currentLatitude;
-        this.currentLongitude = currentLongitude;
-        this.isPending = isPending;
-    }
-
+public class PassengerRequest
+{
     private String id;
     private String idPerson;
     private String idTourPlan;
@@ -23,32 +11,41 @@ public class PassengerRequest extends Person {
     private double currentLatitude;
     private double currentLongitude;
     private boolean isPending;
+    private boolean isDenied;
+    private LinkedTreeMap<Object, Object> person;
+    private Object tourPlan;
 
-    public String getId() {
-        return id;
+    public PassengerRequest(String id, String idPerson, String idTourPlan, String message, double currentLatitude, double currentLongitude, boolean isPending, boolean isDenied, LinkedTreeMap<Object, Object> person, Object tourPlan)
+    {
+        this.id = id;
+        this.idPerson = idPerson;
+        this.idTourPlan = idTourPlan;
+        this.message = message;
+        this.currentLatitude = currentLatitude;
+        this.currentLongitude = currentLongitude;
+        this.isPending = isPending;
+        this.isDenied = isDenied;
+        this.person = person;
+        this.tourPlan = tourPlan;
     }
 
-    public String getIdPerson() {
-        return idPerson;
-    }
+    public String getId() { return id; }
 
-    public String getIdTourPlan() {
-        return idTourPlan;
-    }
+    public String getIdPerson() { return idPerson; }
 
-    public String getMessage() {
-        return message;
-    }
+    public String getIdTourPlan() { return idTourPlan; }
 
-    public double getCurrentLatitude() {
-        return currentLatitude;
-    }
+    public String getMessage() { return message; }
 
-    public double getCurrentLongitude() {
-        return currentLongitude;
-    }
+    public double getCurrentLatitude() { return currentLatitude; }
 
-    public boolean isPending() {
-        return isPending;
-    }
+    public double getCurrentLongitude() { return currentLongitude; }
+
+    public boolean isPending() { return isPending; }
+
+    public boolean isDenied() { return isDenied; }
+
+    public LinkedTreeMap<Object, Object> getPerson() { return person; }
+
+    public Object getTourPlan() { return tourPlan; }
 }

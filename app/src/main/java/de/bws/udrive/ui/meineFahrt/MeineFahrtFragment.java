@@ -79,7 +79,7 @@ public class MeineFahrtFragment extends Fragment {
 
     private void showAvailablePassengers()
     {
-        this.fahrtAdapter = new MeineFahrtAdapter(passengerRequestsHandler.getAvailablePassengers());
+        this.fahrtAdapter = new MeineFahrtAdapter(passengerRequestsHandler.getAvailablePassengers(), this);
         this.rvPassengerList.setAdapter(this.fahrtAdapter);
     }
 
