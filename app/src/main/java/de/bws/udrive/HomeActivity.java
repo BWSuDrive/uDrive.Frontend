@@ -57,10 +57,13 @@ public class HomeActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_start, R.id.nav_nachrichten, R.id.nav_meinefahrt)
+                R.id.nav_start, R.id.nav_nachrichten, R.id.nav_meinefahrt, R.id.nav_fahrtenplaner)
                 .setOpenableLayout(drawer)
                 .build();
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -74,11 +77,14 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!General.getSignedInUser().hasRole("Driver")) {
-            findViewById(R.id.driver_menu).setVisibility(View.GONE);
-        }
+
+        /* Gruppe driver_menu verstecken, wenn User keine Berechtigung dazu hat */
+        if (!General.getSignedInUser().hasRole("Driver"))
+            binding.navView.getMenu().setGroupVisible(R.id.driver_menu, false);
+
 
         getMenuInflater().inflate(R.menu.home, menu);
+
 
         ((TextView) findViewById(R.id.userField)).setText(General.getSignedInUser().getVorname() + " " + General.getSignedInUser().getNachname());
         ((TextView) findViewById(R.id.mailField)).setText(General.getSignedInUser().getMail());
