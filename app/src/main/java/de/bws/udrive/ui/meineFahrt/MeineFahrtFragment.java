@@ -1,6 +1,7 @@
 package de.bws.udrive.ui.meineFahrt;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,8 @@ public class MeineFahrtFragment extends Fragment {
         refreshButton = binding.btnDriverRefresh;
         refreshButton.setOnClickListener(driverRefreshListener);
         rvPassengerList = binding.rvPassengerList;
-        this.rvPassengerList.setAdapter(this.fahrtAdapter);
+
+        this.rvPassengerList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return root;
     }
@@ -54,20 +56,29 @@ public class MeineFahrtFragment extends Fragment {
         sendAPIRequest();
     };
 
-    private void sendAPIRequest() {
+    private void sendAPIRequest()
+    {
         this.passengerRequestsHandler = new PassengerRequestsHandler();
-        passengerRequestsHandler.handle();
         passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
+        passengerRequestsHandler.handle();
     }
 
-    Observer<Boolean> observeStateChange = isFinished -> {
-        if (!passengerRequestsHandler.requestsAvailable()) {
-            Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
-        } else
-            showAvailablePassengers();
+    private final Observer<Boolean> observeStateChange = isFinished -> {
+        if(isFinished)
+        {
+            if (!passengerRequestsHandler.requestsAvailable())
+            {
+                Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                showAvailablePassengers();
+            }
+        }
     };
 
-    private void showAvailablePassengers() {
+    private void showAvailablePassengers()
+    {
         this.fahrtAdapter = new MeineFahrtAdapter(passengerRequestsHandler.getAvailablePassengers());
         this.rvPassengerList.setAdapter(this.fahrtAdapter);
     }

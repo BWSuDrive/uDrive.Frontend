@@ -89,7 +89,7 @@ public class StartFragment extends Fragment {
 
     private void showAvailableDrivers()
     {
-        this.homeAdapter = new HomeAdapter(driveRequestsHandler.getAvailableTours());
+        this.homeAdapter = new HomeAdapter(driveRequestsHandler.getAvailableTours(), this);
         this.fahrerListe.setAdapter(this.homeAdapter);
     }
 

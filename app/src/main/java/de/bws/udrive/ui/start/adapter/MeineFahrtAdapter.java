@@ -1,5 +1,6 @@
 package de.bws.udrive.ui.start.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import de.bws.udrive.utilities.model.PassengerRequest;
 
 public class MeineFahrtAdapter extends RecyclerView.Adapter<MeineFahrtViewHolder>{
 
-    List<PassengerRequest> items;
+    private List<PassengerRequest> items;
 
     public MeineFahrtAdapter(List<PassengerRequest> items) {
         this.items = items;
@@ -27,7 +28,9 @@ public class MeineFahrtAdapter extends RecyclerView.Adapter<MeineFahrtViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MeineFahrtViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MeineFahrtViewHolder holder, int position)
+    {
+        Log.i("uDrive.MeineFahrtAdapter", items.get(position).getFirstname() + " " + items.get(position).getLastname());
         holder.getTvPassengerName().setText(items.get(position).getFirstname() +" "+items.get(position).getLastname());
         holder.getTvPassengerDistance().setText("WIP");
         holder.getTvPassengerPhone().setText(items.get(position).getPhoneNumber());

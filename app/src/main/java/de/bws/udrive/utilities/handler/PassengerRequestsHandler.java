@@ -43,16 +43,18 @@ public class PassengerRequestsHandler {
                 /* OK */
                 case 200:
 
-                    if (response.body() != null) {
+                    if (response.body() != null)
+                    {
                         Log.i(TAG, "Responsecode 200");
                         Log.i(TAG, response.toString());
 
                         List<PassengerRequest> responseList = response.body();
 
-                        responseList.forEach(tour -> {
+                        availablePassengers = responseList;
 
-                        });
-                    } else {
+                    }
+                    else
+                    {
                         informationString = "Body ist null!";
                         Log.wtf(TAG, "Responsebody ist null!");
                     }
@@ -83,7 +85,5 @@ public class PassengerRequestsHandler {
         return isFinished;
     }
 
-    public List<PassengerRequest> getAvailablePassengers() {
-        return availablePassengers;
-    }
+    public List<PassengerRequest> getAvailablePassengers() { return availablePassengers; }
 }

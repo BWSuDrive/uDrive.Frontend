@@ -3,7 +3,9 @@ package de.bws.udrive.ui.start.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,10 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import de.bws.udrive.HomeActivity;
 import de.bws.udrive.R;
 import de.bws.udrive.utilities.handler.TakeAwayHandler;
 import de.bws.udrive.utilities.model.General;
@@ -23,6 +25,7 @@ import de.bws.udrive.utilities.model.RequestTakeAway;
 public class HomeViewHolder extends RecyclerView.ViewHolder
 {
     private Context context;
+    private LifecycleOwner owner;
     private HomeAdapter homeAdapter;
 
     private TextView userName;
@@ -37,20 +40,21 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
     /* Handler */
     private TakeAwayHandler takeAwayHandler;
 
-    private Button request;
-    public HomeViewHolder(@NonNull View itemView, Context context)
+    private Button btnRequest;
+    public HomeViewHolder(@NonNull View itemView, Context context, LifecycleOwner owner)
     {
         super(itemView);
 
         this.context = context;
+        this.owner = owner;
 
         this.userName = itemView.findViewById(R.id.tvDriverName);
         this.destination = itemView.findViewById(R.id.tvDriverDestination);
         this.eta = itemView.findViewById(R.id.tvDriverETA);
         this.distance = itemView.findViewById(R.id.tvDriverDistance);
         this.comment = itemView.findViewById(R.id.tvDriverComment);
-        this.request = itemView.findViewById(R.id.btnDriverRequest);
-        this.request.setOnClickListener(btnClicked);
+        this.btnRequest = itemView.findViewById(R.id.btnDriverRequest);
+        this.btnRequest.setOnClickListener(btnClicked);
     }
 
     public HomeViewHolder linkAdapter(HomeAdapter homeAdapter)
@@ -85,8 +89,8 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
 
         RequestTakeAway takeAway = new RequestTakeAway(idTourPlan, message, currentLatitude, currentLongitude);
 
+        takeAwayHandler.getFinishedState().observe(owner, this.observeStateChange);
         takeAwayHandler.handle(takeAway);
-        //takeAwayHandler.getFinishedState().observe(, this.observeStateChange);
 
     };
 
@@ -100,6 +104,8 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
             if(takeAwayHandler.requestSuccessful())
             {
                 Toast.makeText(this.context, "Anfrage erfolgreich!", Toast.LENGTH_LONG).show();
+                this.btnRequest.setClickable(false);
+                this.btnRequest.setBackgroundColor(Color.GRAY);
             }
         }
     };

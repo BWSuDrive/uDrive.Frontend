@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -15,10 +17,12 @@ import de.bws.udrive.ui.start.model.AvailableTours;
 public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
 {
     private List<AvailableTours> items;
+    private LifecycleOwner owner;
 
-    public HomeAdapter(List<AvailableTours> items)
+    public HomeAdapter(List<AvailableTours> items, LifecycleOwner owner)
     {
         this.items = items;
+        this.owner = owner;
     }
 
     @NonNull
@@ -28,7 +32,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
         View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.home_entry, parent, false);
 
-        return new HomeViewHolder(view, parent.getContext()).linkAdapter(this);
+        return new HomeViewHolder(view, parent.getContext(), this.owner).linkAdapter(this);
     }
 
     @Override

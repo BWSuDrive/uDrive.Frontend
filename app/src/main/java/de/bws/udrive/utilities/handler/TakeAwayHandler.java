@@ -47,6 +47,8 @@ public class TakeAwayHandler
                     break;
             }
 
+            isFinished.setValue(Boolean.TRUE);
+
         }
 
         @Override
@@ -57,6 +59,7 @@ public class TakeAwayHandler
             Log.e(TAG, t.getMessage());
             informationString = t.getMessage();
 
+            isFinished.setValue(Boolean.TRUE);
         }
     };
 
