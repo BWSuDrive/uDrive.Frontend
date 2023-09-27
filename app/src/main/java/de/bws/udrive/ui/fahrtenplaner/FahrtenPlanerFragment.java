@@ -142,8 +142,17 @@ public class FahrtenPlanerFragment extends Fragment {
 
         TourPlan tourPlan = new TourPlan(convertedDate, timeBeforeEnd, estTimeArrival, start, destination, comment);
 
+        boolean inputValid =
+                (
+                    convertedDate.length() != 19 &&
+                    timeBeforeEnd >= 0 &&
+                    /* estTimeArrival (time) > convertedDate (Time) */
+                    start.length() > 0 &&
+                    destination.length() > 0
+                );
+
         /* Validierung der Eingaben */
-        if(true)
+        if(inputValid)
         {
             this.tourPlanHandler = new TourPlanHandler();
 
