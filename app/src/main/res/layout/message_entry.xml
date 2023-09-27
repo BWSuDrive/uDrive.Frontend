@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/driverRequest"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/edittext_bkg"
+    android:padding="20dp">
+
+
+    <TextView
+        android:id="@+id/tvMessageName"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/person_purple"
+        android:drawablePadding="5dp"
+        android:text="Maximilian Butterweck"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMessageETA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="20dp"
+        android:drawableLeft="@drawable/clock"
+        android:drawablePadding="5dp"
+        android:text="ETA 17:00:00"
+        android:textSize="26sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tvMessageStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageDestination" />
+
+    <TextView
+        android:id="@+id/tvMessageStartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/clock"
+        android:drawablePadding="5dp"
+        android:text="6:30:00"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageDestination" />
+
+    <TextView
+        android:id="@+id/tvMessageDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/arrowto"
+        android:drawablePadding="5dp"
+        android:paddingLeft="5dp"
+        android:text="BWS-Hofheim"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageComment" />
+    <TextView
+        android:id="@+id/tvMessageComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:paddingLeft="5dp"
+        android:text="holt dich ab"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
