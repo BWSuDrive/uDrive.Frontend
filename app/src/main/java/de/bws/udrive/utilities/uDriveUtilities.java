@@ -17,8 +17,7 @@ public class uDriveUtilities {
         return ((day < 10) ? "0" + day : day) + "." +
                ((month < 10) ? "0" + month : month) + "." +
                year + " " +
-               ((hour < 10) ? "0" + hour : hour) + ":" +
-               ((minute < 10) ? ((minute == 0) ? "00" : "0" + minute) : minute);
+               convertTimeToString(hour, minute);
     }
 
     public static String convertTimeToString(int hour, int minute)
@@ -26,5 +25,17 @@ public class uDriveUtilities {
         return ((hour < 10) ? "0" + hour : hour) + ":" +
                ((minute < 10) ? ((minute == 0) ? "00" : "0" + minute) : minute) +
                ":00";
+    }
+
+    public static String parseString(String isoFormat)
+    {
+        int year = Integer.parseInt(isoFormat.substring(0, 4));
+        int month = Integer.parseInt(isoFormat.substring(5, 7));
+        int day = Integer.parseInt(isoFormat.substring(8, 10));
+
+        int hour = Integer.parseInt(isoFormat.substring(11, 13));
+        int minute = Integer.parseInt(isoFormat.substring(14, 16));
+
+        return convertToGermanDate(year, month, day, hour, minute);
     }
 }
