@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/main_menu"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_start"
             android:icon="@drawable/home"
@@ -12,13 +14,18 @@
             android:id="@+id/nav_nachrichten"
             android:icon="@drawable/nachrichten"
             android:title="@string/menu_nachrichten" />
-        <item
-            android:id="@+id/nav_meinefahrt"
-            android:icon="@drawable/car"
-            android:title="@string/menu_meinefahrt" />
-        <item
-            android:id="@+id/nav_fahrtenplaner"
-            android:icon="@drawable/fahrtenplanner"
-            android:title="@string/menu_fahrtenplaner" />
     </group>
+    <group
+        android:id="@+id/driver_menu"
+        android:visible="true">
+            <item
+                android:id="@+id/nav_meinefahrt"
+                android:icon="@drawable/car"
+                android:title="@string/menu_meinefahrt" />
+            <item
+                android:id="@+id/nav_fahrtenplaner"
+                android:icon="@drawable/fahrtenplanner"
+                android:title="@string/menu_fahrtenplaner" />
+        </group>
+
 </menu>

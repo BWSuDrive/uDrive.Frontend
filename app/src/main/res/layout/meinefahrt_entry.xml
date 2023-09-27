@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/edittext_bkg"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/person_purple"
+        android:drawablePadding="5dp"
+        android:text="Maximilian Butterweck"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/car"
+        android:drawablePadding="5dp"
+        android:text="35km"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/phone"
+        android:drawablePadding="5dp"
+        android:text="+24 567 5421562"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvFreitext" />
+
+    <TextView
+        android:id="@+id/tvFreitext"
+        android:layout_width="310dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:drawableLeft="@drawable/home"
+        android:drawablePadding="5dp"
+        android:text="Lake Testfield, 123132 Probeweg 34"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDistance" />
+
+    <ImageButton
+        android:id="@+id/btnAccept"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/accept"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnDecline"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/decline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAccept" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
