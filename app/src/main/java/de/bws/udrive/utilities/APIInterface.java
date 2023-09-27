@@ -77,7 +77,7 @@ public interface APIInterface {
      * @return
      */
     @PUT("/AcceptRequest")
-    Call<PassengerRequest> acceptRequest(@Header("Authorization") String authHeader);
+    Call<PassengerRequest> acceptRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
 
     /**
      * Lehnt eine Anfrage ab
@@ -85,5 +85,5 @@ public interface APIInterface {
      * @return
      */
     @PUT("/DenyRequest")
-    Call<PassengerRequest> denyRequest(@Header("Authorization") String authHeader);
+    Call<PassengerRequest> denyRequest(@Header("Authorization") String authHeader, @Body PassengerRequest request);
 }
