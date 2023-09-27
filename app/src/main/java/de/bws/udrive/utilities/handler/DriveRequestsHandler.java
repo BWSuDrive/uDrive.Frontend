@@ -34,7 +34,7 @@ public class DriveRequestsHandler {
     private String informationString = "";
     private boolean driveRequestsAvailable = true;
     private MutableLiveData<Boolean> isFinished = new MutableLiveData<>(Boolean.FALSE);
-    private List<AvailableTours> availableTours = new ArrayList<AvailableTours>();;
+    private List<AvailableTours> availableTours = new ArrayList<AvailableTours>();
 
     public void handle(DriveRequest driveRequest)
     {

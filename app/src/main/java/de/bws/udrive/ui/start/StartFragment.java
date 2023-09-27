@@ -12,11 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.bws.udrive.databinding.FragmentStartBinding;
+import de.bws.udrive.ui.start.adapter.HomeAdapter;
 import de.bws.udrive.utilities.handler.DriveRequestsHandler;
 import de.bws.udrive.utilities.model.DriveRequest;
 import de.bws.udrive.utilities.model.General;
@@ -30,6 +35,8 @@ public class StartFragment extends Fragment {
     private TextView tvAnfragen;
     private RecyclerView fahrerListe;
 
+    private HomeAdapter homeAdapter;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         StartViewModel startViewModel =
@@ -41,6 +48,8 @@ public class StartFragment extends Fragment {
         refreshFahrer.setOnClickListener(refreshListener);
         tvAnfragen = binding.textStart;
         fahrerListe = binding.fahrerliste;
+
+        this.fahrerListe.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return binding.getRoot();
     }
@@ -80,28 +89,8 @@ public class StartFragment extends Fragment {
 
     private void showAvailableDrivers()
     {
-        tvAnfragen.setText("Size of List: " + driveRequestsHandler.getAvailableTours().size());
+        this.homeAdapter = new HomeAdapter(driveRequestsHandler.getAvailableTours());
+        this.fahrerListe.setAdapter(this.homeAdapter);
     }
 
 }
-
-/* Back Up
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        StartViewModel startViewModel =
-                new ViewModelProvider(this).get(StartViewModel.class);
-
-        binding = FragmentStartBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textStart;
-        startViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
- */

@@ -15,9 +15,7 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
+    public String getFirstname() { return firstname; }
 
     public String getLastname() {
         return lastname;
@@ -30,4 +28,7 @@ public class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    @Override
+    public String toString() { return this.firstname + " " + this.lastname; }
 }

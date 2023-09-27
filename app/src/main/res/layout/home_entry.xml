@@ -10,7 +10,7 @@
 
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tvDriverName"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
@@ -57,7 +57,7 @@
         android:text="BWS-Hofheim"
         android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDriverName" />
     <TextView
         android:id="@+id/tvDriverComment"
         android:layout_width="wrap_content"
