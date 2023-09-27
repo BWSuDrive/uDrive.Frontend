@@ -60,7 +60,7 @@ public class MeineFahrtFragment extends Fragment {
         passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
     }
 
-    private Observer<Boolean> observeStateChange = isFinished -> {
+    private final Observer<Boolean> observeStateChange = isFinished -> {
         if (!passengerRequestsHandler.requestsAvailable()) {
             Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
         } else
