@@ -28,13 +28,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
         View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.home_entry, parent, false);
 
-        return new HomeViewHolder(view).linkAdapter(this);
+        return new HomeViewHolder(view, parent.getContext()).linkAdapter(this);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position)
     {
         AvailableTours current = items.get(position);
+
         holder.getUserName().setText(current.getPerson().toString());
         holder.getDestination().setText(current.getPlannedDrive().getDestination());
         holder.getEta().setText(current.getPlannedDrive().getEta() + " Uhr");
@@ -44,4 +45,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
 
     @Override
     public int getItemCount() { return items.size(); }
+
+    public List<AvailableTours> getItems() { return this.items; }
 }
