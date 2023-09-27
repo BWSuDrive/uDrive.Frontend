@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * TourPlanHandler ist eine Klasse, die sich um das publishen von Fahrten kümmert <br>
+ * TourPlanHandler ist eine Klasse, die sich um das veröffentlichen von Fahrten kümmert <br>
  *
  * @author Lucas
  */

@@ -1,5 +1,10 @@
 package de.bws.udrive.utilities;
 
+/**
+ * Utilities Klasse
+ *
+ * @author Lucas, Niko
+ */
 public class uDriveUtilities {
 
     public static String convertToISO8601Date(int year, int month, int day, int hour, int minute)

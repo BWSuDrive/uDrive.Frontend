@@ -4,24 +4,22 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import de.bws.udrive.ui.start.model.AvailableTours;
-import de.bws.udrive.ui.start.model.Person;
-import de.bws.udrive.ui.start.model.PlannedDrive;
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.model.General;
 import de.bws.udrive.utilities.model.PassengerRequest;
-import de.bws.udrive.utilities.response.DriveRequestResponse;
-import de.bws.udrive.utilities.uDriveUtilities;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Klasse, die Anfragen zu Fahrten lädt
+ *
+ * @author Lucas, Niko
+ */
 public class PassengerRequestsHandler {
     private final String TAG = "uDrive." + getClass().getSimpleName();
     private String informationString = "";

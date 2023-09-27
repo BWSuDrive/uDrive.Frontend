@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.bws.udrive.databinding.FragmentNachrichtenBinding;
-import de.bws.udrive.ui.start.adapter.MessageAdapter;
 import de.bws.udrive.utilities.handler.PassengerRequestsHandler;
 
 public class NachrichtenFragment extends Fragment {
@@ -49,10 +48,11 @@ public class NachrichtenFragment extends Fragment {
         passengerRequestsHandler.handle();
         passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
     }
-    Observer<Boolean> observeStateChange = isFinished -> {
-        if (!passengerRequestsHandler.requestsAvailable()) {
+    Observer<Boolean> observeStateChange = isFinished ->
+    {
+        if (!passengerRequestsHandler.requestsAvailable())
             Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
-        } else
+        else
             showAvailableMessages();
     };
     private void showAvailableMessages() {

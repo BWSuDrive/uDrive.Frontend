@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.bws.udrive.ui.main.MainActivity;
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.model.General;
@@ -35,7 +36,7 @@ public class LoginHandler {
     /**
      * Methode, die für das versenden von Daten an die API verantwortlich ist <br>
      *
-     * @param login Objekt, das Login-Informationen (User-Input aus {@link de.bws.udrive.MainActivity}) enthält
+     * @param login Objekt, das Login-Informationen (User-Input aus {@link MainActivity}) enthält
      */
     public void handle(Login login) {
         /* API Call vorbereiten */

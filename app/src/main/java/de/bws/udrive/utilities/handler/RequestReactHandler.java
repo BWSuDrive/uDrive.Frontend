@@ -15,6 +15,8 @@ import retrofit2.Response;
 
 /**
  * Akzeptiert anfragen oder lehnt sie ab
+ *
+ * @author Lucas, Niko
  */
 public class RequestReactHandler
 {

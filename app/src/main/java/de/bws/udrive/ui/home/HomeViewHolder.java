@@ -1,11 +1,10 @@
-package de.bws.udrive.ui.start.adapter;
+package de.bws.udrive.ui.home;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

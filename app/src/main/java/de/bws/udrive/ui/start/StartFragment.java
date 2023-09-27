@@ -17,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.bws.udrive.databinding.FragmentStartBinding;
-import de.bws.udrive.ui.start.adapter.HomeAdapter;
+import de.bws.udrive.ui.home.HomeAdapter;
 import de.bws.udrive.utilities.handler.DriveRequestsHandler;
 import de.bws.udrive.utilities.model.DriveRequest;
 import de.bws.udrive.utilities.model.General;
@@ -46,7 +43,6 @@ public class StartFragment extends Fragment {
 
         refreshFahrer = binding.refreshFahrer;
         refreshFahrer.setOnClickListener(refreshListener);
-        tvAnfragen = binding.textStart;
         fahrerListe = binding.fahrerliste;
 
         this.fahrerListe.setLayoutManager(new LinearLayoutManager(getContext()));

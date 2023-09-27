@@ -1,4 +1,4 @@
-package de.bws.udrive;
+package de.bws.udrive.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+
+import de.bws.udrive.R;
+import de.bws.udrive.ui.home.HomeActivity;
 
 /**
  * Login-Activity (App wird hier gestartet) <br>

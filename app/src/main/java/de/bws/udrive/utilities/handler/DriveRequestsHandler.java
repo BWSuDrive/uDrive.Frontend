@@ -5,14 +5,13 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.bws.udrive.ui.start.model.AvailableTours;
-import de.bws.udrive.ui.start.model.Person;
-import de.bws.udrive.ui.start.model.PlannedDrive;
+import de.bws.udrive.ui.home.model.AvailableTours;
+import de.bws.udrive.ui.home.model.Person;
+import de.bws.udrive.ui.home.model.PlannedDrive;
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
 import de.bws.udrive.utilities.model.DriveRequest;

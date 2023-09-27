@@ -17,6 +17,8 @@ import retrofit2.http.PUT;
 
 /**
  * Interface, um mit der API (dem Backend) zu kommunizieren
+ *
+ * @author Lucas, Niko
  */
 public interface APIInterface {
 

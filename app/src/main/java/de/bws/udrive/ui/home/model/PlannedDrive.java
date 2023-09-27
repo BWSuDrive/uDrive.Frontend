@@ -1,5 +1,10 @@
-package de.bws.udrive.ui.start.model;
+package de.bws.udrive.ui.home.model;
 
+/**
+ * Klasse, die Fahrtendaten speichert <br>
+ *
+ * @author Lucas, Niko
+ */
 public class PlannedDrive {
 
     private String distance;

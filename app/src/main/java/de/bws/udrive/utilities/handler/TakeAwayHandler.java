@@ -13,6 +13,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Klasse, die Anfragen zur Mitnahme sendet
+ *
+ * @author Lucas, Niko
+ */
 public class TakeAwayHandler
 {
     private final String TAG = "uDrive." + getClass().getSimpleName();

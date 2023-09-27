@@ -1,5 +1,11 @@
-package de.bws.udrive.ui.start.model;
+package de.bws.udrive.ui.home.model;
 
+/**
+ * Klasse, die Personendaten abspeichert <br>
+ * Benutzt in {@link AvailableTours}
+ *
+ * @author Lucas, Niko
+ */
 public class Person {
 
     private String firstname;

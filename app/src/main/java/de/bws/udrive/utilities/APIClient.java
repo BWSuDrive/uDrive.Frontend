@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Klasse, die benötigt wird, um API Calls vorzunehmen
  *
+ * @author Lucas
  * */
 public class APIClient {
     private static Retrofit retrofit;

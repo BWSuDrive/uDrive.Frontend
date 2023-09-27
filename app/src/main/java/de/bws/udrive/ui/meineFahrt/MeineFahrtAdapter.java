@@ -1,6 +1,5 @@
-package de.bws.udrive.ui.start.adapter;
+package de.bws.udrive.ui.meineFahrt;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

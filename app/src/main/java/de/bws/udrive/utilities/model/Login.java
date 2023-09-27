@@ -1,8 +1,7 @@
 package de.bws.udrive.utilities.model;
 
 /**
- * Klasse, die für den Login benutzt wird <br>
- * Besitzt die Eigenschaften {@link Login#userName}, {@link Login#password} & {@link Login#email} <br>
+ * Klasse, die Anfrage für Login repräsentiert
  *
  * @author Lucas
  */

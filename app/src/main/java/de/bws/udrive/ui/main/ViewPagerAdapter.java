@@ -1,4 +1,4 @@
-package de.bws.udrive;
+package de.bws.udrive.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

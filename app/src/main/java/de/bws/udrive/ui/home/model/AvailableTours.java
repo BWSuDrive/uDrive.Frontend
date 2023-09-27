@@ -1,5 +1,10 @@
-package de.bws.udrive.ui.start.model;
+package de.bws.udrive.ui.home.model;
 
+/**
+ * Klasse, die verfügbare Fahrten abspeichert
+ *
+ * @author Lucas, Niko
+ */
 public class AvailableTours {
 
     private Person person;

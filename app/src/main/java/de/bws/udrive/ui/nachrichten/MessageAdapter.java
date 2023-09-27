@@ -1,4 +1,4 @@
-package de.bws.udrive.ui.start.adapter;
+package de.bws.udrive.ui.nachrichten;
 
 import android.view.LayoutInflater;
 import android.view.View;

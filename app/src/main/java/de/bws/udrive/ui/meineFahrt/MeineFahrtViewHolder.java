@@ -1,4 +1,4 @@
-package de.bws.udrive.ui.start.adapter;
+package de.bws.udrive.ui.meineFahrt;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import de.bws.udrive.R;
-import de.bws.udrive.ui.meineFahrt.MeineFahrtRequest;
 import de.bws.udrive.utilities.handler.RequestReactHandler;
 import de.bws.udrive.utilities.model.PassengerRequest;
 

@@ -8,21 +8,11 @@
     android:padding="10dp"
     tools:context=".ui.start.StartFragment">
 
-    <TextView
-        android:id="@+id/text_Start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Verfügbare Fahrten"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fahrerliste"
-        android:paddingBottom="60dp"
-        android:layout_below="@+id/text_Start"/>
+        android:paddingBottom="60dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"

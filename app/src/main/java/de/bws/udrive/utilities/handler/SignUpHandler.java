@@ -7,13 +7,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
+import de.bws.udrive.ui.main.MainActivity;
 import de.bws.udrive.utilities.APIClient;
 import de.bws.udrive.utilities.APIInterface;
-import de.bws.udrive.utilities.model.General;
 import de.bws.udrive.utilities.model.SignUp;
-import de.bws.udrive.utilities.model.SignedInUser;
 import de.bws.udrive.utilities.response.SignUpResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +31,7 @@ public class SignUpHandler {
     /**
      * Methode, die für das versenden von Daten an die API verantwortlich ist <br>
      *
-     * @param signUp Objekt, das SignUp-Informationen (User-Input aus {@link de.bws.udrive.MainActivity}) enthält
+     * @param signUp Objekt, das SignUp-Informationen (User-Input aus {@link MainActivity}) enthält
      */
     public void handle(SignUp signUp) {
         /* API Call vorbereiten */

@@ -1,7 +1,9 @@
 package de.bws.udrive.utilities.model;
 
 /**
+ * Klasse, die Anfrage für Mitfahrten repräsentiert
  *
+ * @author Lucas, Niko
  */
 public class RequestTakeAway
 {

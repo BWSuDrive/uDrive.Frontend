@@ -1,4 +1,4 @@
-package de.bws.udrive;
+package de.bws.udrive.ui.main;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.bws.udrive.R;
+import de.bws.udrive.ui.home.HomeActivity;
 import de.bws.udrive.utilities.handler.LoginHandler;
 import de.bws.udrive.utilities.model.Login;
 

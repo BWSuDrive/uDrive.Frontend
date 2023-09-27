@@ -2,6 +2,11 @@ package de.bws.udrive.utilities.model;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+/**
+ * Klasse, die Anfrage für verfügbare Anfragen zur Fahrt repräsentiert <br>
+ * Anfrage kann angenommen oder abgelehnt werden
+ * @author Lucas, Niko
+ */
 public class PassengerRequest
 {
     private String id;

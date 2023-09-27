@@ -1,18 +1,17 @@
-package de.bws.udrive.ui.start.adapter;
+package de.bws.udrive.ui.home;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import de.bws.udrive.R;
-import de.bws.udrive.ui.start.model.AvailableTours;
+import de.bws.udrive.ui.home.model.AvailableTours;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
 {
