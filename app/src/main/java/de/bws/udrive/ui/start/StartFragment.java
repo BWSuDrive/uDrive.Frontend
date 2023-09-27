@@ -5,12 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -22,10 +24,11 @@ import de.bws.udrive.utilities.model.General;
 public class StartFragment extends Fragment {
 
     private final String TAG = "uDrive." + getClass().getSimpleName();
-
     private FragmentStartBinding binding;
     private MaterialButton refreshFahrer;
     private DriveRequestsHandler driveRequestsHandler;
+    private TextView tvAnfragen;
+    private RecyclerView fahrerListe;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class StartFragment extends Fragment {
 
         refreshFahrer = binding.refreshFahrer;
         refreshFahrer.setOnClickListener(refreshListener);
+        tvAnfragen = binding.textStart;
+        fahrerListe = binding.fahrerliste;
 
         return binding.getRoot();
     }
@@ -49,7 +54,10 @@ public class StartFragment extends Fragment {
     {
         Log.i(TAG, "Sending API Request");
         double currentLatitude = General.getSignedInUser().getLatitude();
-        double currentLongitude = General.getSignedInUser().getLatitude();
+        double currentLongitude = General.getSignedInUser().getLongitude();
+
+        Log.i(TAG, "Latitude: " + currentLatitude);
+        Log.i(TAG, "Longitude: " + currentLongitude);
 
         DriveRequest driveRequest = new DriveRequest(currentLatitude, currentLongitude);
         this.driveRequestsHandler = new DriveRequestsHandler();
@@ -72,8 +80,7 @@ public class StartFragment extends Fragment {
 
     private void showAvailableDrivers()
     {
-        Log.i(TAG, "To be implemented...");
-        Toast.makeText(getContext(), "To be implemented", Toast.LENGTH_LONG).show();
+        tvAnfragen.setText("Size of List: " + driveRequestsHandler.getAvailableTours().size());
     }
 
 }
