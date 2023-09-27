@@ -1,5 +1,7 @@
 package de.bws.udrive.utilities;
 
+import java.util.List;
+
 import de.bws.udrive.utilities.model.*;
 import de.bws.udrive.utilities.response.DriveRequestResponse;
 import de.bws.udrive.utilities.response.LoginResponse;
@@ -56,5 +58,5 @@ public interface APIInterface {
      * @author Lucas, Niko
      */
     @POST("/PassengerRequests/FilterDriversBy5kmRadius")
-    Call<DriveRequestResponse> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
+    Call<List<DriveRequestResponse>> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 }
