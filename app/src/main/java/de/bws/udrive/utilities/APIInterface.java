@@ -53,7 +53,6 @@ public interface APIInterface {
     @POST("/TourPlans")
     Call<ResponseBody> postTourData(@Header("Authorization") String authHeader, @Body TourPlan tourPlan);
 
-
     /**
      * Methode, um verfügbare Fahrten von API zu bekommen
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
@@ -62,7 +61,6 @@ public interface APIInterface {
     @POST("/PassengerRequests/FilterDriversBy5kmRadius")
     Call<List<DriveRequestResponse>> getAvailableDrivers(@Header("Authorization") String authHeader, @Body DriveRequest driveRequest);
 
-
     /**
      * Methode, um aktuelle Anfragen von API zu bekommen
      * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
@@ -70,6 +68,14 @@ public interface APIInterface {
      */
     @GET("/PassengerRequests/GetPassengerRequests")
     Call<List<PassengerRequest>> getCurrentRequests(@Header("Authorization") String authHeader);
+
+    /**
+     * Methode, um Anfrage zu einer Fahrt zu senden
+     * @param authHeader Bearer-Token für API Anfragen -> Kann mit {@link SignedInUser#getHTTPAuthHeader()} geholt werden
+     * @return
+     */
+    @POST("/PassengerRequests")
+    Call<ResponseBody> sendPassengerRequest(@Header("Authorization") String authHeader, @Body RequestTakeAway takeAway);
 
     /**
      * Akzeptiert eine Anfrage
