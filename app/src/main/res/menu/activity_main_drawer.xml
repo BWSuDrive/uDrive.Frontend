@@ -17,7 +17,7 @@
     </group>
     <group
         android:id="@+id/driver_menu"
-        android:visible="true">
+        android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_meinefahrt"
                 android:icon="@drawable/car"
