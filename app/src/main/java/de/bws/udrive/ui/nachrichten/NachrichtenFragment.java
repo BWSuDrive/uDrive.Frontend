@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,9 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.bws.udrive.databinding.FragmentNachrichtenBinding;
-import de.bws.udrive.ui.start.adapter.MeineFahrtAdapter;
 import de.bws.udrive.ui.start.adapter.MessageAdapter;
-import de.bws.udrive.utilities.handler.MessageRequestsHandler;
 import de.bws.udrive.utilities.handler.PassengerRequestsHandler;
 
 public class NachrichtenFragment extends Fragment {
@@ -26,7 +23,7 @@ public class NachrichtenFragment extends Fragment {
     private MessageAdapter messageAdapter;
     private RecyclerView rvMessageList;
     private Button refreshButton;
-    private MessageRequestsHandler messageRequestsHandler;
+    private PassengerRequestsHandler passengerRequestsHandler;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,18 +45,18 @@ public class NachrichtenFragment extends Fragment {
     };
 
     private void sendAPIRequest() {
-        this.messageRequestsHandler = new MessageRequestsHandler();
-        messageRequestsHandler.handle();
-        messageRequestsHandler.getFinishedState().observe(this, observeStateChange);
+        this.passengerRequestsHandler = new PassengerRequestsHandler();
+        passengerRequestsHandler.handle();
+        passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
     }
     Observer<Boolean> observeStateChange = isFinished -> {
-        if (!messageRequestsHandler.requestsAvailable()) {
-            Toast.makeText(getContext(), messageRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
+        if (!passengerRequestsHandler.requestsAvailable()) {
+            Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
         } else
             showAvailableMessages();
     };
     private void showAvailableMessages() {
-        this.messageAdapter = new MessageAdapter(messageRequestsHandler.getAvailableMessages());
+        this.messageAdapter = new MessageAdapter(passengerRequestsHandler.getAvailablePassengers());
         this.rvMessageList.setAdapter(this.messageAdapter);
     }
     @Override
