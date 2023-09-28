@@ -10,7 +10,7 @@ public class NachrichtenViewModel extends ViewModel {
 
     public NachrichtenViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Hier kommen die Mitteilungen an");
+        mText.setValue("Hier kommen die Mitteilungen an \n ---->WIP<----");
     }
 
     public LiveData<String> getText() {

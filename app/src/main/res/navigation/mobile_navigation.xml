@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_start">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="de.bws.udrive.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_start"
+        android:name="de.bws.udrive.ui.start.StartFragment"
+        android:label="@string/menu_start"
+        tools:layout="@layout/fragment_start" />
 
     <fragment
         android:id="@+id/nav_nachrichten"
@@ -18,14 +18,14 @@
         tools:layout="@layout/fragment_nachrichten" />
 
     <fragment
-        android:id="@+id/nav_stundenplan"
-        android:name="de.bws.udrive.ui.stundenplan.StundenplanFragment"
-        android:label="@string/menu_stundenplan"
-        tools:layout="@layout/fragment_stundenplan" />
+        android:id="@+id/nav_meinefahrt"
+        android:name="de.bws.udrive.ui.meineFahrt.MeineFahrtFragment"
+        android:label="@string/menu_meinefahrt"
+        tools:layout="@layout/fragment_meinefahrt" />
 
     <fragment
-        android:id="@+id/nav_route"
-        android:name="de.bws.udrive.ui.route.RouteFragment"
-        android:label="@string/menu_route"
-        tools:layout="@layout/fragment_route" />
+        android:id="@+id/nav_fahrtenplaner"
+        android:name="de.bws.udrive.ui.fahrtenplaner.FahrtenPlanerFragment"
+        android:label="@string/menu_fahrtenplaner"
+        tools:layout="@layout/fragment_fahrtenplaner" />
 </navigation>

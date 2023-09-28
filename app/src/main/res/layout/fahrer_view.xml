@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/edittext_bkg"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fahreroutput"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        tools:text="Reiner Zufall"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/startzieloutput"
+        android:layout_below="@id/fahreroutput"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        tools:text="Zuhause -> Brühlwiesenschule"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etaoutput"
+        android:layout_below="@id/startzieloutput"
+        android:gravity="end"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        tools:text="12:10 Uhr"/>
+
+</RelativeLayout>

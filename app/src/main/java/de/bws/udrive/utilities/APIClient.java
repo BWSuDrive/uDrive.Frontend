@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Klasse, die benötigt wird, um API Calls vorzunehmen
  *
+ * @author Lucas
  * */
 public class APIClient {
     private static Retrofit retrofit;
@@ -13,7 +14,7 @@ public class APIClient {
         if(retrofit == null)
         {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://bwsudriverestapi.azurewebsites.net")
+                    .baseUrl("https://bws-udriveapi.azurewebsites.net")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
