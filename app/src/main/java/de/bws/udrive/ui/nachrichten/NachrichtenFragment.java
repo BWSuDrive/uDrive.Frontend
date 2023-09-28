@@ -1,6 +1,7 @@
 package de.bws.udrive.ui.nachrichten;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import de.bws.udrive.databinding.FragmentNachrichtenBinding;
 import de.bws.udrive.utilities.handler.PassengerRequestsHandler;
+import de.bws.udrive.utilities.model.PassengerRequest;
 
 public class NachrichtenFragment extends Fragment {
 
@@ -36,6 +43,7 @@ public class NachrichtenFragment extends Fragment {
         rvMessageList = binding.rvMessageList;
         this.rvMessageList.setAdapter(this.messageAdapter);
 
+        this.rvMessageList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return root;
     }
@@ -50,12 +58,17 @@ public class NachrichtenFragment extends Fragment {
     }
     Observer<Boolean> observeStateChange = isFinished ->
     {
-        if (!passengerRequestsHandler.requestsAvailable())
-            Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
-        else
-            showAvailableMessages();
+        if(isFinished)
+        {
+            Log.i("uDrive.Nachrichten", "Reacted " + passengerRequestsHandler.requestsAvailable());
+            if (!passengerRequestsHandler.requestsAvailable())
+                Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
+            else
+                showAvailableMessages();
+        }
     };
-    private void showAvailableMessages() {
+    private void showAvailableMessages()
+    {
         this.messageAdapter = new MessageAdapter(passengerRequestsHandler.getAvailablePassengers());
         this.rvMessageList.setAdapter(this.messageAdapter);
     }

@@ -28,15 +28,15 @@ public class PassengerRequestsHandler {
     private List<PassengerRequest> availablePassengers = new ArrayList<PassengerRequest>();
 
     public void handle() {
-        Call<List<PassengerRequest>> driveRequestResponse =
+        Call<List<List<PassengerRequest>>> driveRequestResponse =
                 APIClient.getAPI().create(APIInterface.class)
                         .getCurrentRequests(General.getSignedInUser().getHTTPAuthHeader());
 
         driveRequestResponse.enqueue(passengerRequestCallback);
     }
-    private final Callback<List<PassengerRequest>> passengerRequestCallback = new Callback<List<PassengerRequest>>() {
+    private final Callback<List<List<PassengerRequest>>> passengerRequestCallback = new Callback<List<List<PassengerRequest>>>() {
         @Override
-        public void onResponse(Call<List<PassengerRequest>> call, Response<List<PassengerRequest>> response) {
+        public void onResponse(Call<List<List<PassengerRequest>>> call, Response<List<List<PassengerRequest>>> response) {
             switch (response.code()) {
                 /* OK */
                 case 200:
@@ -46,10 +46,13 @@ public class PassengerRequestsHandler {
                         Log.i(TAG, "Responsecode 200");
                         Log.i(TAG, response.toString());
 
-                        List<PassengerRequest> responseList = response.body();
+                        List<List<PassengerRequest>> responseList = response.body();
 
-                        availablePassengers = responseList;
+                        responseList.forEach(innerList -> innerList.forEach(obj -> availablePassengers.add(obj)));
 
+                        Log.i("uDrive.Handler", "Size is: " + availablePassengers.size());
+
+                        passengerRequestsAvailable = true;
                     }
                     else
                     {
@@ -65,7 +68,8 @@ public class PassengerRequestsHandler {
             isFinished.setValue(Boolean.TRUE);
         }
         @Override
-        public void onFailure(Call<List<PassengerRequest>> call, Throwable t) {
+        public void onFailure(Call<List<List<PassengerRequest>>> call, Throwable t)
+        {
             Log.i(TAG, "Failure");
             Log.i(TAG,t.getMessage());
             isFinished.setValue(Boolean.TRUE);

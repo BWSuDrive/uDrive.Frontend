@@ -18,9 +18,9 @@ public class PassengerRequest
     private boolean isPending;
     private boolean isDenied;
     private LinkedTreeMap<Object, Object> person;
-    private Object tourPlan;
+    private LinkedTreeMap<Object, Object> tourPlan;
 
-    public PassengerRequest(String id, String idPerson, String idTourPlan, String message, double currentLatitude, double currentLongitude, boolean isPending, boolean isDenied, LinkedTreeMap<Object, Object> person, Object tourPlan)
+    public PassengerRequest(String id, String idPerson, String idTourPlan, String message, double currentLatitude, double currentLongitude, boolean isPending, boolean isDenied, LinkedTreeMap<Object, Object> person, LinkedTreeMap<Object, Object> tourPlan)
     {
         this.id = id;
         this.idPerson = idPerson;
@@ -52,5 +52,5 @@ public class PassengerRequest
 
     public LinkedTreeMap<Object, Object> getPerson() { return person; }
 
-    public Object getTourPlan() { return tourPlan; }
+    public LinkedTreeMap<Object, Object> getTourPlan() { return tourPlan; }
 }

@@ -69,7 +69,7 @@ public interface APIInterface {
      * @return
      */
     @GET("/PassengerRequests/GetPassengerRequests")
-    Call<List<PassengerRequest>> getCurrentRequests(@Header("Authorization") String authHeader);
+    Call<List<List<PassengerRequest>>> getCurrentRequests(@Header("Authorization") String authHeader);
 
     /**
      * Methode, um Anfrage zu einer Fahrt zu senden

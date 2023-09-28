@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import de.bws.udrive.R;
 import de.bws.udrive.utilities.model.General;
@@ -46,7 +48,12 @@ public class MeineFahrtAdapter extends RecyclerView.Adapter<MeineFahrtViewHolder
         double currentLatitude = General.getSignedInUser().getLatitude();
         double currentLongitude = General.getSignedInUser().getLongitude();
 
-        double distanceKm = uDriveUtilities.calculateDistance(passengerLatitude, currentLatitude, passengerLongitude, currentLongitude, 0.0, 0.0) / 1000;
+        double distanceKm = Double.parseDouble(
+                new DecimalFormat("#,##")
+                .format(
+        uDriveUtilities.calculateDistance(passengerLatitude, currentLatitude, passengerLongitude,
+                currentLongitude, 0.0, 0.0) / 1000));
+
         holder.getTvPassengerDistance().setText(distanceKm + " km");
         holder.getTvPassengerPhone().setText(current.getPerson().get("phoneNumber").toString());
         holder.getTvPassengerFreitext().setText(current.getMessage());

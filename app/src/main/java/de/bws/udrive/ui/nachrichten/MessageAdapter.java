@@ -11,6 +11,7 @@ import java.util.List;
 
 import de.bws.udrive.R;
 import de.bws.udrive.utilities.model.PassengerRequest;
+import de.bws.udrive.utilities.uDriveUtilities;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     List<PassengerRequest> items;
@@ -29,12 +30,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        //holder.getTvMessageName().setText(items.get(position).getFirstname() +" " + items.get(position).getLastname());
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position)
+    {
+        PassengerRequest current = items.get(position);
+
+        String userName = current.getPerson().get("firstname").toString() + " " + current.getPerson().get("lastname").toString();
+
+        holder.getTvMessageName().setText(userName);
         holder.getTvMessageComment().setText("holt dich ab");
-        //holder.getTvMessageDestination().setText(items.get(position).get());
-        //holder.getTvMessageStartTime().setText(items.get(position).get());
-        //holder.getTvMessageETA().setText("ETA " + items.get(position).getTvMessageETA());
+        //holder.getTvMessageDestination().setText(current.getTourPlan().get("destination").toString());
+        holder.getTvMessageDestination().setText("WiP");
+        //holder.getTvMessageStartTime().setText(uDriveUtilities.parseString(current.getTourPlan().get("departure").toString()));
+        holder.getTvMessageStartTime().setText("WiP");
+        //holder.getTvMessageETA().setText("ETA: " + current.getTourPlan().get("eta").toString() + " Uhr");
+        holder.getTvMessageETA().setText("WiP");
     }
 
     @Override
