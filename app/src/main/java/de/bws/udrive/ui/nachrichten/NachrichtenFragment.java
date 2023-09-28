@@ -60,7 +60,6 @@ public class NachrichtenFragment extends Fragment {
     {
         if(isFinished)
         {
-            Log.i("uDrive.Nachrichten", "Reacted " + passengerRequestsHandler.requestsAvailable());
             if (!passengerRequestsHandler.requestsAvailable())
                 Toast.makeText(getContext(), passengerRequestsHandler.getInformationString(), Toast.LENGTH_LONG).show();
             else
