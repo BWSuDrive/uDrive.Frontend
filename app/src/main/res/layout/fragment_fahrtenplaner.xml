@@ -17,9 +17,11 @@
         android:drawableLeft="@drawable/car"
         android:drawablePadding="8dp"
         android:hint="Ziel Ort"
+        android:text="BWS-Hofheim"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etStart" />
+        app:layout_constraintTop_toBottomOf="@+id/etStart"
+        android:focusable="false"/>
 
     <Button
         android:id="@+id/btnAbfahrt"
@@ -94,7 +96,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/edittext_bkg"
-        android:drawableLeft="@drawable/car"
+        android:drawableLeft="@drawable/home"
         android:drawablePadding="8dp"
         android:hint="Abfahrts Ort"
         android:padding="8dp"
