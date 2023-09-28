@@ -56,7 +56,7 @@ public class NachrichtenFragment extends Fragment {
         passengerRequestsHandler.handle();
         passengerRequestsHandler.getFinishedState().observe(this, observeStateChange);
     }
-    Observer<Boolean> observeStateChange = isFinished ->
+    private final Observer<Boolean> observeStateChange = isFinished ->
     {
         if(isFinished)
         {

@@ -20,7 +20,9 @@ public class PassengerRequest
     private LinkedTreeMap<Object, Object> person;
     private LinkedTreeMap<Object, Object> tourPlan;
 
-    public PassengerRequest(String id, String idPerson, String idTourPlan, String message, double currentLatitude, double currentLongitude, boolean isPending, boolean isDenied, LinkedTreeMap<Object, Object> person, LinkedTreeMap<Object, Object> tourPlan)
+    public PassengerRequest(String id, String idPerson, String idTourPlan, String message,
+                            double currentLatitude, double currentLongitude, boolean isPending, boolean isDenied,
+                            LinkedTreeMap<Object, Object> person, LinkedTreeMap<Object, Object> tourPlan)
     {
         this.id = id;
         this.idPerson = idPerson;

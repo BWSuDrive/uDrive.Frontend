@@ -14,7 +14,7 @@ import de.bws.udrive.utilities.model.PassengerRequest;
 import de.bws.udrive.utilities.uDriveUtilities;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
-    List<PassengerRequest> items;
+    private List<PassengerRequest> items;
 
     public MessageAdapter(List<PassengerRequest> items) {
         this.items = items;
